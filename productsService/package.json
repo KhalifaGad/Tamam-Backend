@@ -1,0 +1,11 @@
+{
+  "name": "productsservice",
+  "version": "1.0.0",
+  "description": "microservice for products in turkish store platform",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "khalifa gad @ alef software",
+  "license": "ISC"
+}
