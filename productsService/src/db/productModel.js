@@ -28,10 +28,19 @@ let productSchema = mongoose.Schema({
             required: true
         },
         category: {
-            type: String,
-            required: true
+            arabic: {
+                type: String,
+                required: true
+            },
+            english: {
+                type: String,
+                required: true
+            }
         },
-        subcategory: String,
+        subcategory: {
+            arabic: String,
+            english: String
+        },
         quantity: {
             val: {
                 type: Number,
