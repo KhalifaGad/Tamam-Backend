@@ -1,22 +1,28 @@
 import { Router } from 'express'
-import {} from ''
+import {
+    addProduct,
+    getProducts,
+    getProduct,
+    deleteProduct,
+    updateProduct
+} from '../../controllers/products'
 
 const productsRouter = Router()
 
 // the full path is /api/v1/products
 // get all products
 productsRouter.route('/')
-    .get()
+    .get(getProducts)
 
 // the full path is /api/v1/products/product
 // add new product
 productsRouter.route('/product')
-    .post()
+    .post(addProduct)
 
 // the full path is /api/v1/products/:id
 productsRouter.route('/:id')
-    .get() // get product by id
-    .delete() // delete product by id
-    .put() // update product by id
+    .get(getProduct) // get product by id
+    .delete(deleteProduct) // delete product by id
+    .put(updateProduct) // update product by id
 
 export { productsRouter }
