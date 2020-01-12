@@ -1,3 +1,4 @@
+import productModel from '../db/productModel'
 
 /**
  * Post "api/v1/products/product" handler function 
@@ -5,8 +6,18 @@
  * @param res: response param
  * @param next: express middleware function
  */
+// this function is missing autherization and authentication but for testing purposes
 function addProduct(req, res, next) {
+    // '/images/filename'
+    console.log(JSON.stringify(req.body))
+    
+    /* let product = new productModel({
+        name: {
+            arabic: req.body.
+        }
+    }) */
 
+    res.send('success :D ')
 }
 
 /**

@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import express from 'express'
 import {
     addProduct,
     getProducts,
@@ -6,8 +7,26 @@ import {
     deleteProduct,
     updateProduct
 } from '../../controllers/products'
+import { addProdcutValidation } from '../../middlewares/validationsHandler'
+import { refactorAddProductReq } from '../../middlewares/reqRefactoingHelper'
+import multer from 'multer'
+import path from 'path'
 
 const productsRouter = Router()
+
+let storage = multer.diskStorage({
+    destination: 'productsImages/',
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-'
+            + Date.now()
+            + path.extname(file.originalname))
+    }
+})
+
+let upload = multer({ storage })
+
+// serving static images
+productsRouter.use('/images', express.static('productsImages'))
 
 // the full path is /api/v1/products
 // get all products
@@ -17,7 +36,9 @@ productsRouter.route('/')
 // the full path is /api/v1/products/product
 // add new product
 productsRouter.route('/product')
-    .post(addProduct)
+    .post(upload.array('photos', 6), addProdcutValidation,
+        refactorAddProductReq,
+        addProduct)
 
 // the full path is /api/v1/products/:id
 productsRouter.route('/:id')

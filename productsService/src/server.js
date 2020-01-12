@@ -1,9 +1,9 @@
 import express from 'express'
 import { notFoundFallback } from './controllers/index'
 import { errorHandling } from './middlewares/errorHandler'
+import { router }  from './routes/router'
 
 let server = express()
-
 // for application/json requests
 server.use(express.json())
 

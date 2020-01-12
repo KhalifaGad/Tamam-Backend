@@ -52,7 +52,11 @@ let productSchema = mongoose.Schema({
                 required: true
             }
         },
-        offerId: mongoose.Schema.Types.ObjectId
+        offerId: mongoose.Schema.Types.ObjectId,
+        isTurkish: {
+            type: Boolean,
+            default: true
+        }
     }
 })
 
