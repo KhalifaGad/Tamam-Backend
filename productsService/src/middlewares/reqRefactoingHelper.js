@@ -19,7 +19,7 @@ function refactorAddProductReq(req, res, next) {
         },
         quantity: {
             val: req.body.quantityVal,
-            measurment: req.body.quantityMeasurement
+            measurement: req.body.quantityMeasurement
         },
         isTurkish: req.body.isTurkish,
     }

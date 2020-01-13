@@ -1,13 +1,27 @@
-import { addProductSchema } from '../utils/validationSchemas'
+import { 
+    addProductSchema, 
+    idValidation 
+} from '../utils/validationSchemas'
+import boom from '@hapi/boom'
 
 function addProdcutValidation(req, res, next) {
     const { error } = addProductSchema.validate(req.body)
 
-    if(error) {
-        next(error)
+    if (error) {
+        next(boom.badData(error.details[0].message))
     }
 
     next()
 }
 
-export { addProdcutValidation }
+function prodcutIdValidation(req, res, next) {
+    let isValid = idValidation(req.params.id)
+
+    if (!isValid) {
+        next(boom.badData("Invalid Id"))
+    }
+
+    next()
+}
+
+export { addProdcutValidation, prodcutIdValidation }

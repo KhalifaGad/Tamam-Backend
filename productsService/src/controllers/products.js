@@ -1,4 +1,6 @@
-import productModel from '../db/productModel'
+import { ProductModel } from '../db/productModel'
+import boom from '@hapi/boom'
+import { productsRefactoring, productRefactoring } from '../utils/refactoring'
 
 /**
  * Post "api/v1/products/product" handler function 
@@ -8,16 +10,19 @@ import productModel from '../db/productModel'
  */
 // this function is missing autherization and authentication but for testing purposes
 function addProduct(req, res, next) {
-    // '/images/filename'
-    console.log(JSON.stringify(req.body))
-    
-    /* let product = new productModel({
-        name: {
-            arabic: req.body.
-        }
-    }) */
 
-    res.send('success :D ')
+    let product = new ProductModel({
+        ...req.body
+    })
+
+    product.save().then(doc => {
+        res.status(201).send({
+            message: "created",
+            data: doc
+        })
+    }).catch(err => {
+        next(boom.internal(err))
+    })
 }
 
 /**
@@ -26,8 +31,25 @@ function addProduct(req, res, next) {
  * @param res: response param
  * @param next: express middleware function
  */
-function getProducts(req, res, next) {
+// it accepts query strings: lang, page, limit
+async function getProducts(req, res, next) {
 
+    let limit = req.query.limit || 0,
+        skip = req.query.skip || 0,
+        lang = req.query.lang || "en"
+
+    await ProductModel.find({})
+        .limit(limit)
+        .skip(skip)
+        .select('-__v')
+        .then(docs => {
+            return res.status(200).send({
+                message: "ok",
+                data: productsRefactoring(docs, lang)
+            })
+        }).catch((err) => {
+            next(boom.internal(err))
+        })
 }
 
 /**
@@ -36,8 +58,22 @@ function getProducts(req, res, next) {
  * @param res: response param
  * @param next: express middleware function
  */
-function getProduct(req, res, next) {
-
+// it accepts query strings: lang
+async function getProduct(req, res, next) {
+    await ProductModel.findById(req.params.id)
+        .select('-__v')
+        .then(doc => {
+            console.log(doc)
+            if (doc) {
+                return res.status(200).send({
+                    message: "ok",
+                    data: productRefactoring(doc)
+                })
+            }
+            next(boom.notFound("product not found"))
+        }).catch((err) => {
+            next(boom.internal(err))
+        })
 }
 
 /**

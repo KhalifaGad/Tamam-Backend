@@ -7,8 +7,13 @@ import {
     deleteProduct,
     updateProduct
 } from '../../controllers/products'
-import { addProdcutValidation } from '../../middlewares/validationsHandler'
-import { refactorAddProductReq } from '../../middlewares/reqRefactoingHelper'
+import { 
+    addProdcutValidation,
+    prodcutIdValidation 
+} from '../../middlewares/validationsHandler'
+import { 
+    refactorAddProductReq 
+} from '../../middlewares/reqRefactoingHelper'
 import multer from 'multer'
 import path from 'path'
 
@@ -42,7 +47,8 @@ productsRouter.route('/product')
 
 // the full path is /api/v1/products/:id
 productsRouter.route('/:id')
-    .get(getProduct) // get product by id
+    .get(prodcutIdValidation, 
+        getProduct) // get product by id
     .delete(deleteProduct) // delete product by id
     .put(updateProduct) // update product by id
 

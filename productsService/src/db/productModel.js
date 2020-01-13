@@ -21,45 +21,45 @@ let productSchema = mongoose.Schema({
         english: {
             type: String,
             trim: true
+        }
+    },
+    images: [String],
+    price: {
+        type: Number,
+        required: true
+    },
+    category: {
+        arabic: {
+            type: String,
+            required: true
         },
-        images: [String],
-        price: {
+        english: {
+            type: String,
+            required: true
+        }
+    },
+    subcategory: {
+        arabic: String,
+        english: String
+    },
+    quantity: {
+        val: {
             type: Number,
             required: true
         },
-        category: {
-            arabic: {
-                type: String,
-                required: true
-            },
-            english: {
-                type: String,
-                required: true
-            }
-        },
-        subcategory: {
-            arabic: String,
-            english: String
-        },
-        quantity: {
-            val: {
-                type: Number,
-                required: true
-            },
-            measurment: {
-                type: String,
-                enum: ["kg", "pack", "unit"],
-                required: true
-            }
-        },
-        offerId: mongoose.Schema.Types.ObjectId,
-        isTurkish: {
-            type: Boolean,
-            default: true
+        measurement: {
+            type: String,
+            enum: ["kg", "pack", "unit"],
+            required: true
         }
+    },
+    offerId: mongoose.Schema.Types.ObjectId,
+    isTurkish: {
+        type: Boolean,
+        default: true
     }
 })
 
-let productModel = mongoose.model('Product', productSchema)
+let ProductModel = mongoose.model('Product', productSchema)
 
-export { productModel }
+export { ProductModel }

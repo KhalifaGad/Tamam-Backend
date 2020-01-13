@@ -1,5 +1,4 @@
 import Joi from '@hapi/joi'
-import boom from '@hapi/boom'
 import mongoose from 'mongoose'
 
 // min and max will be edited after testing the api
@@ -53,7 +52,11 @@ const addProductSchema = Joi.object({
 // validate is id string a valid mongodb id by creating a new ObjectId with
 // id string as value.
 function idValidation(id) {
-    return id == new mongoose.Types.ObjectId(id) ? true : boom.badRequest("Invalid Id")
+    try {
+        return id == new mongoose.Types.ObjectId(id)? true: false
+    } catch (err) {
+        return false
+    }
 }
 
 export { addProductSchema, idValidation }
