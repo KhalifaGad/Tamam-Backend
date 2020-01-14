@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi'
 
-const addUserSchema = Joi.object({
+const addUserValidationSchema = Joi.object({
     fName: Joi.string()
         .min(3)
         .max(20)
