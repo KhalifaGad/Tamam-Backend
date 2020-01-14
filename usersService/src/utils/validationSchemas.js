@@ -1,4 +1,5 @@
 import Joi from '@hapi/joi'
+import mongoose from 'mongoose'
 
 const addUserValidationSchema = Joi.object({
     fName: Joi.string()
