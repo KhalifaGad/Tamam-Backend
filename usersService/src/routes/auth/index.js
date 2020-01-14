@@ -3,10 +3,10 @@ import { authenticate, decodeToken } from '../../controllers/auth'
 
 const authRouter = Router()
 
-usersRouter.route('/')
+authRouter.route('/')
     .post(authenticate)
 
-usersRouter.route('/decode')
+authRouter.route('/decode')
     .post(decodeToken)
 
 export { authRouter }

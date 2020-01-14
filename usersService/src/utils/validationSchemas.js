@@ -20,4 +20,16 @@ const addUserValidationSchema = Joi.object({
     countryCityId: Joi.string().required()
 })
 
-export { addUserValidationSchema }
+const addCountryValidationSchema = Joi.object({
+    nameAr: Joi.string().required(),
+    namerEn: Joi.string().required(),
+    cities: Joi.array().items(Joi.object({
+        nameAr: Joi.string().required(),
+        namerEn: Joi.string().required()
+    }))
+})
+
+export { 
+    addUserValidationSchema, 
+    addCountryValidationSchema
+}

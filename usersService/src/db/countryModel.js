@@ -9,7 +9,8 @@ let countrySchema = mongoose.Schema({
     nameEn: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        lowercase: true
     },
     isBlocked: {
         type: Boolean,
@@ -37,6 +38,6 @@ let countrySchema = mongoose.Schema({
     flagImage: String
 })
 
-let countryModel = mongoose.model('Country', countrySchema)
+let CountryModel = mongoose.model('Country', countrySchema)
 
-export { countryModel }
+export { CountryModel }

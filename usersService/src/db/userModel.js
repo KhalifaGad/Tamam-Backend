@@ -11,7 +11,16 @@ let userSchema = mongoose.Schema({
         required: true,
         trim: true
     },
-    countryCityId: String,
+    countryCityIds: {
+        countryId: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true
+        },
+        cityId: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true
+        }
+    },
     role: {
         type: String,
         enum: ["admin", "seller", "customer"],
