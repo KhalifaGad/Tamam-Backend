@@ -10,7 +10,7 @@ import { addCountryValidation } from '../../middlewares/validationHandler'
 const countriesRouter = Router()
 
 countriesRouter.route('/')
-    .post(/* addCountryValidation, */ addCountry)
+    .post(addCountryValidation, addCountry)
     .get(getCountries)
     .delete(deleteCountry)
     .put(updateCountry)
