@@ -30,7 +30,11 @@ let userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    favourites: [mongoose.Schema.Types.ObjectId]
+    favourites: [mongoose.Schema.Types.ObjectId],
+    points: {
+        type: Number,
+        default: 0
+    }
 })
 
 let UserModel = mongoose.model('User', userSchema)
