@@ -17,7 +17,26 @@ const addUserValidationSchema = Joi.object({
         .required(),
     role: Joi.string()
         .valid("admin", "seller", "customer"),
-    countryCityId: Joi.string().required()
+    countryCityIds: Joi.string().custom((value, helpers) => {
+        try {
+            check1 =
+                value.countryId == new mongoose.Types.ObjectId(value.countryId)
+                    ? true : false
+            check2 =
+                value.cityId == new mongoose.Types.ObjectId(value.cityId)
+                    ? true : false
+            
+            if(check1 && check2){
+                return value
+            } else {
+                return helpers.error('Invalid Ids') 
+            }
+
+        } catch (err) {
+            return helpers.error('Invalid Ids')
+        }
+
+    }, 'custom validation')
 })
 
 const addCountryValidationSchema = Joi.object({
@@ -29,7 +48,7 @@ const addCountryValidationSchema = Joi.object({
     }))
 })
 
-export { 
-    addUserValidationSchema, 
+export {
+    addUserValidationSchema,
     addCountryValidationSchema
 }
