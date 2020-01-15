@@ -9,6 +9,7 @@ import { addCountryValidation } from '../../middlewares/validationHandler'
 
 const countriesRouter = Router()
 
+//full endpoint: api/v1/countries
 countriesRouter.route('/')
     .post(addCountryValidation, addCountry)
     .get(getCountries)

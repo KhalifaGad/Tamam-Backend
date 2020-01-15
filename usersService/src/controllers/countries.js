@@ -1,4 +1,5 @@
 import { CountryModel } from '../db/countryModel'
+import boom from '@hapi/boom'
 
 function addCountry(req, res, next) {
 
@@ -14,11 +15,33 @@ function addCountry(req, res, next) {
     }).catch(err => {
         next(boom.internal(err))
     })
-
-
 }
 
+// it accepts query string lang
 function getCountries(req, res, next) {
+    let excludingQuery = {
+        'nameAr': 0,
+        'cities.nameAr': 0,
+        "__v": 0
+    }
+    if (req.query.lang == 'Ar') {
+        excludingQuery = {
+            'nameEn': 0,
+            'cities.nameEn': 0,
+            "__v": 0
+        }
+    }
+
+    CountryModel.find({}, {
+        ...excludingQuery
+    }).then(countries => {
+        res.status(200).send({
+            message: 'ok',
+            data: countries
+        })
+    }).catch(err => {
+        next(boom.internal(err))
+    })
 
 }
 
@@ -30,7 +53,7 @@ function deleteCountry(req, res, next) {
 
 }
 
-export { 
+export {
     addCountry,
     getCountries,
     updateCountry,

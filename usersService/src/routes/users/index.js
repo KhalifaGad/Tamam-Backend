@@ -10,6 +10,7 @@ import { addUserValidation } from '../../middlewares/validationHandler'
 
 const usersRouter = Router()
 
+// api/v1/users
 usersRouter.route('/')
     .post(addUserValidation, addUser)
     .get(getUsers)

@@ -23,7 +23,7 @@ let userSchema = mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["admin", "seller", "customer"],
+        enum: ["ADMIN", "SELLER", "CUSTOMER"],
         required: true
     },
     email: {
@@ -33,13 +33,16 @@ let userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     favourites: [mongoose.Schema.Types.ObjectId],
     points: {
         type: Number,
         default: 0
+    },
+    isVerified: {
+        type: String,
+        default: false
     }
 })
 

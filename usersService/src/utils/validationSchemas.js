@@ -14,27 +14,27 @@ const addUserValidationSchema = Joi.object({
         .email()
         .required(),
     password: Joi.string()
-        .min(4)
+        .min(8)
         .required(),
     role: Joi.string()
-        .valid("admin", "seller", "customer"),
-    countryCityIds: Joi.string().custom((value, helpers) => {
+        .valid("ADMIN", "SELLER", "CUSTOMER").required(),
+    countryCityIds: Joi.custom((value, helpers) => {
         try {
-            check1 =
+            let check1 =
                 value.countryId == new mongoose.Types.ObjectId(value.countryId)
                     ? true : false
-            check2 =
+            let check2 =
                 value.cityId == new mongoose.Types.ObjectId(value.cityId)
                     ? true : false
-            
-            if(check1 && check2){
+
+            if (check1 && check2) {
                 return value
             } else {
-                return helpers.error('Invalid Ids') 
+                return helpers.error('any.invalid')
             }
 
         } catch (err) {
-            return helpers.error('Invalid Ids')
+            return helpers.error('any.invalid')
         }
 
     }, 'custom validation')
