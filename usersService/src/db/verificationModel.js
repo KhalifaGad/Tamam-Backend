@@ -12,9 +12,15 @@ let verificationSchema = mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
     }
 })
 
-let VerificationModel = mongoose.model('Verification', verificationSchema)
+let VerificationModel = mongoose.model('Verification',
+    verificationSchema)
 
 export { VerificationModel }

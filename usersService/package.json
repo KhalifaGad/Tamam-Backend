@@ -12,10 +12,14 @@
   "dependencies": {
     "@hapi/boom": "^9.0.0",
     "@hapi/joi": "^17.0.0",
+    "bcrypt": "^3.0.7",
     "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
     "express": "^4.17.1",
+    "generate-sms-verification-code": "^1.0.5",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.5",
+    "nodemailer": "^6.4.2",
     "nodemon": "^2.0.2"
   },
   "devDependencies": {

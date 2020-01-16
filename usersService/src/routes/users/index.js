@@ -1,12 +1,18 @@
 import { Router } from 'express'
-import { 
+import {
     addUser,
     getUsers,
     updateUser,
     getUser,
-    deleteUser 
+    deleteUser,
+    verifyUser,
+    resendVerification
 } from '../../controllers/users'
-import { addUserValidation } from '../../middlewares/validationHandler'
+import {
+    addUserValidation,
+    verifyUserMiddleware,
+    rsndVrfcMiddleware
+} from '../../middlewares/validationHandler'
 
 const usersRouter = Router()
 
@@ -19,5 +25,11 @@ usersRouter.route('/:id')
     .put(updateUser)
     .get(getUser)
     .delete(deleteUser)
+
+usersRouter.route('/verification')
+    .post(verifyUserMiddleware, verifyUser)
+
+usersRouter.route('/verification/resend')
+    .post(rsndVrfcMiddleware, resendVerification)
 
 export { usersRouter }

@@ -1,7 +1,9 @@
 import boom from '@hapi/boom'
 import { 
     addUserValidationSchema, 
-    addCountryValidationSchema 
+    addCountryValidationSchema, 
+    verifyUserSchema,
+    resendVerificationSchema
 } from '../utils/validationSchemas'
 
 function addUserValidation(req, res, next) {
@@ -25,7 +27,29 @@ function addCountryValidation(req, res, next){
     next()
 }
 
+function verifyUserMiddleware(req, res, next){
+    const { error } = verifyUserSchema.validate(req.body)
+
+    if(error) {
+        next(boom.badData(error.details[0].message))
+    }
+
+    next()
+}
+
+function rsndVrfcMiddleware(req, res, next){
+    const { error } = resendVerificationSchema.validate(req.body)
+
+    if(error) {
+        next(boom.badData(error.details[0].message))
+    }
+
+    next()
+}
+
 export { 
     addUserValidation, 
-    addCountryValidation
+    addCountryValidation,
+    verifyUserMiddleware,
+    rsndVrfcMiddleware
  }

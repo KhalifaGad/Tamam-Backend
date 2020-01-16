@@ -37,7 +37,7 @@ const addUserValidationSchema = Joi.object({
             return helpers.error('any.invalid')
         }
 
-    }, 'custom validation')
+    }, 'custom validation').required()
 })
 
 const addCountryValidationSchema = Joi.object({
@@ -49,7 +49,45 @@ const addCountryValidationSchema = Joi.object({
     }))
 })
 
+const verifyUserSchema = Joi.object({
+    userId: Joi.custom((value, helper) => {
+        try {
+            let check = value == new mongoose.Types.ObjectId(value)
+                ? true : false
+
+            if (!check) {
+                return helpers.error('any.invalid')
+            }
+            return value
+        } catch (err) {
+            return helpers.error('any.invalid')
+        }
+    }, 'custom validation').required(),
+    code: Joi.number().min(6).max(6).required()
+})
+
+const resendVerificationSchema = Joi.object({
+    email: Joi.string()
+        .email()
+        .required(),
+    userId: Joi.custom((value, helper) => {
+        try {
+            let check = value == new mongoose.Types.ObjectId(value)
+                ? true : false
+
+            if (!check) {
+                return helpers.error('any.invalid')
+            }
+            return value
+        } catch (err) {
+            return helpers.error('any.invalid')
+        }
+    }, 'custom validation').required()
+})
+
 export {
     addUserValidationSchema,
-    addCountryValidationSchema
+    addCountryValidationSchema,
+    verifyUserSchema,
+    resendVerificationSchema
 }
