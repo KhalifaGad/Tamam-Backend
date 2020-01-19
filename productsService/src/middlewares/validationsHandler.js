@@ -1,6 +1,7 @@
 import { 
     addProductSchema, 
-    idValidation 
+    idValidation, 
+    getProductsValidSchema
 } from '../utils/validationSchemas'
 import boom from '@hapi/boom'
 
@@ -24,4 +25,18 @@ function prodcutIdValidation(req, res, next) {
     next()
 }
 
-export { addProdcutValidation, prodcutIdValidation }
+function getProductsValidtion(req, res, next){
+    const { error } = getProductsValidSchema.validate(req.query)
+
+    if(error){
+        next(boom.badData('Invalid query values'))    
+    }
+
+    next()
+}
+
+export { 
+    addProdcutValidation, 
+    prodcutIdValidation,
+    getProductsValidtion 
+}

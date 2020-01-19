@@ -1,6 +1,5 @@
 import { ProductModel } from '../db/productModel'
 import boom from '@hapi/boom'
-import { productsRefactoring, productRefactoring } from '../utils/refactoring'
 
 /**
  * Post "api/v1/products/product" handler function 
@@ -32,20 +31,37 @@ function addProduct(req, res, next) {
  * @param next: express middleware function
  */
 // it accepts query strings: lang, page, limit
+// c = categoryId, s = subcategoryId
 async function getProducts(req, res, next) {
 
     let limit = req.query.limit || 0,
-        skip = req.query.skip || 0,
-        lang = req.query.lang || "en"
+        page = req.query.page || 0,
+        categoryId = req.query.c || null,
+        subcategoryId = req.query.s || null,
+        searchingQuery = {}
 
-    await ProductModel.find({})
+    if (categoryId) {
+        searchingQuery.categoryId = categoryId
+    }
+
+    if (subcategoryId) {
+        searchingQuery.subcategoryId = subcategoryId
+    }
+
+    let execludingQuery = req.query.lang === "en" ?
+        '-name.arabic -description.arabic'
+        : '-name.english -description.english'
+
+    await ProductModel.find({
+        ...searchingQuery
+    })
         .limit(limit)
-        .skip(skip)
-        .select('-__v')
+        .skip(page)
+        .select('-__v ' + execludingQuery)
         .then(docs => {
             return res.status(200).send({
                 message: "ok",
-                data: productsRefactoring(docs, lang)
+                data: docs
             })
         }).catch((err) => {
             next(boom.internal(err))
@@ -60,14 +76,17 @@ async function getProducts(req, res, next) {
  */
 // it accepts query strings: lang
 async function getProduct(req, res, next) {
+    let execludingQuery = req.query.lang === "en" ?
+        '-name.arabic -description.arabic'
+        : '-name.english -description.english'
     await ProductModel.findById(req.params.id)
-        .select('-__v')
+        .select('-__v ' + execludingQuery)
         .then(doc => {
             console.log(doc)
             if (doc) {
                 return res.status(200).send({
                     message: "ok",
-                    data: productRefactoring(doc)
+                    data: doc
                 })
             }
             next(boom.notFound("product not found"))

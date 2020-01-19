@@ -9,14 +9,8 @@ function refactorAddProductReq(req, res, next) {
             english: req.body.descriptionEn
         },
         price: req.body.price,
-        category: {
-            arabic: req.body.categoryAr,
-            english: req.body.categoryEn
-        },
-        subcategory: {
-            arabic: req.body.subcategoryAr,
-            english: req.body.subcategoryEn
-        },
+        categoryId: req.body.categoryId,
+        subcategory: req.body.subcategoryId,
         quantity: {
             val: req.body.quantityVal,
             measurement: req.body.quantityMeasurement

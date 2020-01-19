@@ -28,20 +28,8 @@ let productSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    category: {
-        arabic: {
-            type: String,
-            required: true
-        },
-        english: {
-            type: String,
-            required: true
-        }
-    },
-    subcategory: {
-        arabic: String,
-        english: String
-    },
+    categoryId: mongoose.Schema.Types.ObjectId,
+    subcategoryId: mongoose.Schema.Types.ObjectId,
     quantity: {
         val: {
             type: Number,
@@ -57,6 +45,10 @@ let productSchema = mongoose.Schema({
     isTurkish: {
         type: Boolean,
         default: true
+    },
+    uploadDate: {
+        type: Date,
+        default: new Date()
     }
 })
 
