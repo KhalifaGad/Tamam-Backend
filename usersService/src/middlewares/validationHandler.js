@@ -3,7 +3,8 @@ import {
     addUserValidationSchema, 
     addCountryValidationSchema, 
     verifyUserSchema,
-    resendVerificationSchema
+    resendVerificationSchema,
+    authenticationSchema
 } from '../utils/validationSchemas'
 
 function addUserValidation(req, res, next) {
@@ -47,9 +48,20 @@ function rsndVrfcMiddleware(req, res, next){
     next()
 }
 
+function loginValidation(req, res, next){
+    const { error } = authenticationSchema.validate(req.body)
+
+    if(error) {
+        next(next(boom.badData(error.details[0].message)))
+    }
+
+    next()
+}
+
 export { 
     addUserValidation, 
     addCountryValidation,
     verifyUserMiddleware,
-    rsndVrfcMiddleware
+    rsndVrfcMiddleware,
+    loginValidation
  }

@@ -41,7 +41,7 @@ let userSchema = mongoose.Schema({
         default: 0
     },
     isVerified: {
-        type: String,
+        type: Boolean,
         default: false
     }
 })

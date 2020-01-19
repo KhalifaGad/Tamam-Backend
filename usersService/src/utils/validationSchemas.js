@@ -42,10 +42,10 @@ const addUserValidationSchema = Joi.object({
 
 const addCountryValidationSchema = Joi.object({
     nameAr: Joi.string().required(),
-    namerEn: Joi.string().required(),
+    nameEn: Joi.string().required(),
     cities: Joi.array().items(Joi.object({
         nameAr: Joi.string().required(),
-        namerEn: Joi.string().required()
+        nameEn: Joi.string().required()
     }))
 })
 
@@ -63,7 +63,7 @@ const verifyUserSchema = Joi.object({
             return helpers.error('any.invalid')
         }
     }, 'custom validation').required(),
-    code: Joi.number().min(6).max(6).required()
+    code: Joi.number().min(6).required()
 })
 
 const resendVerificationSchema = Joi.object({
@@ -85,9 +85,15 @@ const resendVerificationSchema = Joi.object({
     }, 'custom validation').required()
 })
 
+const authenticationSchema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(8).required()
+})
+
 export {
     addUserValidationSchema,
     addCountryValidationSchema,
     verifyUserSchema,
-    resendVerificationSchema
+    resendVerificationSchema,
+    authenticationSchema
 }

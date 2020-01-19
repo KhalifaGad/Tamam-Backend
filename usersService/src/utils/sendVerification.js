@@ -3,7 +3,7 @@ import ejs from 'ejs'
 import path from 'path'
 
 async function mailer(name, code, email) {
-
+    
     const transporter = nodemailer.createTransport({
         service: 'Gmail',
         port: 25,
@@ -12,10 +12,11 @@ async function mailer(name, code, email) {
             pass: process.env.EMAIL_PASSWORD
         }
     })
-
+    
     let emailTemplatePath =
         path.join(__dirname, '../../asset/email/email.ejs')
 
+        
     ejs.renderFile(emailTemplatePath, { name, code },
         (err, data) => {
             if (err) {
@@ -30,7 +31,6 @@ async function mailer(name, code, email) {
             }
             transporter.sendMail(mailOptions, (err, info) => {
                 if (err) {
-                    console.log(err)
                     return
                 }
             })
