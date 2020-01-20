@@ -1,0 +1,4 @@
+productsService/node_modules
+usersService/node_modules
+orderingService/node_modules
+orderingService/.env
