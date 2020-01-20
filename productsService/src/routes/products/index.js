@@ -7,12 +7,12 @@ import {
     deleteProduct,
     updateProduct
 } from '../../controllers/products'
-import { 
+import {
     addProdcutValidation,
-    prodcutIdValidation 
+    prodcutIdValidation
 } from '../../middlewares/validationsHandler'
-import { 
-    refactorAddProductReq 
+import {
+    refactorAddProductReq
 } from '../../middlewares/reqRefactoingHelper'
 import multer from 'multer'
 import path from 'path'
@@ -38,6 +38,9 @@ productsRouter.use('/images', express.static('productsImages'))
 productsRouter.route('/')
     .get(getProducts)
 
+productsRouter.route('/')
+    .get(getProducts)
+
 // the full path is /api/v1/products/product
 // add new product
 productsRouter.route('/product')
@@ -47,7 +50,7 @@ productsRouter.route('/product')
 
 // the full path is /api/v1/products/:id
 productsRouter.route('/:id')
-    .get(prodcutIdValidation, 
+    .get(prodcutIdValidation,
         getProduct) // get product by id
     .delete(deleteProduct) // delete product by id
     .put(updateProduct) // update product by id
