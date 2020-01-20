@@ -47,6 +47,15 @@ let orderSchema = mongoose.Schema({
             'REFUSED'
         ],
         default: 'PENDING'
+    },
+    isPaid: {
+        type: Boolean,
+        required: true
+    },
+    paymentType: {
+        type: String,
+        enum: ['COD', 'ONLINE'],
+        default: 'COD'
     }
 })
 
