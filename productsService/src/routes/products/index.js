@@ -8,8 +8,9 @@ import {
     updateProduct
 } from '../../controllers/products'
 import {
-    addProdcutValidation,
-    prodcutIdValidation
+    addProdcutVM,
+    prodcutIdVM,
+    getProductsVM
 } from '../../middlewares/validationsHandler'
 import {
     refactorAddProductReq
@@ -36,21 +37,18 @@ productsRouter.use('/images', express.static('productsImages'))
 // the full path is /api/v1/products
 // get all products
 productsRouter.route('/')
-    .get(getProducts)
-
-productsRouter.route('/')
-    .get(getProducts)
+    .get(getProductsVM, getProducts)
 
 // the full path is /api/v1/products/product
 // add new product
 productsRouter.route('/product')
-    .post(upload.array('photos', 6), addProdcutValidation,
+    .post(upload.array('photos', 6), addProdcutVM,
         refactorAddProductReq,
         addProduct)
 
 // the full path is /api/v1/products/:id
 productsRouter.route('/:id')
-    .get(prodcutIdValidation,
+    .get(prodcutIdVM,
         getProduct) // get product by id
     .delete(deleteProduct) // delete product by id
     .put(updateProduct) // update product by id

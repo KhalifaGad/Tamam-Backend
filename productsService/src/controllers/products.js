@@ -31,14 +31,17 @@ function addProduct(req, res, next) {
  * @param next: express middleware function
  */
 // it accepts query strings: lang, page, limit
-// c = categoryId, s = subcategoryId
+// c = categoryId, s = subcategoryId, 
+//d = date ascending 'A' or descending 'D'
 async function getProducts(req, res, next) {
 
     let limit = req.query.limit || 0,
         page = req.query.page || 0,
         categoryId = req.query.c || null,
         subcategoryId = req.query.s || null,
-        searchingQuery = {}
+        searchingQuery = {},
+        dateSorting = req.query.d === 'D' ?
+            '-uploadDate' : 'uploadDate'
 
     if (categoryId) {
         searchingQuery.categoryId = categoryId
@@ -57,6 +60,7 @@ async function getProducts(req, res, next) {
     })
         .limit(limit)
         .skip(page)
+        .sort(dateSorting)
         .select('-__v ' + execludingQuery)
         .then(docs => {
             return res.status(200).send({

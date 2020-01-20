@@ -1,10 +1,17 @@
 import Joi from '@hapi/joi'
 import mongoose from 'mongoose'
+import { mongooseIdJoiHelper } from './idValidation'
+
+/* 
+    -------------typos-------------
+    VS => Validation Schema
+*/
+
 
 // min and max will be edited after testing the api
 
 //.regex(/^[\w\-\s]+$/) matches alphanumric and '-' and space
-const addProductSchema = Joi.object({
+const addProductVS = Joi.object({
     nameAr: Joi.string()
         .regex(/^[\w\-\s]+$/)
         .min(3)
@@ -40,7 +47,7 @@ const addProductSchema = Joi.object({
 })
 // validate is id string a valid mongodb id by creating a new ObjectId with
 // id string as value.
-function idValidation(id) {
+function idVS(id) {
     try {
         return id == new mongoose.Types.ObjectId(id) ? true : false
     } catch (err) {
@@ -48,30 +55,25 @@ function idValidation(id) {
     }
 }
 
-const getProductsValidSchema = Joi.object({
+const getProductsVS = Joi.object({
     lang: Joi.string().valid('en', 'ar'),
     limit: Joi.number(),
     skip: Joi.number(),
     c: Joi.custom(mongooseIdJoiHelper, 'custom validation'),
-    s: Joi.custom(mongooseIdJoiHelper, 'custom validation')
+    s: Joi.custom(mongooseIdJoiHelper, 'custom validation'),
+    d: Joi.string().valid('A', 'D')
 })
 
-function mongooseIdJoiHelper(value, helper) {
-    try {
-        let check = value == new mongoose.Types.ObjectId(value)
-            ? true : false
-
-        if (!check) {
-            return helpers.error('any.invalid')
-        }
-        return value
-    } catch (err) {
-        return helpers.error('any.invalid')
-    }
-}
+const addHomeSectionVS = Joi.object({
+    isSelected: Joi.boolean(),
+    sectionNameAr: Joi.string().required(),
+    sectionNameEn: Joi.string().required(),
+    endPointURL: Joi.string().required()
+})
 
 export { 
-    addProductSchema,
-    getProductsValidSchema,
-    idValidation 
+    addProductVS,
+    getProductsVS,
+    idVS,
+    addHomeSectionVS 
 }
