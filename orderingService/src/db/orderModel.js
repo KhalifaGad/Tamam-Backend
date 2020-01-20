@@ -6,6 +6,10 @@ let orderSchema = mongoose.Schema({
         required: true
     },
     offerId: mongoose.Schema.Types.ObjectId,
+    deliveryAddress: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
     orderingDate: {
         type: Date,
         default: new Date()
