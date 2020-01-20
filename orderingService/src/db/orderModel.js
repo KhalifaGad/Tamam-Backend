@@ -10,7 +10,7 @@ let orderSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    orderingDate: {
+    issuingDate: {
         type: Date,
         default: new Date()
     },
