@@ -1,3 +1,2 @@
-productsService
-usersService/node_modules
-usersService/.env
+*/node_modules
+*/.env
