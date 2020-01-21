@@ -1,0 +1,11 @@
+import bcrypt from 'bcrypt'
+
+function hashPass(password) {
+    return bcrypt.hash(password, 10)
+}
+
+function checkPass(userPassword, hashedPass) {
+    return bcrypt.compare(userPassword, hashedPass)
+}
+
+export { hashPass, checkPass }
