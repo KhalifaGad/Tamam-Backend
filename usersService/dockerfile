@@ -10,4 +10,4 @@ RUN npm i -g nodemon
 
 COPY . .
 
-CMD [ "sudo", "npm", "run", "start" ]
+CMD [ "npm", "run", "start" ]
