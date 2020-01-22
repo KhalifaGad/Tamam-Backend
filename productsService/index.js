@@ -5,7 +5,7 @@ import { connectDB } from './src/db/dbConnection'
 import { server } from './src/server'
 
 connectDB(process.env.PRODUCTS_DB_URL).then(()=> {
-    server.listen(process.env.PORT, ()=> {
+    server.listen(process.env.PRODCUTS_N_PORT, ()=> {
         console.log('products service running on port: ' + process.env.PORT)
     })
 }).catch((err)=> {

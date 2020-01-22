@@ -1,3 +1,6 @@
 */node_modules
-*/.env
+orderingService/.env
+productsService/.env
+usersService/.env
+.env
 externalVolumes

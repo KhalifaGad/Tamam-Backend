@@ -5,6 +5,8 @@ services:
             context: orderingService/
             dockerfile: dockerfile
         env_file: ./.env
+        volumes: 
+            - ./orderingService:/orderingService
         ports: 
             - "${ORDERING_C_PORT}:${ORDERING_N_PORT}"
         networks: 
@@ -14,6 +16,8 @@ services:
             context: usersService/
             dockerfile: dockerfile
         env_file: ./.env
+        volumes: 
+            - ./usersService:/usersService
         ports: 
             - "${USERS_C_PORT}:${USERS_N_PORT}"
         networks: 
@@ -25,6 +29,7 @@ services:
         env_file: ./.env
         volumes: 
             - ./externalVolumes/images:/productsService/productsImages
+            - ./productsService:/productsService
         ports: 
             - "${PRODCUTS_C_PORT}:${PRODCUTS_N_PORT}"
         networks: 

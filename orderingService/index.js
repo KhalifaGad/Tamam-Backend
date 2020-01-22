@@ -4,8 +4,8 @@ require('dotenv').config()
 import { connectDB } from './src/db/dbConnection'
 import { server } from './src/server'
 
-connectDB(process.env.PRODUCTS_DB_URL).then(()=> {
-    server.listen(process.env.PORT, ()=> {
+connectDB(process.env.ORDERING_DB_URL).then(()=> {
+    server.listen(process.env.ORDERING_N_PORT, ()=> {
         console.log('ordering service running on port: ' + process.env.PORT)
     })
 }).catch((err)=> {
