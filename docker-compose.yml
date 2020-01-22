@@ -1,0 +1,46 @@
+version: '3.7'
+services:
+    ordering-service:
+        build: 
+            context: orderingService/
+            dockerfile: dockerfile
+        env_file: ./.env
+        ports: 
+            - "${ORDERING_C_PORT}:${ORDERING_N_PORT}"
+        networks: 
+            net:
+    users-service:
+        build:
+            context: usersService/
+            dockerfile: dockerfile
+        env_file: ./.env
+        ports: 
+            - "${USERS_C_PORT}:${USERS_N_PORT}"
+        networks: 
+            net:
+    products-service:
+        build:
+            context: productsService/
+            dockerfile: dockerfile
+        env_file: ./.env
+        volumes: 
+            - ./externalVolumes/images:/productsService/productsImages
+        ports: 
+            - "${PRODCUTS_C_PORT}:${PRODCUTS_N_PORT}"
+        networks: 
+            net:
+    mongo-db:
+        image: mongo
+        restart: always
+        ports:
+            - "27017:27017"
+        volumes:
+            - mongo:/var/lib/mongo
+            - ./externalVolumes/db:/data/db
+        networks: 
+            net:
+volumes:
+  mongo:
+networks: 
+    net:
+        driver: bridge
