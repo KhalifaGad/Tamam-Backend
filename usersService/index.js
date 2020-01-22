@@ -11,3 +11,4 @@ connectDB(process.env.USERS_DB_URL).then(()=> {
 }).catch((err)=> {
     console.log('Error: products service connection to database, ' + err)
 })
+/* "nodemon": "^2.0.2", */
