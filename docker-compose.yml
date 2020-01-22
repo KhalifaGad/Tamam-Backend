@@ -1,9 +1,7 @@
 version: '3.7'
 services:
     ordering-service:
-        build: 
-            context: orderingService/
-            dockerfile: dockerfile
+        build: orderingService/
         env_file: ./.env
         volumes: 
             - ./orderingService:/orderingService
@@ -12,9 +10,7 @@ services:
         networks: 
             net:
     users-service:
-        build:
-            context: usersService/
-            dockerfile: dockerfile
+        build: usersService/
         env_file: ./.env
         volumes: 
             - ./usersService:/usersService
@@ -23,9 +19,7 @@ services:
         networks: 
             net:
     products-service:
-        build:
-            context: productsService/
-            dockerfile: dockerfile
+        build: productsService/
         env_file: ./.env
         volumes: 
             - ./externalVolumes/images:/productsService/productsImages
