@@ -20,14 +20,15 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.5",
     "nodemailer": "^6.4.2",
-    "nodemon": "^2.0.2"
-  },
-  "devDependencies": {
+    "nodemon": "^2.0.2",
     "@babel/cli": "^7.7.7",
     "@babel/core": "^7.7.7",
     "@babel/node": "^7.7.7",
     "@babel/plugin-proposal-object-rest-spread": "^7.7.7",
     "@babel/polyfill": "^7.7.0",
     "@babel/preset-env": "^7.7.7"
+  },
+  "devDependencies": {
+    
   }
 }
