@@ -7,32 +7,35 @@ import { mailer } from "../utils/sendVerification"
 import phoneToken from 'generate-sms-verification-code'
 import { VerificationModel } from "../db/verificationModel"
 import { generateToken } from "../utils/JWTHelper"
+import { TokensModel } from "../db/tokensModel"
 
 // api/v1/users
 async function addUser(req, res, next) {
     let {
-        fName,
-        lName,
-        countryCityIds,
+        userName,
+        countryId,
+        cityId,
         role,
         email,
-        password
+        password,
+        phone
     } = req.body
 
     if (!checkPass(password)) {
         next(boom.notAcceptable('Not accepted password'))
     }
 
-    if (!await gCC(countryCityIds.countryId, countryCityIds.cityId)) {
+    if (!await gCC(countryId, cityId)) {
         next(boom.notFound('country-city not found!'))
     }
 
     let user = new UserModel({
-        fName,
-        lName,
+        userName,
         role,
-        countryCityIds,
+        countryId,
+        cityId,
         email,
+        phone,
         password: await hashPass(password)
     })
 
@@ -52,16 +55,17 @@ async function addUser(req, res, next) {
             points: doc.points,
             isVerified: doc.isVerified,
             _id: doc._id,
-            fName: doc.fName,
-            lName: doc.lName,
+            username: doc.username,
             role: doc.role,
-            countryCityIds: doc.countryCityIds,
+            countryId: doc.countryId,
+            cityId: doc.cityId,
             email: doc.email,
+            phone: doc.phone
         }
     })
 
     // send email to user by verification code
-    mailer(fName, verificationCode, email)
+    mailer(userName, verificationCode, email)
 
     // save verification of user
     let virificationModel = new VerificationModel({
@@ -125,8 +129,17 @@ async function verifyUser(req, res, next) {
     let userRole = user.role
 
     await user.save()
-
+    
     let token = generateToken(userId, userRole)
+    
+    let tokensModel = new TokensModel({
+        token,
+        userId: user._id
+    })
+
+    tokensModel.save().catch(err => {
+        console.log('Error saving user token in tokens model')
+    })
 
     res.status(200).send({
         message: "verified",
@@ -148,13 +161,11 @@ async function verifyUser(req, res, next) {
 // done
 async function resendVerification(req, res, next) {
     let {
-        userId,
-        email
+        userId
     } = req.body
     
     let verification = await VerificationModel.findOne({
-        userId,
-        email
+        userId
     }).catch(err => {
         next(boom.internal(err))
     })
@@ -169,7 +180,7 @@ async function resendVerification(req, res, next) {
 
     expDate.setDate(expDate.getDate() + 1)
     // send email to user by verification code
-
+    let email = verification.email
     mailer(email.split("@")[0], code, email)
     
     verification.code = code

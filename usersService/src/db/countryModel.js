@@ -12,6 +12,10 @@ let countrySchema = mongoose.Schema({
         trim: true,
         lowercase: true
     },
+    keyNo: {
+        type: Number,
+        required: true
+    },
     isBlocked: {
         type: Boolean,
         default: false
