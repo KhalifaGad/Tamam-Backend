@@ -1,25 +1,18 @@
 import mongoose from 'mongoose'
 
 let userSchema = mongoose.Schema({
-    fName: {
+    userName: {
         type: String,
         required: true,
         trim: true
     },
-    lName: {
-        type: String,
-        required: true,
-        trim: true
+    countryId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     },
-    countryCityIds: {
-        countryId: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true
-        },
-        cityId: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true
-        }
+    cityId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     },
     role: {
         type: String,
@@ -28,6 +21,11 @@ let userSchema = mongoose.Schema({
     },
     email: {
         type: String,
+        required: true,
+        unique: true
+    },
+    phone: {
+        type: Number,
         required: true,
         unique: true
     },
@@ -43,6 +41,10 @@ let userSchema = mongoose.Schema({
     isVerified: {
         type: Boolean,
         default: false
+    },
+    lastActiveDevice: {
+        type: String,
+        enum: ["ANDROID", "IOS", "WEB"]
     }
 })
 

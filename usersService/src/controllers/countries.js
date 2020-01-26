@@ -22,19 +22,37 @@ function getCountries(req, res, next) {
     let excludingQuery = {
         'nameAr': 0,
         'cities.nameAr': 0,
-        "__v": 0
-    }
+        "__v": 0,
+        'isBlocked': 0,
+    },
+        overridenProp = 'nameEn'
     if (req.query.lang == 'Ar') {
         excludingQuery = {
+            'isBlocked': 0,
             'nameEn': 0,
             'cities.nameEn': 0,
             "__v": 0
-        }
+        },
+            overridenProp = 'nameAr'
     }
+
 
     CountryModel.find({}, {
         ...excludingQuery
-    }).then(countries => {
+    }).lean().then(async countries => {
+
+        countries.map(country => {
+            country.name = country[overridenProp]
+            delete country[overridenProp]
+
+            country.cities.map(city => {
+                city.name = city[overridenProp]
+                delete city[overridenProp]
+                return city
+            })
+
+            return country
+        })
         res.status(200).send({
             message: 'ok',
             data: countries

@@ -1,6 +1,10 @@
 */node_modules
+<<<<<<< HEAD
 orderingService/.env
 productsService/.env
 usersService/.env
 .env
 externalVolumes
+=======
+*/.env
+>>>>>>> users

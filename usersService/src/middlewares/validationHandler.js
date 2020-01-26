@@ -20,7 +20,7 @@ function addUserValidation(req, res, next) {
 
 function addCountryValidation(req, res, next){
     const { error } = addCountryValidationSchema.validate(req.body)
-
+    
     if (error) {
         next(boom.badData(error.details[0].message))
     }
