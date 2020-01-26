@@ -49,7 +49,7 @@ async function addUser(req, res, next) {
     })
 
     res.status(201).send({
-        message: "created",
+        isSuccessed: true,
         data: {
             favourites: doc.favourites || [],
             points: doc.points,
@@ -61,7 +61,8 @@ async function addUser(req, res, next) {
             cityId: doc.cityId,
             email: doc.email,
             phone: doc.phone
-        }
+        },
+        error: null
     })
 
     // send email to user by verification code
@@ -142,11 +143,12 @@ async function verifyUser(req, res, next) {
     })
 
     res.status(200).send({
-        message: "verified",
+        isSuccessed: true,
         data: {
             user,
             token
-        }
+        },
+        error: null
     })
 
     VerificationModel.deleteOne({
@@ -188,8 +190,9 @@ async function resendVerification(req, res, next) {
 
     verification.save().then((doc => {
         res.status(200).send({
-            message: "sent",
-            data: {}
+            isSuccessed: true,
+            data: {},
+            error: null
         })
     })).catch(err => {
         // supposed to log in error logging file
