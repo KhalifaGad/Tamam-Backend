@@ -23,6 +23,6 @@ let offerSchema = mongoose.Schema({
     }
 })
 
-let offerModel = mongoose.model('Offer', offerSchema)
+let OfferModel = mongoose.model('Offer', offerSchema)
 
-export { offerModel }
+export { OfferModel }

@@ -71,9 +71,16 @@ const addHomeSectionVS = Joi.object({
     endPointURL: Joi.string().required()
 })
 
+const addOfferVS = Joi.object({
+    discountRatio: Joi.number().required(),
+    startingDate: Joi.date(),
+    expirationDate: Joi.date().required() 
+})
+
 export { 
     addProductVS,
     getProductsVS,
     idVS,
-    addHomeSectionVS 
+    addHomeSectionVS,
+    addOfferVS
 }

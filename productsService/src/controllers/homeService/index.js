@@ -1,6 +1,6 @@
 // it support pagination yay!
-function getHotDeals(req, res, next) {
+function getMostSold(req, res, next) {
     
 }
 
-export { getHotDeals }
+export { getMostSold }
