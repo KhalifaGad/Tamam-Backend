@@ -51,7 +51,7 @@ async function addUser(req, res, next) {
     res.status(201).send({
         message: "created",
         data: {
-            favourites: doc.favourites,
+            favourites: doc.favourites || [],
             points: doc.points,
             isVerified: doc.isVerified,
             _id: doc._id,

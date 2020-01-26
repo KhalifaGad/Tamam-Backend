@@ -39,9 +39,6 @@ const verifyUserSchema = Joi.object({
 })
 
 const resendVerificationSchema = Joi.object({
-    email: Joi.string()
-        .email()
-        .required(),
     userId: Joi.custom(checkMongooseId,
         'custom validation').required()
 })
