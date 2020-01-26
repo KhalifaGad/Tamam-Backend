@@ -9,8 +9,9 @@ function addCountry(req, res, next) {
 
     country.save().then(doc => {
         res.status(201).send({
-            message: "created",
-            data: doc
+            isSuccessed: true,
+            data: doc,
+            error: null
         })
     }).catch(err => {
         next(boom.internal(err))
@@ -54,8 +55,9 @@ function getCountries(req, res, next) {
             return country
         })
         res.status(200).send({
-            message: 'ok',
-            data: countries
+            isSuccessed: true,
+            data: countries,
+            error: null
         })
     }).catch(err => {
         next(boom.internal(err))

@@ -45,11 +45,12 @@ async function authenticate(req, res, next) {
     }
 
     res.status(200).send({
-        message: "ok",
+        isSuccessed: true,
         data: {
             user,
             token
-        }
+        },
+        error: null
     })
 }
 
