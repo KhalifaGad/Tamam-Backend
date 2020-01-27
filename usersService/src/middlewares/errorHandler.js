@@ -7,7 +7,7 @@ function errorHandling(err, req, res, next) {
         res.status(err.output.statusCode).send({
             isSuccessed: false,
             data: null,
-            error: "Its not you, its us, we are working on fixing it :("
+            error: message: "Its not you, its us, we are working on fixing it :("
         })
     }
     res.status(err.output.statusCode).send({
