@@ -10,6 +10,9 @@ function errorHandling(err, req, res, next) {
             error: "Its not you, its us, we are working on fixing it :("
         })
     }
+    console.log(error)
+    console.log("=============================================")
+    console.log(error.output)
     res.status(err.output.statusCode).send({
         isSuccessed: false,
         data: null,
