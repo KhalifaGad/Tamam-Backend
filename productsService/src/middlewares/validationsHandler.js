@@ -58,7 +58,7 @@ function addNewHomeSectionVM(req, res, next) {
     next()
 }
 
-function addOfferVW(req, res, next) {
+function addOfferVM(req, res, next) {
     const {
         error
     } = addOfferVS.validate(req.body)
@@ -81,5 +81,5 @@ export {
     prodcutIdVM,
     getProductsVM,
     addNewHomeSectionVM,
-    addOfferVW
+    addOfferVM
 }

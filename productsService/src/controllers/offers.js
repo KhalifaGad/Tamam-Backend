@@ -10,7 +10,7 @@ function getProductOffers(req, res, next) {
     let {
         id
     } = req.params
-    offerModel.find({
+    OfferModel.find({
         productId: id
     }).then(offers => {
         res.status(200).send({
