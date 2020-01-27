@@ -13,7 +13,7 @@ function errorHandling(err, req, res, next) {
     res.status(err.output.statusCode).send({
         isSuccessed: false,
         data: null,
-        error: err
+        error: err.output.payload.message
     })
 }
 
