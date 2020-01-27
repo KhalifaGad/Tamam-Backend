@@ -13,7 +13,8 @@ import {
     addProdcutVM,
     prodcutIdVM,
     getProductsVM,
-    addOfferVM
+    addOfferVM,
+    getOffersVM
 } from '../../middlewares/validationsHandler'
 import {
     refactorAddProductReq
@@ -57,6 +58,11 @@ productsRouter.route('/product')
         refactorAddProductReq,
         addProduct)
 
+// the full path is /api/v1/products/offers
+productsRouter.route('/offers')
+    .get(getOffersVM, getOffers)
+
+
 // the full path is /api/v1/products/:id
 productsRouter.route('/:id')
     .get(prodcutIdVM,
@@ -73,9 +79,6 @@ productsRouter.route('/:id/offers')
 productsRouter.route('/:productId/offers/:offerId')
     .put(editOffer)
 
-// the full path is /api/v1/products/offers
-productsRouter.route('/offers')
-    .get(getOffers)
 
 export {
     productsRouter

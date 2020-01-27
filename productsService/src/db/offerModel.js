@@ -3,7 +3,8 @@ import mongoose from 'mongoose'
 let offerSchema = mongoose.Schema({
     productId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        ref: 'Product'
     },
     discountRatio: {
         type: Number,

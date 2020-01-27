@@ -16,8 +16,9 @@ function addProduct(req, res, next) {
 
     product.save().then(doc => {
         res.status(201).send({
-            message: "created",
-            data: doc
+            isSuccessed: true,
+            data: doc,
+            error: null
         })
     }).catch(err => {
         next(boom.internal(err))
@@ -35,8 +36,8 @@ function addProduct(req, res, next) {
 //d = date ascending 'A' or descending 'D'
 async function getProducts(req, res, next) {
 
-    let limit = req.query.limit || 0,
-        page = req.query.page || 0,
+    let limit = parseInt(req.query.limit) || 0,
+        page = parseInt(req.query.page) || 0,
         categoryId = req.query.c || null,
         subcategoryId = req.query.s || null,
         searchingQuery = {},
@@ -64,8 +65,9 @@ async function getProducts(req, res, next) {
         .select('-__v ' + execludingQuery)
         .then(docs => {
             return res.status(200).send({
-                message: "ok",
-                data: docs
+                isSuccessed: true,
+                data: docs,
+                error: null
             })
         }).catch((err) => {
             next(boom.internal(err))
@@ -89,8 +91,9 @@ async function getProduct(req, res, next) {
             console.log(doc)
             if (doc) {
                 return res.status(200).send({
-                    message: "ok",
-                    data: doc
+                    isSuccessed: true,
+                    data: doc,
+                    error: null
                 })
             }
             next(boom.notFound("product not found"))

@@ -77,10 +77,16 @@ const addOfferVS = Joi.object({
     expirationDate: Joi.date().required() 
 })
 
+const getOffersVS = Joi.object({
+    limit: Joi.number(),
+    page: Joi.number()
+})
+
 export { 
     addProductVS,
     getProductsVS,
     idVS,
     addHomeSectionVS,
-    addOfferVS
+    addOfferVS,
+    getOffersVS
 }

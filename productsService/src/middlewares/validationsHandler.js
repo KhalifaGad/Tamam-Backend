@@ -3,7 +3,8 @@ import {
     idVS,
     getProductsVS,
     addHomeSectionVS,
-    addOfferVS
+    addOfferVS,
+    getOffersVS
 } from '../utils/validationSchemas'
 import boom from '@hapi/boom'
 
@@ -76,10 +77,21 @@ function addOfferVM(req, res, next) {
     next()
 }
 
+function getOffersVM(req, res, next){
+    let { error } = getOffersVS.validate(req.query)
+
+    if (error) {
+        next(boom.badData(error.details[0].message))
+    }
+
+    next()
+}
+
 export {
     addProdcutVM,
     prodcutIdVM,
     getProductsVM,
     addNewHomeSectionVM,
-    addOfferVM
+    addOfferVM,
+    getOffersVM
 }

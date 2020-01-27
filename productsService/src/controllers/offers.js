@@ -6,16 +6,35 @@ import {
     OfferModel
 } from '../db/offerModel'
 
+// the full path is /api/v1/products/:id/offers
+// it accepts 'exp' true or false as query string, default false
 function getProductOffers(req, res, next) {
     let {
         id
-    } = req.params
+    } = req.params,
+        exp = req.query.exp || false,
+        queryOp = {
+            productId: id
+        }
+
+    // if exp is true, authorization must be required
+    if (!exp) {
+        queryOp.expirationDate = {
+            "$gte": new Date()
+        }
+    }
+
     OfferModel.find({
-        productId: id
+        ...queryOp
     }).then(offers => {
+
+        let data = 
+            exp === "true"? 
+                offers : offers[0] || null
+        
         res.status(200).send({
             isSuccessed: true,
-            data: offers,
+            data,
             error: null
         })
     }).catch(err => {
@@ -63,9 +82,28 @@ function editOffer(req, res, next) {
 
 }
 
-//page, limit
-function getOffers(req, res, next) {
+//it accepts query string: page, limit
+// the full path is /api/v1/products/offers
+async function getOffers(req, res, next) {
+    let limit = parseInt( req.query.limit) || 0,
+        page = parseInt(req.query.page) || 0
 
+    await OfferModel.find({})
+        .sort('startingDate')
+        .select('-__v')
+        .limit(limit)
+        .skip(page)
+        .populate('productId')
+        .then(offers => {
+            console.log(offers[2])
+            return res.status(200).send({
+                isSuccessed: true,
+                data: offers,
+                error: null
+            })
+        }).catch(err => {
+            next(boom.internal(err))
+        })
 }
 
 export {
