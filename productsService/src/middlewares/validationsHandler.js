@@ -1,8 +1,10 @@
-import { 
-    addProductVS, 
-    idVS, 
+import {
+    addProductVS,
+    idVS,
     getProductsVS,
-    addHomeSectionVS
+    addHomeSectionVS,
+    addOfferVS,
+    getOffersVS
 } from '../utils/validationSchemas'
 import boom from '@hapi/boom'
 
@@ -12,7 +14,9 @@ import boom from '@hapi/boom'
 */
 
 function addProdcutVM(req, res, next) {
-    const { error } = addProductVS.validate(req.body)
+    const {
+        error
+    } = addProductVS.validate(req.body)
 
     if (error) {
         next(boom.badData(error.details[0].message))
@@ -31,29 +35,63 @@ function prodcutIdVM(req, res, next) {
     next()
 }
 
-function getProductsVM(req, res, next){
-    const { error } = getProductsVS.validate(req.query)
+function getProductsVM(req, res, next) {
+    const {
+        error
+    } = getProductsVS.validate(req.query)
 
-    if(error){
-        next(boom.badData(error.details[0].message))    
+    if (error) {
+        next(boom.badData(error.details[0].message))
     }
 
     next()
 }
 
-function addNewHomeSectionVM(req, res, next){
-    const { error } = addHomeSectionVS.validate(req.body)
+function addNewHomeSectionVM(req, res, next) {
+    const {
+        error
+    } = addHomeSectionVS.validate(req.body)
 
-    if(error){
-        next(boom.badData(error.details[0].message))    
+    if (error) {
+        next(boom.badData(error.details[0].message))
     }
 
     next()
 }
 
-export { 
-    addProdcutVM, 
+function addOfferVM(req, res, next) {
+    const {
+        error
+    } = addOfferVS.validate(req.body)
+
+    if (error) {
+        next(boom.badData(error.details[0].message))
+    }
+
+    let isValid = idVS(req.params.id)
+
+    if (!isValid) {
+        next(boom.badData("Invalid Id"))
+    }
+
+    next()
+}
+
+function getOffersVM(req, res, next){
+    let { error } = getOffersVS.validate(req.query)
+
+    if (error) {
+        next(boom.badData(error.details[0].message))
+    }
+
+    next()
+}
+
+export {
+    addProdcutVM,
     prodcutIdVM,
     getProductsVM,
-    addNewHomeSectionVM
+    addNewHomeSectionVM,
+    addOfferVM,
+    getOffersVM
 }

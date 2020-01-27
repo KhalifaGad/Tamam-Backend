@@ -3,7 +3,8 @@ import mongoose from 'mongoose'
 let offerSchema = mongoose.Schema({
     productId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        ref: 'Product'
     },
     discountRatio: {
         type: Number,
@@ -23,6 +24,6 @@ let offerSchema = mongoose.Schema({
     }
 })
 
-let offerModel = mongoose.model('Offer', offerSchema)
+let OfferModel = mongoose.model('Offer', offerSchema)
 
-export { offerModel }
+export { OfferModel }

@@ -1,4 +1,6 @@
-import { Router } from 'express'
+import {
+    Router
+} from 'express'
 import express from 'express'
 import {
     addProduct,
@@ -10,26 +12,36 @@ import {
 import {
     addProdcutVM,
     prodcutIdVM,
-    getProductsVM
+    getProductsVM,
+    addOfferVM,
+    getOffersVM
 } from '../../middlewares/validationsHandler'
 import {
     refactorAddProductReq
 } from '../../middlewares/reqRefactoingHelper'
 import multer from 'multer'
 import path from 'path'
+import {
+    getProductOffers,
+    addOffer,
+    editOffer,
+    getOffers
+} from '../../controllers/offers'
 
 const productsRouter = Router()
 
 let storage = multer.diskStorage({
     destination: 'productsImages/',
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-'
-            + Date.now()
-            + path.extname(file.originalname))
+        cb(null, file.fieldname + '-' +
+            Date.now() +
+            path.extname(file.originalname))
     }
 })
 
-let upload = multer({ storage })
+let upload = multer({
+    storage
+})
 
 // serving static images
 productsRouter.use('/images', express.static('productsImages'))
@@ -46,6 +58,11 @@ productsRouter.route('/product')
         refactorAddProductReq,
         addProduct)
 
+// the full path is /api/v1/products/offers
+productsRouter.route('/offers')
+    .get(getOffersVM, getOffers)
+
+
 // the full path is /api/v1/products/:id
 productsRouter.route('/:id')
     .get(prodcutIdVM,
@@ -53,4 +70,16 @@ productsRouter.route('/:id')
     .delete(deleteProduct) // delete product by id
     .put(updateProduct) // update product by id
 
-export { productsRouter }
+// the full path is /api/v1/products/:id/offers
+productsRouter.route('/:id/offers')
+    .get(prodcutIdVM, getProductOffers)
+    .post(addOfferVM, addOffer)
+
+// the full path is /api/v1/products/:id/offers/:id
+productsRouter.route('/:productId/offers/:offerId')
+    .put(editOffer)
+
+
+export {
+    productsRouter
+}
