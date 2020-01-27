@@ -51,6 +51,7 @@ async function addUser(req, res, next) {
     res.status(201).send({
         isSuccessed: true,
         data: {
+            userName: doc.userName,
             favourites: doc.favourites || [],
             points: doc.points,
             isVerified: doc.isVerified,
