@@ -15,11 +15,11 @@ async function authenticate(req, res, next) {
     let user = await UserModel.findOne({ email })
     
     if (!user) {
-        next(boom.notFound('wrong email or password'))
+        next(boom.badData('wrong email or password'))
     }
  
     if (!await checkPass(password, user.password)) {
-        next(boom.notFound('wrong email or password'))
+        next(boom.badData('wrong email or password'))
     }
 
     if (!user.isVerified) {
