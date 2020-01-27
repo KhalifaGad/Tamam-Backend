@@ -52,6 +52,8 @@ function getCountries(req, res, next) {
                 return city
             })
 
+            country.flagImage = country.flagImage || ""
+
             return country
         })
         res.status(200).send({
