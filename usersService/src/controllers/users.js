@@ -19,7 +19,12 @@ async function addUser(req, res, next) {
         email,
         password,
         phone
-    } = req.body
+    } = req.body,
+    imgURL = ''
+
+    if(req.file){
+        imgURL = '/images/' + req.file.filename
+    }
 
     if (!checkPass(password)) {
         next(boom.notAcceptable('Not accepted password'))
@@ -36,7 +41,8 @@ async function addUser(req, res, next) {
         cityId,
         email,
         phone,
-        password: await hashPass(password)
+        password: await hashPass(password),
+        imgURL
     })
 
     let verificationCode = phoneToken(6, { type: 'number' })
@@ -61,7 +67,8 @@ async function addUser(req, res, next) {
             countryId: doc.countryId,
             cityId: doc.cityId,
             email: doc.email,
-            phone: doc.phone
+            phone: doc.phone,
+            imgURL: doc.imgURL
         },
         error: null
     })
