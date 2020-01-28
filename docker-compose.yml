@@ -13,23 +13,23 @@ services:
         build: usersService/
         env_file: ./.env
         volumes: 
-            - ./usersService:/usersService
-	    - ./externalVolumes/userImages:/usersService/userImages
+            - ./usersService:/usersService 
+	        - ./externalVolumes/userImages:/usersService/userImages 
         ports: 
-            - "${USERS_C_PORT}:${USERS_N_PORT}"
+            - "${USERS_C_PORT}:${USERS_N_PORT}" 
         networks: 
-            net:
+            net: 
     products-service:
-        build: productsService/
+        build: productsService/ 
         env_file: ./.env
         volumes: 
-            - ./externalVolumes/images:/productsService/productsImages
+            - ./externalVolumes/images:/productsService/productsImages 
             - ./productsService:/productsService
         ports: 
             - "${PRODCUTS_C_PORT}:${PRODCUTS_N_PORT}"
-        networks: 
+        networks:
             net:
-    mongo-db:
+    mongo-db: 
         image: mongo
         restart: always
         ports:
@@ -37,7 +37,7 @@ services:
         volumes:
             - mongo:/var/lib/mongo
             - ./externalVolumes/db:/data/db
-        networks: 
+        networks:
             net:
 volumes:
   mongo:
