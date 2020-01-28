@@ -18,7 +18,8 @@ const addUserValidationSchema = Joi.object({
     countryId: Joi.custom(checkMongooseId,
         'custom validation').required(),
     cityId: Joi.custom(checkMongooseId,
-        'custom validation').required()
+        'custom validation').required(),
+    device: Joi.string().valid("ANDROID", "IOS", "WEB").required()
 
 })
 
@@ -35,7 +36,8 @@ const addCountryValidationSchema = Joi.object({
 const verifyUserSchema = Joi.object({
     userId: Joi.custom(checkMongooseId,
         'custom validation').required(),
-    code: Joi.number().min(6).required()
+    code: Joi.number().min(6).required(),
+    device: Joi.string().valid("ANDROID", "IOS", "WEB").required()
 })
 
 const resendVerificationSchema = Joi.object({

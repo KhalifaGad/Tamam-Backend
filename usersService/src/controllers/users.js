@@ -18,16 +18,18 @@ async function addUser(req, res, next) {
         role,
         email,
         password,
-        phone
+        phone,
+        device
     } = req.body,
-    imgURL = ''
+        imgURL = ''
 
-    if(req.file){
+    if (req.file) {
         imgURL = '/images/' + req.file.filename
     }
 
     if (!checkPass(password)) {
-        next(boom.notAcceptable('Not accepted password'))
+        next(boom.notAcceptable('Password must contain capital letter,'
+            + ' number and more than 7 letters '))
     }
 
     if (!await gCC(countryId, cityId)) {
@@ -41,6 +43,7 @@ async function addUser(req, res, next) {
         cityId,
         email,
         phone,
+        lastActiveDevice: device,
         password: await hashPass(password),
         imgURL
     })
@@ -68,6 +71,7 @@ async function addUser(req, res, next) {
             cityId: doc.cityId,
             email: doc.email,
             phone: doc.phone,
+            lastActiveDevice: device,
             imgURL: doc.imgURL
         },
         error: null
@@ -112,7 +116,8 @@ async function verifyUser(req, res, next) {
     //5e202b8021d8e050e28e6b53
     let {
         userId,
-        code
+        code,
+        device
     } = req.body
 
     let verification = await VerificationModel.findOne({
@@ -135,12 +140,13 @@ async function verifyUser(req, res, next) {
     let user = await UserModel.findById(userId)
 
     user.isVerified = true
+    user.lastActiveDevice = device
     let userRole = user.role
 
     await user.save()
-    
+
     let token = generateToken(userId, userRole)
-    
+
     let tokensModel = new TokensModel({
         token,
         userId: user._id
@@ -173,18 +179,18 @@ async function resendVerification(req, res, next) {
     let {
         userId
     } = req.body
-    
+
     let verification = await VerificationModel.findOne({
         userId
     }).catch(err => {
         next(boom.internal(err))
     })
-    
+
     if (!verification) {
         next(boom
             .notFound('No previous verifications for this cardinalities'))
     }
-    
+
     let code = phoneToken(6, { type: 'number' }),
         expDate = new Date()
 
@@ -192,7 +198,7 @@ async function resendVerification(req, res, next) {
     // send email to user by verification code
     let email = verification.email
     mailer(email.split("@")[0], code, email)
-    
+
     verification.code = code
     verification.expDate = expDate
 
