@@ -11,7 +11,9 @@ async function makeOrder(req, res, next){
 
     // sending auth var to user authentication api
 
-    let userId = await axios.get()
+    let userId = await axios.create({
+        baseURL: ''
+    })
 
     // fetch the product
     // check for offer and fetch it if exist
