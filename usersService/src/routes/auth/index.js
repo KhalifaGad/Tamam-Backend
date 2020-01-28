@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { authenticate, decodeToken } from '../../controllers/auth'
+import { authenticate, getUserCardinalities } from '../../controllers/auth'
 import { loginValidation } from '../../middlewares/validationHandler'
 
 const authRouter = Router()
@@ -8,7 +8,7 @@ const authRouter = Router()
 authRouter.route('/')
     .post(loginValidation ,authenticate)
 
-authRouter.route('/decode')
-    .post(decodeToken)
+authRouter.route('/user/cardinalities')
+    .get(getUserCardinalities)
 
 export { authRouter }
