@@ -1,7 +1,7 @@
 import { UserModel } from "../db/userModel"
 import boom from '@hapi/boom'
 import { checkPass } from '../utils/bcryptHelper'
-import { generateToken } from "../utils/JWTHelper"
+import { generateToken, decodeToken } from "../utils/JWTHelper"
 import { TokensModel } from '../db/tokensModel'
 
 async function authenticate(req, res, next) {
@@ -55,11 +55,40 @@ async function authenticate(req, res, next) {
 }
 
 // check for the old tokens too for the same user Id 
-function decodeToken(req, res, next) {
+async function getUserCardinalities(req, res, next) {
+    let docodingRes = decodeToken(req)
+
+    if(!docodingRes.isAuthenticated) {
+        return next(boom.unauthorized('Not Auth included!'))
+    }
+
+    let tokenModel = await TokensModel.findOne({
+        userId: docodingRes.userId
+    }).sort('issueDate')
+
+    if(tokenModel.token !== docodingRes.token){
+        return res.status(302).send({
+            isSuccessed: false,
+            data: {
+                link: '/api/v1/auth',
+                method: 'POST'
+            },
+            error: 'Re-login required!'
+        })
+    }
+
+    return res.status(200).send({
+        isSuccessed: true,
+        data: {
+            userId: docodingRes.userId,
+            role: decodingRes.role
+        },
+        error: null
+    })
 
 }
 
 export {
     authenticate,
-    decodeToken
+    getUserCardinalities
 }

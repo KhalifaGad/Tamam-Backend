@@ -13,8 +13,9 @@ function decodeToken(req) {
     if (!auth) {
         return {
             isAuthenticated: false,
-            role: '',
-            userId: ''
+            role: null,
+            userId: null,
+            token: null
         }
     }
 
@@ -25,7 +26,8 @@ function decodeToken(req) {
     return {
         isAuthenticated: true,
         role: decoded.role,
-        userId: decoded.userId
+        userId: decoded.userId,
+        token
     }
 
 

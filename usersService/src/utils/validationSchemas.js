@@ -49,6 +49,7 @@ const authenticationSchema = Joi.object({
     device: Joi.string().valid("ANDROID", "IOS", "WEB").required()
 })
 
+
 export {
     addUserValidationSchema,
     addCountryValidationSchema,
