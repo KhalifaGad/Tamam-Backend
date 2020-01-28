@@ -28,12 +28,12 @@ async function addUser(req, res, next) {
     }
 
     if (!checkPass(password)) {
-        next(boom.notAcceptable('Password must contain capital letter,'
+        return next(boom.notAcceptable('Password must contain capital letter,'
             + ' number and more than 7 letters '))
     }
 
     if (!await gCC(countryId, cityId)) {
-        next(boom.notFound('country-city not found!'))
+        return next(boom.notFound('country-city not found!'))
     }
 
     let user = new UserModel({
@@ -54,7 +54,7 @@ async function addUser(req, res, next) {
     expDate.setDate(expDate.getDate() + 1)
 
     let doc = await user.save().catch(err => {
-        next(boom.notAcceptable(err.errmsg))
+        return next(boom.notAcceptable(err.errmsg))
     })
 
     res.status(201).send({
@@ -128,12 +128,12 @@ async function verifyUser(req, res, next) {
     })
 
     if (!verification) {
-        next(boom
+        return next(boom
             .notFound('verification not found for this cardinalities'))
     }
 
     if (new Date() > verification.expDate) {
-        next(boom.notAcceptable(
+        return next(boom.notAcceptable(
             'Expiration date has been exceeded for this cardinalities'))
     }
 
@@ -187,7 +187,7 @@ async function resendVerification(req, res, next) {
     })
 
     if (!verification) {
-        next(boom
+        return next(boom
             .notFound('No previous verifications for this cardinalities'))
     }
 
