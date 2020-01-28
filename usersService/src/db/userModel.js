@@ -45,7 +45,8 @@ let userSchema = mongoose.Schema({
     lastActiveDevice: {
         type: String,
         enum: ["ANDROID", "IOS", "WEB"]
-    }
+    },
+    imgURL: String
 })
 
 let UserModel = mongoose.model('User', userSchema)

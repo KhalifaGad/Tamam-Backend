@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import express from 'express'
 import {
     addUser,
     getUsers,
@@ -13,12 +13,29 @@ import {
     verifyUserMiddleware,
     rsndVrfcMiddleware
 } from '../../middlewares/validationHandler'
+import multer from 'multer'
+import path from 'path'
 
-const usersRouter = Router()
+
+const usersRouter = express.Router()
+
+let storage = multer.diskStorage({
+    destination: 'userImages/',
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' +
+            Date.now() +
+            path.extname(file.originalname))
+    }
+}),
+    upload = multer({
+        storage
+    })
+
+usersRouter.use('/images', express.static('userImages'))
 
 // api/v1/users
 usersRouter.route('/')
-    .post(addUserValidation, addUser)
+    .post(upload.single('userPic'), addUserValidation, addUser)
     .get(getUsers)
 
 usersRouter.route('/:id')
