@@ -60,19 +60,22 @@ async function addUser(req, res, next) {
     res.status(201).send({
         isSuccessed: true,
         data: {
-            userName: doc.userName,
-            favourites: doc.favourites || [],
-            points: doc.points,
-            isVerified: doc.isVerified,
-            _id: doc._id,
-            username: doc.username,
-            role: doc.role,
-            countryId: doc.countryId,
-            cityId: doc.cityId,
-            email: doc.email,
-            phone: doc.phone,
-            lastActiveDevice: device,
-            imgURL: doc.imgURL
+            user: {
+                userName: doc.userName,
+                favourites: doc.favourites || [],
+                points: doc.points,
+                isVerified: doc.isVerified,
+                _id: doc._id,
+                username: doc.username,
+                role: doc.role,
+                countryId: doc.countryId,
+                cityId: doc.cityId,
+                email: doc.email,
+                phone: doc.phone,
+                lastActiveDevice: device,
+                imgURL: doc.imgURL
+            },
+            token: null
         },
         error: null
     })

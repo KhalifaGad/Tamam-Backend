@@ -47,7 +47,21 @@ async function authenticate(req, res, next) {
     res.status(200).send({
         isSuccessed: true,
         data: {
-            user,
+            user: {
+                userName: user.userName,
+                favourites: user.favourites || [],
+                points: user.points,
+                isVerified: user.isVerified,
+                _id: user._id,
+                username: user.username,
+                role: user.role,
+                countryId: user.countryId,
+                cityId: user.cityId,
+                email: user.email,
+                phone: user.phone,
+                lastActiveDevice: user.lastActiveDevice,
+                imgURL: user.imgURL
+            },
             token
         },
         error: null
