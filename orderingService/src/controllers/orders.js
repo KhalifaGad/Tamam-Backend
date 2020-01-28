@@ -1,7 +1,8 @@
 import OrderModel from '../db/orderModel'
 import boom from '@hapi/boom'
+import axios from 'axios'
 
-function makeOrder(req, res, next){
+async function makeOrder(req, res, next){
     // check the user authentication,
     let auth = req.headers.authentication
     if(!auth){
@@ -9,6 +10,8 @@ function makeOrder(req, res, next){
     }
 
     // sending auth var to user authentication api
+
+    let userId = await axios.get()
 
     // fetch the product
     // check for offer and fetch it if exist
