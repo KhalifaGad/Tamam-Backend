@@ -2,3 +2,5 @@
 */.env
 externalVolumes
 usersService/userImages
+productsService/productsImages
+productsService/categoryImages

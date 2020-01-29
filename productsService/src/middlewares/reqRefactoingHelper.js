@@ -19,7 +19,7 @@ function refactorAddProductReq(req, res, next) {
     }
     let images = []
     req.files.forEach((file)=> {
-        images.push('/images/' + file.filename)
+        images.push('/product-images/' + file.filename)
     })
     product.images = images
     req.body = product
