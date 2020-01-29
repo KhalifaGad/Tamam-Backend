@@ -13,7 +13,6 @@ import { mongooseIdJoiHelper } from './idValidation'
 //.regex(/^[\w\-\s]+$/) matches alphanumric and '-' and space
 const addProductVS = Joi.object({
     nameAr: Joi.string()
-        .regex(/^[\w\-\s]+$/)
         .min(3)
         .max(150)
         .required(),
@@ -23,7 +22,6 @@ const addProductVS = Joi.object({
         .max(150)
         .required(),
     descriptionAr: Joi.string()
-        .regex(/^[\w\-\s]+$/)
         .min(30),
     descriptionEn: Joi.string()
         .regex(/^[\w\-\s]+$/)
@@ -82,11 +80,29 @@ const getOffersVS = Joi.object({
     page: Joi.number()
 })
 
+const addCategoryVS = Joi.object({
+    nameAr: Joi.string().min(3).required(),
+    nameEn: Joi.string().min(3).required(),
+    subcategories: Joi.array().items(Joi.object({
+        nameAr: Joi.string().required(),
+        nameEn: Joi.string().required()
+    }))
+})
+
+const addSubcategoriesVS = Joi.object({
+    subcategories: Joi.array().items(Joi.object({
+        nameAr: Joi.string().required(),
+        nameEn: Joi.string().required()
+    })).required()
+})
+
 export { 
     addProductVS,
     getProductsVS,
     idVS,
     addHomeSectionVS,
     addOfferVS,
-    getOffersVS
+    getOffersVS,
+    addCategoryVS,
+    addSubcategoriesVS
 }

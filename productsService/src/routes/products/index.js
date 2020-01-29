@@ -11,7 +11,7 @@ import {
 } from '../../controllers/products'
 import {
     addProdcutVM,
-    prodcutIdVM,
+    queryIdVM,
     getProductsVM,
     addOfferVM,
     getOffersVM
@@ -43,9 +43,6 @@ let upload = multer({
     storage
 })
 
-// serving static images
-productsRouter.use('/images', express.static('productsImages'))
-
 // the full path is /api/v1/products
 // get all products
 productsRouter.route('/')
@@ -65,14 +62,14 @@ productsRouter.route('/offers')
 
 // the full path is /api/v1/products/:id
 productsRouter.route('/:id')
-    .get(prodcutIdVM,
+    .get(queryIdVM,
         getProduct) // get product by id
     .delete(deleteProduct) // delete product by id
     .put(updateProduct) // update product by id
 
 // the full path is /api/v1/products/:id/offers
 productsRouter.route('/:id/offers')
-    .get(prodcutIdVM, getProductOffers)
+    .get(queryIdVM, getProductOffers)
     .post(addOfferVM, addOffer)
 
 // the full path is /api/v1/products/:id/offers/:id
