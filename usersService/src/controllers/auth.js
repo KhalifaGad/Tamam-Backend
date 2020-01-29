@@ -73,7 +73,7 @@ async function getUserCardinalities(req, res, next) {
     let docodingRes = decodeToken(req)
 
     if(!docodingRes.isAuthenticated) {
-        return next(boom.unauthorized('Not Auth included!'))
+        return next(boom.unauthorized('Auth not included or malformed'))
     }
 
     let tokenModel = await TokensModel.findOne({
@@ -95,7 +95,7 @@ async function getUserCardinalities(req, res, next) {
         isSuccessed: true,
         data: {
             userId: docodingRes.userId,
-            role: decodingRes.role
+            role: docodingRes.role
         },
         error: null
     })
