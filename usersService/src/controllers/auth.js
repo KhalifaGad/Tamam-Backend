@@ -13,17 +13,24 @@ async function authenticate(req, res, next) {
     } = req.body
 
     let user = await UserModel.findOne({ email })
-    
+
     if (!user) {
         next(boom.badData('wrong email or password'))
     }
- 
+
     if (!await checkPass(password, user.password)) {
         next(boom.badData('wrong email or password'))
     }
 
     if (!user.isVerified) {
-        next(boom.forbidden('email is not verified'))
+        res.status(302).send({
+          isSuccessed: true,
+          data: {
+            user,
+            token: null
+          },
+          error: "User not verified!"
+        })
     }
     //tokenModel
     let token = generateToken(user._id, user.role)
@@ -68,38 +75,37 @@ async function authenticate(req, res, next) {
     })
 }
 
-// check for the old tokens too for the same user Id 
+// check for the old tokens too for the same user Id
 async function getUserCardinalities(req, res, next) {
-    let docodingRes = decodeToken(req)
+  let docodingRes = decodeToken(req)
 
-    if(!docodingRes.isAuthenticated) {
-        return next(boom.unauthorized('Auth not included or malformed'))
-    }
+  if(!docodingRes.isAuthenticated) {
+      return next(boom.unauthorized('Auth not included or malformed'))
+  }
 
-    let tokenModel = await TokensModel.findOne({
-        userId: docodingRes.userId
-    }).sort('issueDate')
+  let tokenModel = await TokensModel.findOne({
+      userId: docodingRes.userId
+  }).sort('issueDate')
 
-    if(tokenModel.token !== docodingRes.token){
-        return res.status(302).send({
-            isSuccessed: false,
-            data: {
-                link: '/api/v1/auth',
-                method: 'POST'
-            },
-            error: 'Re-login required!'
-        })
-    }
+  if(tokenModel.token !== docodingRes.token){
+      return res.status(302).send({
+          isSuccessed: false,
+          data: {
+              link: '/api/v1/auth',
+              method: 'POST'
+          },
+          error: 'Re-login required!'
+      })
+  }
 
-    return res.status(200).send({
-        isSuccessed: true,
-        data: {
-            userId: docodingRes.userId,
-            role: docodingRes.role
-        },
-        error: null
-    })
-
+  return res.status(200).send({
+      isSuccessed: true,
+      data: {
+          userId: docodingRes.userId,
+          role: docodingRes.role
+      },
+      error: null
+  })
 }
 
 export {

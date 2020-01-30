@@ -8,42 +8,36 @@ function generateToken(userId, role) {
 }
 
 function decodeToken(req) {
-    let auth = req.headers.authentication
+  let auth = req.headers.authentication
 
-    if (!auth) {
-        return {
-            isAuthenticated: false,
-            role: null,
-            userId: null,
-            token: null
-        }
-    }
+      if (!auth) {
+          return {
+              isAuthenticated: false,
+              role: null,
+              userId: null,
+              token: null
+          }
+      }
 
-    let token = auth.replace('Bearer ', '')
-    let decoded
-    try {
-        decoded = jwt.verify(token, process.env.TOKEN_SECRET)
-    } catch(err) {
-        console.log('==========================================')
-        console.log('mulformed token')
-        console.log('=============================')
-        return {
-            isAuthenticated: false,
-            role: null,
-            userId: null,
-            token: null
-        } 
-    }
+      let token = auth.replace('Bearer ', '')
+      let decoded
+      try {
+          decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+      } catch(err) {
+          return {
+              isAuthenticated: false,
+              role: null,
+              userId: null,
+              token: null
+          }
+      }
 
-    return {
-        isAuthenticated: true,
-        role: decoded.role,
-        userId: decoded.userId,
-        token
-    }
-
-
-
+      return {
+          isAuthenticated: true,
+          role: decoded.role,
+          userId: decoded.userId,
+          token
+      }
 }
 
 export {
