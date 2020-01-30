@@ -13,8 +13,7 @@ services:
         build: usersService/
         env_file: ./.env
         volumes: 
-            - ./usersService:/usersService 
-	        - ./externalVolumes/userImages:/usersService/userImages 
+            - ./usersService:/usersService  
         ports: 
             - "${USERS_C_PORT}:${USERS_N_PORT}" 
         networks: 
