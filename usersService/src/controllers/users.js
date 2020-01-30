@@ -4,7 +4,6 @@ import { checkPass } from "../utils/validatePassword"
 import { UserModel } from "../db/userModel"
 import { hashPass } from "../utils/bcryptHelper"
 import { mailer } from "../utils/sendVerification"
-import phoneToken from 'generate-sms-verification-code'
 import { VerificationModel } from "../db/verificationModel"
 import { generateToken } from "../utils/JWTHelper"
 import { TokensModel } from "../db/tokensModel"
