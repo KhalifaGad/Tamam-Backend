@@ -24,9 +24,6 @@ function decodeToken(req) {
     try {
         decoded = jwt.verify(token, process.env.TOKEN_SECRET)
     } catch(err) {
-        console.log('==========================================')
-        console.log('mulformed token')
-        console.log('=============================')
         return {
             isAuthenticated: false,
             role: null,
@@ -41,9 +38,6 @@ function decodeToken(req) {
         userId: decoded.userId,
         token
     }
-
-
-
 }
 
 export {
