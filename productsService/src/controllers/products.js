@@ -88,7 +88,6 @@ async function getProduct(req, res, next) {
     await ProductModel.findById(req.params.id)
         .select('-__v ' + execludingQuery)
         .then(doc => {
-            console.log(doc)
             if (doc) {
                 return res.status(200).send({
                     isSuccessed: true,

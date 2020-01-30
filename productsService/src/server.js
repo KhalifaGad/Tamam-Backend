@@ -2,8 +2,13 @@ import express from 'express'
 import { notFoundFallback } from './controllers/index'
 import { errorHandling } from './middlewares/errorHandler'
 import { router }  from './routes/router'
+import compression from 'compression'
 
 let server = express()
+
+// compress all server response ;)
+server.use(compression())
+
 // for application/json requests
 server.use(express.json())
 

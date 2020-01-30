@@ -7,15 +7,20 @@ services:
             - ./orderingService:/orderingService
         ports: 
             - "${ORDERING_C_PORT}:${ORDERING_N_PORT}"
+        depends_on: 
+            - mongo-db
         networks: 
             net:
     users-service:
         build: usersService/
         env_file: ./.env
         volumes: 
-            - ./usersService:/usersService  
+            - ./usersService:/usersService 
+            - ./externalVolumes/userImages:/usersService/userImages 
         ports: 
-            - "${USERS_C_PORT}:${USERS_N_PORT}" 
+            - "${USERS_C_PORT}:${USERS_N_PORT}"
+        depends_on: 
+            - mongo-db
         networks: 
             net: 
     products-service:
@@ -26,6 +31,8 @@ services:
             - ./productsService:/productsService
         ports: 
             - "${PRODCUTS_C_PORT}:${PRODCUTS_N_PORT}"
+        depends_on: 
+            - mongo-db
         networks:
             net:
     mongo-db: 

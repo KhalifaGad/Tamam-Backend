@@ -20,8 +20,20 @@ function decodeToken(req) {
     }
 
     let token = auth.replace('Bearer ', '')
-
-    let decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+    let decoded
+    try {
+        decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+    } catch(err) {
+        console.log('==========================================')
+        console.log('mulformed token')
+        console.log('=============================')
+        return {
+            isAuthenticated: false,
+            role: null,
+            userId: null,
+            token: null
+        } 
+    }
 
     return {
         isAuthenticated: true,

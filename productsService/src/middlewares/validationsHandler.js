@@ -4,7 +4,9 @@ import {
     getProductsVS,
     addHomeSectionVS,
     addOfferVS,
-    getOffersVS
+    getOffersVS,
+    addCategoryVS,
+    addSubcategoriesVS
 } from '../utils/validationSchemas'
 import boom from '@hapi/boom'
 
@@ -25,7 +27,7 @@ function addProdcutVM(req, res, next) {
     next()
 }
 
-function prodcutIdVM(req, res, next) {
+function queryIdVM(req, res, next) {
     let isValid = idVS(req.params.id)
 
     if (!isValid) {
@@ -87,11 +89,33 @@ function getOffersVM(req, res, next){
     next()
 }
 
+function addCategoryVM(req, res, next){
+    let { error } = addCategoryVS.validate(req.body)
+
+    if (error) {
+        next(boom.badData(error.details[0].message))
+    }
+
+    next()
+}
+
+function addSubcategoryVM(req, res, next){
+    let { error } = addSubcategoriesVS.validate(req.body)
+
+    if (error) {
+        next(boom.badData(error.details[0].message))
+    }
+
+    next()
+}
+
 export {
     addProdcutVM,
-    prodcutIdVM,
+    queryIdVM,
     getProductsVM,
     addNewHomeSectionVM,
     addOfferVM,
-    getOffersVM
+    getOffersVM,
+    addCategoryVM,
+    addSubcategoryVM
 }
