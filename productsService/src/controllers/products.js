@@ -1,9 +1,10 @@
-import { ProductModel } from '../db/productModel'
 import boom from '@hapi/boom'
 
+import { ProductModel } from '../db/models/productModel';
+
 /**
- * Post "api/v1/products/product" handler function 
- * @param req: request param 
+ * Post "api/v1/products/product" handler function
+ * @param req: request param
  * @param res: response param
  * @param next: express middleware function
  */
@@ -26,13 +27,13 @@ function addProduct(req, res, next) {
 }
 
 /**
- * Get "api/v1/products" handler function 
- * @param req: request param 
+ * Get "api/v1/products" handler function
+ * @param req: request param
  * @param res: response param
  * @param next: express middleware function
  */
 // it accepts query strings: lang, page, limit
-// c = categoryId, s = subcategoryId, 
+// c = categoryId, s = subcategoryId,
 //d = date ascending 'A' or descending 'D'
 async function getProducts(req, res, next) {
 
@@ -75,8 +76,8 @@ async function getProducts(req, res, next) {
 }
 
 /**
- * Get "api/v1/products/:id" handler function 
- * @param req: request param 
+ * Get "api/v1/products/:id" handler function
+ * @param req: request param
  * @param res: response param
  * @param next: express middleware function
  */
@@ -102,8 +103,8 @@ async function getProduct(req, res, next) {
 }
 
 /**
- * Delete "api/v1/products/:id" handler function 
- * @param req: request param 
+ * Delete "api/v1/products/:id" handler function
+ * @param req: request param
  * @param res: response param
  * @param next: express middleware function
  */
@@ -112,8 +113,8 @@ function deleteProduct(req, res, next) {
 }
 
 /**
- * Put "api/v1/products/:id" handler function 
- * @param req: request param 
+ * Put "api/v1/products/:id" handler function
+ * @param req: request param
  * @param res: response param
  * @param next: express middleware function
  */

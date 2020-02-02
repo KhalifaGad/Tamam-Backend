@@ -2,7 +2,7 @@ import Joi from '@hapi/joi'
 import mongoose from 'mongoose'
 import { mongooseIdJoiHelper } from './idValidation'
 
-/* 
+/*
     -------------typos-------------
     VS => Validation Schema
 */
@@ -72,7 +72,7 @@ const addHomeSectionVS = Joi.object({
 const addOfferVS = Joi.object({
     discountRatio: Joi.number().required(),
     startingDate: Joi.date(),
-    expirationDate: Joi.date().required() 
+    expirationDate: Joi.date().required()
 })
 
 const getOffersVS = Joi.object({
@@ -96,7 +96,7 @@ const addSubcategoriesVS = Joi.object({
     })).required()
 })
 
-export { 
+export {
     addProductVS,
     getProductsVS,
     idVS,
