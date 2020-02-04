@@ -11,7 +11,7 @@ import {
 const homeScreenRouter = Router()
 
 // api/v1/management/screens/home/sections
-homeScreenRouter.route('sections')
+homeScreenRouter.route('/sections')
     .post(addNewHomeSectionVM, addNewScetion)
     .get(getSections)
     .put(updateSection)

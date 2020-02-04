@@ -8,6 +8,7 @@ const router = Router()
 // router.route('/most-sold')
 //   .get(getMostSold)
 
+// api/v1//home-service/sections
 router.route('/sections')
   .get(getHomeSections)
   // new products will be fetched from products route

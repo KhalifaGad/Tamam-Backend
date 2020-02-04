@@ -41,7 +41,7 @@ const addProductVS = Joi.object({
         .required(),
     quantityMeasurement: Joi.string()
         .valid('kg', 'pack', 'unit').required(),
-    isTurkish: Joi.boolean().required()
+    isTurkish: Joi.boolean()
 })
 // validate is id string a valid mongodb id by creating a new ObjectId with
 // id string as value.
@@ -63,10 +63,13 @@ const getProductsVS = Joi.object({
 })
 
 const addHomeSectionVS = Joi.object({
-    isSelected: Joi.boolean(),
+    active: Joi.boolean(),
     sectionNameAr: Joi.string().required(),
     sectionNameEn: Joi.string().required(),
-    endPointURL: Joi.string().required()
+    clientEndPointURL: Joi.string().required(),
+    serverEndPointURL: Joi.string().required(),
+    skip: Joi.number(),
+    limit: Joi.number()
 })
 
 const addOfferVS = Joi.object({

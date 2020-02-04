@@ -72,9 +72,10 @@ function editOffer (req, res, next) {
 // the full path is /api/v1/products/offers
 async function getOffers (req, res, next) {
   let limit = parseInt(req.query.limit) || 0,
-    page = parseInt(req.query.page) || 0
+    page = parseInt(req.query.page) || 0,
+    retrevedLang = req.query.lang == 'en'? 'english' : 'arabic'
 
-  let {error, offers} = await offersModule.getOffers(limit, page)
+  let {error, offers} = await offersModule.getOffers(limit, page, retrevedLang)
   if (error) return next(boom.internal(error))
 
   return res.status(200).send({

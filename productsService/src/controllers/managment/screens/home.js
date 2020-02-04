@@ -1,13 +1,26 @@
-import SectionModel from '../../../db/models/homeSectionsModel'
+import { HomeSections } from '../../../db/models/homeSectionsModel'
+import boom from '@hapi/boom'
 
-function addNewScetion (req, res, next) {
-  let { isSelected = true, sectionNameAr, sectionNameEn, endPointURL} = req.body
-
-  let homeSection = new SectionModel({
-    isSelected,
+function addNewScetion(req, res, next) {
+  const {
+    active = true,
     sectionNameAr,
     sectionNameEn,
-  endPointURL})
+    clientEndPointURL,
+    serverEndPointURL,
+    skip = 0,
+    limit = 5
+  } = req.body
+  
+  let homeSection = new HomeSections({
+    active,
+    sectionNameAr,
+    sectionNameEn,
+    clientEndPointURL,
+    serverEndPointURL,
+    skip,
+    limit
+  })
 
   homeSection.save()
     .then(doc => {
@@ -22,10 +35,10 @@ function addNewScetion (req, res, next) {
     })
 }
 
-function getSections (req, res, next) {
+function getSections(req, res, next) {
 }
 
-function updateSection (req, res, next) {
+function updateSection(req, res, next) {
 }
 
-export { addNewScetion, getSections, updateSection}
+export { addNewScetion, getSections, updateSection }
