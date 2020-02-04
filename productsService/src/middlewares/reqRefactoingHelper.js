@@ -19,7 +19,8 @@ function refactorAddProductReq(req, res, next) {
     }
     let images = []
     req.files.forEach((file)=> {
-        images.push('/product-images/' + file.filename)
+        images.push('http://localhost:3001/api/v1/product-images/' 
+        + file.filename)
     })
     product.images = images
     req.body = product
