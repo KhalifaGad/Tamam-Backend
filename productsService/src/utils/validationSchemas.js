@@ -41,7 +41,12 @@ const addProductVS = Joi.object({
         .required(),
     quantityMeasurement: Joi.string()
         .valid('kg', 'pack', 'unit').required(),
-    isTurkish: Joi.boolean()
+    isTurkish: Joi.boolean(),
+    availableCountries: Joi.array()
+        .items(Joi.custom(
+            mongooseIdJoiHelper,
+            'custom validation').required()
+        ).required()
 })
 // validate is id string a valid mongodb id by creating a new ObjectId with
 // id string as value.
