@@ -22,6 +22,7 @@ let offerSchema = mongoose.Schema({
         type: Date,
         required: true
     }
+    // country ids -> array
 })
 
 let OfferModel = mongoose.model('Offer', offerSchema)

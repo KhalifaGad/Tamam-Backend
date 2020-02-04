@@ -1,5 +1,6 @@
-import { CategoryModel } from "../../../db/categoryModel"
 import boom from '@hapi/boom'
+
+import { CategoryModel } from '../../../db/models/categoryModel'
 
 function addCategory(req, res, next) {
 
@@ -26,7 +27,7 @@ function addCategory(req, res, next) {
 
 async function addSubcategory(req, res, next) {
     let category = await CategoryModel.findById(req.params.id)
-    
+
     if(!category) {
         return next(boom.notFound('There are no category for this id'))
     }

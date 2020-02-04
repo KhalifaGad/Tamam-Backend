@@ -1,9 +1,10 @@
-import { ProductModel } from '../db/productModel'
 import boom from '@hapi/boom'
 
+import { ProductModel } from '../db/models/productModel';
+
 /**
- * Post "api/v1/products/product" handler function 
- * @param req: request param 
+ * Post "api/v1/products/product" handler function
+ * @param req: request param
  * @param res: response param
  * @param next: express middleware function
  */
@@ -26,18 +27,18 @@ function addProduct(req, res, next) {
 }
 
 /**
- * Get "api/v1/products" handler function 
- * @param req: request param 
+ * Get "api/v1/products" handler function
+ * @param req: request param
  * @param res: response param
  * @param next: express middleware function
  */
-// it accepts query strings: lang, page, limit
-// c = categoryId, s = subcategoryId, 
+// it accepts query strings: lang, skip, limit
+// c = categoryId, s = subcategoryId,
 //d = date ascending 'A' or descending 'D'
 async function getProducts(req, res, next) {
 
     let limit = parseInt(req.query.limit) || 0,
-        page = parseInt(req.query.page) || 0,
+        skip = parseInt(req.query.skip) || 0,
         categoryId = req.query.c || null,
         subcategoryId = req.query.s || null,
         searchingQuery = {},
@@ -52,18 +53,25 @@ async function getProducts(req, res, next) {
         searchingQuery.subcategoryId = subcategoryId
     }
 
-    let execludingQuery = req.query.lang === "en" ?
-        '-name.arabic -description.arabic'
-        : '-name.english -description.english'
+    let retrevingLang =
+        req.query.lang === "en"
+            ? 'english'
+            : 'arabic'
 
     await ProductModel.find({
         ...searchingQuery
     })
         .limit(limit)
-        .skip(page)
+        .skip(skip)
+        .select('-__v')
         .sort(dateSorting)
-        .select('-__v ' + execludingQuery)
+        .lean()
         .then(docs => {
+            docs = docs.map(product => {
+                product.name = product.name[retrevingLang]
+                product.description = product.description[retrevingLang]
+                return product
+            })
             return res.status(200).send({
                 isSuccessed: true,
                 data: docs,
@@ -75,8 +83,8 @@ async function getProducts(req, res, next) {
 }
 
 /**
- * Get "api/v1/products/:id" handler function 
- * @param req: request param 
+ * Get "api/v1/products/:id" handler function
+ * @param req: request param
  * @param res: response param
  * @param next: express middleware function
  */
@@ -102,8 +110,8 @@ async function getProduct(req, res, next) {
 }
 
 /**
- * Delete "api/v1/products/:id" handler function 
- * @param req: request param 
+ * Delete "api/v1/products/:id" handler function
+ * @param req: request param
  * @param res: response param
  * @param next: express middleware function
  */
@@ -112,8 +120,8 @@ function deleteProduct(req, res, next) {
 }
 
 /**
- * Put "api/v1/products/:id" handler function 
- * @param req: request param 
+ * Put "api/v1/products/:id" handler function
+ * @param req: request param
  * @param res: response param
  * @param next: express middleware function
  */
