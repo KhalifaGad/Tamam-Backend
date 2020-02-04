@@ -4,11 +4,10 @@ import { checkPass } from "../utils/validatePassword"
 import { UserModel } from "../db/userModel"
 import { hashPass } from "../utils/bcryptHelper"
 import { mailer } from "../utils/sendVerification"
-import phoneToken from 'generate-sms-verification-code'
 import { VerificationModel } from "../db/verificationModel"
 import { generateToken } from "../utils/JWTHelper"
 import { TokensModel } from "../db/tokensModel"
-
+import { getPhoneToken } from '../utils/phoneTokenHelper.js'
 // api/v1/users
 async function addUser(req, res, next) {
     let {
@@ -48,7 +47,7 @@ async function addUser(req, res, next) {
         imgURL
     })
 
-    let verificationCode = phoneToken(6, { type: 'number' })
+    let verificationCode = getPhoneToken(6)
 
     let expDate = new Date()
     expDate.setDate(expDate.getDate() + 1)
@@ -194,7 +193,7 @@ async function resendVerification(req, res, next) {
             .notFound('No previous verifications for this cardinalities'))
     }
 
-    let code = phoneToken(6, { type: 'number' }),
+    let code = getPhoneToken(6),
         expDate = new Date()
 
     expDate.setDate(expDate.getDate() + 1)

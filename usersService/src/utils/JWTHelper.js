@@ -8,30 +8,36 @@ function generateToken(userId, role) {
 }
 
 function decodeToken(req) {
-    let auth = req.headers.authentication
+  let auth = req.headers.authentication
 
-    if (!auth) {
-        return {
-            isAuthenticated: false,
-            role: null,
-            userId: null,
-            token: null
-        }
-    }
+      if (!auth) {
+          return {
+              isAuthenticated: false,
+              role: null,
+              userId: null,
+              token: null
+          }
+      }
 
-    let token = auth.replace('Bearer ', '')
+      let token = auth.replace('Bearer ', '')
+      let decoded
+      try {
+          decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+      } catch(err) {
+          return {
+              isAuthenticated: false,
+              role: null,
+              userId: null,
+              token: null
+          }
+      }
 
-    let decoded = jwt.verify(token, process.env.TOKEN_SECRET)
-
-    return {
-        isAuthenticated: true,
-        role: decoded.role,
-        userId: decoded.userId,
-        token
-    }
-
-
-
+      return {
+          isAuthenticated: true,
+          role: decoded.role,
+          userId: decoded.userId,
+          token
+      }
 }
 
 export {
