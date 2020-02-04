@@ -7,7 +7,8 @@ function addCategory(req, res, next) {
     let imgUrl = ''
 
     if (req.file) {
-        imgUrl = '/category-images/' + req.file.filename
+        imgUrl = 'http://144.91.100.164:3001/api/v1//category-images/'
+        + req.file.filename
     }
 
     new CategoryModel({
