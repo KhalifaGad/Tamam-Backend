@@ -1,16 +1,17 @@
 import { Router } from 'express'
-import { 
+import {
     addNewScetion,
     getSections,
     updateSection
 } from '../../../../controllers/managment/screens/home'
-import { 
+import {
     addNewHomeSectionVM
 } from '../../../../middlewares/validationsHandler'
 
 const homeScreenRouter = Router()
 
-homeScreenRouter.route('sections')
+// api/v1/management/screens/home/sections
+homeScreenRouter.route('/sections')
     .post(addNewHomeSectionVM, addNewScetion)
     .get(getSections)
     .put(updateSection)

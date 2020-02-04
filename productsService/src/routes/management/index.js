@@ -4,6 +4,7 @@ import { categoriesRouter } from './categories'
 
 const managmentRouter = Router()
 
+// api/v1/management/screens
 managmentRouter.use('/screens', screensRouter)
 
 managmentRouter.use('/categories', categoriesRouter)

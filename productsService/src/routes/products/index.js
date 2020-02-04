@@ -1,14 +1,8 @@
-import {
-    Router
-} from 'express'
-import express from 'express'
-import {
-    addProduct,
-    getProducts,
-    getProduct,
-    deleteProduct,
-    updateProduct
-} from '../../controllers/products'
+import { Router } from 'express';
+import multer from 'multer'
+
+import path from 'path'
+
 import {
     addProdcutVM,
     queryIdVM,
@@ -17,16 +11,21 @@ import {
     getOffersVM
 } from '../../middlewares/validationsHandler'
 import {
-    refactorAddProductReq
-} from '../../middlewares/reqRefactoingHelper'
-import multer from 'multer'
-import path from 'path'
+    addProduct,
+    getProducts,
+    getProduct,
+    deleteProduct,
+    updateProduct
+} from '../../controllers/products'
 import {
     getProductOffers,
     addOffer,
     editOffer,
     getOffers
 } from '../../controllers/offers'
+import {
+    refactorAddProductReq
+} from '../../middlewares/reqRefactoingHelper'
 
 const productsRouter = Router()
 

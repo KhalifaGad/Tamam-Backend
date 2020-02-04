@@ -1,50 +1,17 @@
-import { CategoryModel } from "../db/categoryModel"
+import { categoriesModule } from '../db/modules/categories';
 
 // query string lang = en or ar
 async function getCategories(req, res, next) {
-    let excludingQuery = {
-        '__v': 0,
-        'subcategories.nameEn': 0,
-        'nameEn': 0
-    },
-        lang = req.query.lang || 'ar',
-        overridenProp = 'nameAr'
+    let lang = req.query.lang || 'ar',
 
-    if (lang === 'en') {
-        excludingQuery = {
-            '__v': 0,
-            'subcategories.nameAr': 0,
-            'nameAr': 0
-        }
-        overridenProp = 'nameEn'
-    }
+    { error, categories } = await categoriesModule.getCategories(lang)
 
-    await CategoryModel.find({}, {
-        ...excludingQuery
-    }).lean().then(categories => {
+    if(error) return next(boom.internal(err.errmsg))
 
-        categories.map(category => {
-            category.name = category[overridenProp]
-            delete category[overridenProp]
-
-            category.subcategories.map(subcategory => {
-                subcategory.name = subcategory[overridenProp]
-                delete subcategory[overridenProp]
-
-                return subcategory
-            })
-
-            category.imgUrl = category.imgUrl || ""
-            return category
-        })
-
-        return res.status(200).send({
-            isSuccessed: true,
-            data: categories,
-            error: null
-        })
-    }).catch(err => {
-        return next(boom.internal(err.errmsg))
+    return res.status(200).send({
+        isSuccessed: true,
+        data: categories,
+        error: null
     })
 }
 

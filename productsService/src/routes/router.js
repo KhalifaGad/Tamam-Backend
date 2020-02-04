@@ -13,7 +13,7 @@ router.use('/products', productsRouter)
 router.use('/management', managementRouter)
 
 router.use('/customer', customerRouter)
-
+// api/v1//home-service
 router.use('/home-service', homeServiceRouter)
 
 // serving static images
