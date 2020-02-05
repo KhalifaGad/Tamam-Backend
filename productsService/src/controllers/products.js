@@ -10,7 +10,7 @@ import { ProductModel } from '../db/models/productModel';
  */
 // this function is missing autherization and authentication but for testing purposes
 function addProduct(req, res, next) {
-
+    
     let product = new ProductModel({
         ...req.body
     })
@@ -34,16 +34,20 @@ function addProduct(req, res, next) {
  */
 // it accepts query strings: lang, skip, limit
 // c = categoryId, s = subcategoryId,
-//d = date ascending 'A' or descending 'D'
+// d = date ascending 'A' or descending 'D'
+// CoI = country Id required
 async function getProducts(req, res, next) {
 
     let limit = parseInt(req.query.limit) || 0,
         skip = parseInt(req.query.skip) || 0,
+        countryId = req.query.CoI,
         categoryId = req.query.c || null,
         subcategoryId = req.query.s || null,
         searchingQuery = {},
         dateSorting = req.query.d === 'D' ?
             '-uploadDate' : 'uploadDate'
+
+    searchingQuery.availableCountries = countryId
 
     if (categoryId) {
         searchingQuery.categoryId = categoryId
@@ -70,6 +74,7 @@ async function getProducts(req, res, next) {
             docs = docs.map(product => {
                 product.name = product.name[retrevingLang]
                 product.description = product.description[retrevingLang]
+                product.keyImage = product.images[0] || ""
                 return product
             })
             return res.status(200).send({
