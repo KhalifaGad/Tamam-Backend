@@ -23,7 +23,8 @@ async function addUser(req, res, next) {
         imgURL = ''
 
     if (req.file) {
-        imgURL = 'http://144.91.100.164:3002/api/v1/images/' + req.file.filename
+        imgURL = 'http://144.91.100.164:3002/api/v1/user-image/' 
+        + req.file.filename
     }
 
     if (!checkPass(password)) {

@@ -31,8 +31,6 @@ let storage = multer.diskStorage({
         storage
     })
 
-usersRouter.use('/images', express.static('userImages'))
-
 // api/v1/users
 usersRouter.route('/')
     .post(upload.single('userPic'), addUserValidation, addUser)
