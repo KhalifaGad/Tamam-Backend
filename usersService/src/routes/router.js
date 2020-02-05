@@ -5,6 +5,7 @@ import { countriesRouter } from './countries'
 
 const router = Router()
 
+router.use('/images', express.static('userImages'))
 // the full path is /api/v1/users
 router.use('/users', usersRouter)
 
