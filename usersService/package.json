@@ -29,15 +29,5 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.7.7",
     "@babel/polyfill": "^7.7.0",
     "@babel/preset-env": "^7.7.7"
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   }
-=======
-  },
-  "devDependencies": {}
->>>>>>> Stashed changes
-=======
-  },
-  "devDependencies": {}
->>>>>>> Stashed changes
 }
