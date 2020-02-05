@@ -5,7 +5,6 @@ import { countriesRouter } from './countries'
 
 const router = Router()
 
-router.use('/images', express.static('userImages'))
 // the full path is /api/v1/users
 router.use('/users', usersRouter)
 
@@ -14,5 +13,7 @@ router.use('/auth', authRouter)
 
 // the full path is /api/v1/countries
 router.use('/countries', countriesRouter)
+
+router.use('/images', express.static('userImages'))
 
 export { router }
