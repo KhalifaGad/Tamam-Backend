@@ -81,12 +81,18 @@ const addHomeSectionVS = Joi.object({
 const addOfferVS = Joi.object({
     discountRatio: Joi.number().required(),
     startingDate: Joi.date(),
-    expirationDate: Joi.date().required()
+    expirationDate: Joi.date().required(),
+    availableCountries: Joi.array()
+        .items(Joi.custom(
+            mongooseIdJoiHelper,
+            'custom validation').required()
+        ).required()
 })
 
 const getOffersVS = Joi.object({
     limit: Joi.number(),
-    page: Joi.number()
+    page: Joi.number(),
+    CoI: Joi.custom(mongooseIdJoiHelper, 'custom validation')
 })
 
 const addCategoryVS = Joi.object({
