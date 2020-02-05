@@ -49,6 +49,10 @@ let productSchema = mongoose.Schema({
     uploadDate: {
         type: Date,
         default: new Date()
+    },
+    availableCountries: {
+        type: [mongoose.Schema.Types.ObjectId],
+        required: true
     }
 })
 

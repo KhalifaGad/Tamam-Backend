@@ -10,16 +10,17 @@ function refactorAddProductReq(req, res, next) {
         },
         price: req.body.price,
         categoryId: req.body.categoryId,
-        subcategory: req.body.subcategoryId,
+        subcategoryId: req.body.subcategoryId,
         quantity: {
             val: req.body.quantityVal,
             measurement: req.body.quantityMeasurement
         },
         isTurkish: req.body.isTurkish,
+        availableCountries: req.body.availableCountries
     }
     let images = []
     req.files.forEach((file)=> {
-        images.push('http://localhost:3001/api/v1/product-images/' 
+        images.push('http://144.91.100.164:3001/api/v1/product-images/' 
         + file.filename)
     })
     product.images = images
