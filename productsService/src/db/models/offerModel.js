@@ -21,8 +21,11 @@ let offerSchema = mongoose.Schema({
     expirationDate: {
         type: Date,
         required: true
+    },
+    availableCountries: {
+        type: [mongoose.Schema.Types.ObjectId],
+        required: true
     }
-    // country ids -> array
 })
 
 let OfferModel = mongoose.model('Offer', offerSchema)
