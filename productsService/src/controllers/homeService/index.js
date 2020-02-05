@@ -10,6 +10,8 @@ async function getHomeSections(req, res, next) {
     homeSections,
     lang = req.query.lang || 'ar',
     langQuery = '&lang=' + lang,
+    CoI = req.query.CoI,
+    CoIQuery = '&CoI=' + CoI
     homeSeactionName = lang == 'en'? 'sectionNameEn' : 'sectionNameAr'
   if (req.query.active) {
     queryOp.active = req.query.active
@@ -23,12 +25,15 @@ async function getHomeSections(req, res, next) {
     return next(boom.internal(err))
   }
   // this variable will be removed on server
-  let arbitraryLink = 'http://localhost:3001/api/v1/products?d=D&limit=5' + langQuery
+  let arbitraryLink = 
+    'http://localhost:3001/api/v1/products?d=D&limit=5'
+    + langQuery
+    + CoIQuery
 
   let promisesArr = homeSections.map(homeSection => {
     return new Promise((resolve, reject) => {
       let link = homeSection.serverEndPointURL ?
-        homeSection.serverEndPointURL + langQuery : arbitraryLink
+        homeSection.serverEndPointURL + langQuery + CoIQuery : arbitraryLink
       resolve(axios.get(link))
     }).then(response => {
       return {
