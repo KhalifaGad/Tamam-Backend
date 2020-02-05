@@ -11,8 +11,8 @@ async function getHomeSections(req, res, next) {
     lang = req.query.lang || 'ar',
     langQuery = '&lang=' + lang,
     CoI = req.query.CoI,
-    CoIQuery = '&CoI=' + CoI
-    homeSeactionName = lang == 'en'? 'sectionNameEn' : 'sectionNameAr'
+    CoIQuery = '&CoI=' + CoI,
+    homeSectionName = lang == 'en'? 'sectionNameEn' : 'sectionNameAr'
   if (req.query.active) {
     queryOp.active = req.query.active
   }
@@ -37,7 +37,7 @@ async function getHomeSections(req, res, next) {
       resolve(axios.get(link))
     }).then(response => {
       return {
-        name: homeSection[homeSeactionName],
+        name: homeSection[homeSectionName],
         URL: homeSection.clientEndPointURL || arbitraryLink,
         data: response.data.data,
       }
