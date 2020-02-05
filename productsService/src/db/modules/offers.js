@@ -1,13 +1,14 @@
 import { OfferModel } from '../models/offerModel'
 
 const offersModule = {
-  async getOffers(limit = 0, page = 0, lang = 'arabic') {
+  async getOffers(limit = 0, page = 0, lang = 'arabic', countryId) {
     let offers = null, error = null
     try {
       let queryOp = {}
       queryOp.expirationDate = {
         '$gte': new Date()
       }
+      queryOp.availableCountries = countryId
       offers = await OfferModel.find({
         ...queryOp
       })

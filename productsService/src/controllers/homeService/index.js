@@ -61,7 +61,7 @@ async function getHomeSections(req, res, next) {
     })
 
   let offersPromise = new Promise((resolve, reject) => {
-    resolve(offersModule.getOffers(5, 0, lang == 'en' ? 'english' : 'arabic'))
+    resolve(offersModule.getOffers(5, 0, lang == 'en' ? 'english' : 'arabic', CoI))
   })
     .then(offers => {
       return {

@@ -6,12 +6,12 @@ import { offersModule } from '../db/modules/offers'
 
 // the full path is /api/v1/products/:id/offers
 // it accepts 'exp' true or false as query string, default false
-function getProductOffers (req, res, next) {
-  let {id} = req.params,
+function getProductOffers(req, res, next) {
+  let { id } = req.params,
     exp = req.query.exp || false,
     queryOp = {
       productId: id
-  }
+    }
 
   // if exp is true, authorization must be required
   if (!exp) {
@@ -25,8 +25,8 @@ function getProductOffers (req, res, next) {
   }).then(offers => {
 
     let data =
-    exp === 'true' ?
-      offers : offers[0] || null
+      exp === 'true' ?
+        offers : offers[0] || null
 
     res.status(200).send({
       isSuccessed: true,
@@ -38,10 +38,14 @@ function getProductOffers (req, res, next) {
   })
 }
 
-async function addOffer (req, res, next) {
-  let {id} = req.params,{discountRatio, expirationDate, startingDate} = req.body
-
-  if (!startingDate) startingDate = new Date()
+async function addOffer(req, res, next) {
+  let { id } = req.params, 
+  { 
+    discountRatio, 
+    expirationDate, 
+    startingDate = new Date(),
+    availableCountries
+  } = req.body
 
   let product = await ProductModel.findById(id)
 
@@ -52,7 +56,9 @@ async function addOffer (req, res, next) {
     discountRatio,
     price: product.price,
     expirationDate,
-  startingDate})
+    startingDate,
+    availableCountries
+  })
 
   offer.save().then(offer => {
     res.status(201).send({
@@ -65,17 +71,18 @@ async function addOffer (req, res, next) {
   })
 }
 
-function editOffer (req, res, next) {
+function editOffer(req, res, next) {
 }
 
 // it accepts query string: page, limit
 // the full path is /api/v1/products/offers
-async function getOffers (req, res, next) {
+async function getOffers(req, res, next) {
   let limit = parseInt(req.query.limit) || 0,
     page = parseInt(req.query.page) || 0,
-    retrevedLang = req.query.lang == 'en'? 'english' : 'arabic'
+    retrevedLang = req.query.lang == 'en' ? 'english' : 'arabic',
+    countryId = req.query.CoI || '5e3009b977a745002d1acbf7' // this would be changed to KSA CoI
 
-  let {error, offers} = await offersModule.getOffers(limit, page, retrevedLang)
+  let { error, offers } = await offersModule.getOffers(limit, page, retrevedLang, countryId)
   if (error) return next(boom.internal(error))
 
   return res.status(200).send({
