@@ -40,7 +40,7 @@ async function getProducts(req, res, next) {
 
     let limit = parseInt(req.query.limit) || 0,
         skip = parseInt(req.query.skip) || 0,
-        countryId = req.query.CoI,
+        countryId = req.query.CoI || '5e3009b977a745002d1acbf7', // this will be changed to KSA CoI
         categoryId = req.query.c || null,
         subcategoryId = req.query.s || null,
         searchingQuery = {},

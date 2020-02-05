@@ -10,7 +10,7 @@ async function getHomeSections(req, res, next) {
     homeSections,
     lang = req.query.lang || 'ar',
     langQuery = '&lang=' + lang,
-    CoI = req.query.CoI,
+    CoI = req.query.CoI || '5e3009b977a745002d1acbf7', // this will be changed 
     CoIQuery = '&CoI=' + CoI,
     homeSectionName = lang == 'en'? 'sectionNameEn' : 'sectionNameAr'
   if (req.query.active) {
