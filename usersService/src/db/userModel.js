@@ -47,7 +47,7 @@ let userSchema = mongoose.Schema({
         enum: ["ANDROID", "IOS", "WEB"]
     },
     imgURL: String
-})
+}, { versionKey: false })
 
 let UserModel = mongoose.model('User', userSchema)
 

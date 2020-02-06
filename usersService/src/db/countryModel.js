@@ -40,7 +40,7 @@ let countrySchema = mongoose.Schema({
         index: 1
     },
     flagImage: String
-})
+}, { versionKey: false })
 
 let CountryModel = mongoose.model('Country', countrySchema)
 
