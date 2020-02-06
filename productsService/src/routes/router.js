@@ -19,5 +19,6 @@ router.use('/home-service', homeServiceRouter)
 // serving static images
 router.use('/product-images', express.static('productsImages'))
 router.use('/category-images', express.static('categoryImages'))
+router.use('/offer-images', express.static('offersImages'))
 
 export { router }

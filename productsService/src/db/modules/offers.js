@@ -34,14 +34,38 @@ const offersModule = {
       offers
     }
   },
-  async addOffer(offerImgURL,
+  async addOffer(
+    offerImgURL,
     productId,
     discountRatio,
     price,
     expirationDate,
     startingDate,
-    availableCountries) {
+    availableCountries
+  ) {
 
+    let offer = null
+
+    try {
+      offer = await new OfferModel({
+        offerImgURL,
+        productId,
+        discountRatio,
+        price,
+        expirationDate,
+        startingDate,
+        availableCountries
+      }).save()
+    } catch (err) {
+      return {
+        offer,
+        err
+      }
+    }
+    return {
+      offer,
+      err: null
+    }
   }
 }
 

@@ -66,10 +66,18 @@ async function getHomeSections(req, res, next) {
   let offersPromise = new Promise((resolve, reject) => {
     resolve(offersModule.getOffers(5, 0, lang == 'en' ? 'english' : 'arabic', CoI))
   })
-    .then(offers => {
+    .then(data => {
+      let offers = data.offers.map(offer => {
+        delete offer.availableCountries
+        delete offer.product.isTurkish
+        delete offer.product.availableCountries
+        delete offer.product.quantity
+        return offer
+      })
+
       return {
         name: 'offers',
-        data: offers.offers
+        data: offers
       }
     })
     .catch(err => {
