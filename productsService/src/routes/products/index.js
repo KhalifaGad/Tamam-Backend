@@ -1,7 +1,4 @@
 import { Router } from 'express';
-import multer from 'multer'
-
-import path from 'path'
 
 import {
     addProdcutVM,
@@ -26,32 +23,9 @@ import {
 import {
     refactorAddProductReq
 } from '../../middlewares/reqRefactoingHelper'
+import { uploadHelper } from '../../middlewares/multerHelper';
 
 const productsRouter = Router()
-
-let prductsImgsStorage = multer.diskStorage({
-    destination: 'productsImages/',
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' +
-            Date.now() +
-            path.extname(file.originalname))
-    }
-}),
-    offersImgsStorage = multer.diskStorage({
-        destination: 'offersImages/',
-        filename: function (req, file, cb) {
-            cb(null, file.fieldname + '-' +
-                Date.now() +
-                path.extname(file.originalname))
-        }
-    })
-
-let uploadProductImg = multer({
-    prductsImgsStorage
-}),
-    uploadOfferImg = multer({
-        offersImgsStorage
-    })
 
 // the full path is /api/v1/products
 // get all products
@@ -61,7 +35,7 @@ productsRouter.route('/')
 // the full path is /api/v1/products/product
 // add new product
 productsRouter.route('/product')
-    .post(uploadProductImg.array('photos', 6), addProdcutVM,
+    .post(uploadHelper('productsImages/').array('photos', 6), addProdcutVM,
         refactorAddProductReq,
         addProduct)
 
@@ -80,7 +54,7 @@ productsRouter.route('/:id')
 // the full path is /api/v1/products/:id/offers
 productsRouter.route('/:id/offers')
     .get(queryIdVM, getProductOffers)
-    .post(uploadOfferImg.single('offerImg'), addOfferVM, addOffer)
+    .post(uploadHelper('offersImages/').single('offerImg'), addOfferVM, addOffer)
 
 // the full path is /api/v1/products/:id/offers/:id
 productsRouter.route('/:productId/offers/:offerId')
