@@ -30,6 +30,9 @@ async function getHomeSections(req, res, next) {
     + langQuery
     + CoIQuery
 
+    // duplicate home sections just for testing
+    homeSections = homeSections.concat(homeSections)
+
   let promisesArr = homeSections.map(homeSection => {
     return new Promise((resolve, reject) => {
       let link = homeSection.serverEndPointURL ?
