@@ -29,18 +29,29 @@ import {
 
 const productsRouter = Router()
 
-let storage = multer.diskStorage({
+let prductsImgsStorage = multer.diskStorage({
     destination: 'productsImages/',
     filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' +
             Date.now() +
             path.extname(file.originalname))
     }
-})
+}),
+    offersImgsStorage = multer.diskStorage({
+        destination: 'offersImages/',
+        filename: function (req, file, cb) {
+            cb(null, file.fieldname + '-' +
+                Date.now() +
+                path.extname(file.originalname))
+        }
+    })
 
-let upload = multer({
-    storage
-})
+let uploadProductImg = multer({
+    prductsImgsStorage
+}),
+    uploadOfferImg = multer({
+        offersImgsStorage
+    })
 
 // the full path is /api/v1/products
 // get all products
@@ -50,7 +61,7 @@ productsRouter.route('/')
 // the full path is /api/v1/products/product
 // add new product
 productsRouter.route('/product')
-    .post(upload.array('photos', 6), addProdcutVM,
+    .post(uploadProductImg.array('photos', 6), addProdcutVM,
         refactorAddProductReq,
         addProduct)
 
@@ -69,7 +80,7 @@ productsRouter.route('/:id')
 // the full path is /api/v1/products/:id/offers
 productsRouter.route('/:id/offers')
     .get(queryIdVM, getProductOffers)
-    .post(addOfferVM, addOffer)
+    .post(/* uploadOfferImg.single('offerImg'), */ addOfferVM, addOffer)
 
 // the full path is /api/v1/products/:id/offers/:id
 productsRouter.route('/:productId/offers/:offerId')

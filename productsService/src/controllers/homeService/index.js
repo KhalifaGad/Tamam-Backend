@@ -73,8 +73,8 @@ async function getHomeSections(req, res, next) {
       console.log(err)
       return []
     })
-
-  promisesArr.push(...[offersPromise, categoriesPromise])
+    // duplicate offer promise for testing
+  promisesArr.push(...[offersPromise, offersPromise, categoriesPromise])
 
   let homeData = await Promise.all(promisesArr).then((values) => {
     return values
