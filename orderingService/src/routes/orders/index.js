@@ -3,15 +3,25 @@ import {
     makeOrder,
     getUserOrders
 } from '../../controllers/orders'
-import { 
+import {
     makeOrderVM,
-    mongooseIdReqParamVM
+    mongooseIdReqParamVM,
+    getAddressVM,
+    addAddressVM
 } from '../../middlewares/validationHandler'
+import { getUserAddresses, addAddress, getAdress } from '../../controllers/addresses'
 
 const ordersRouter = Router()
 
 ordersRouter.route('/user/:id')
     .get(mongooseIdReqParamVM, getUserOrders)
+
+ordersRouter.route('/user/:id/addresses')
+    .get(mongooseIdReqParamVM, getUserAddresses)
+    .post(mongooseIdReqParamVM, addAddressVM, addAddress)
+
+ordersRouter.route('/user/:userId/addresses/:addressId')
+    .get(getAddressVM, getAdress)
 
 
 ordersRouter.route('/')

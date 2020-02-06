@@ -11,4 +11,11 @@ const mongooseIdVS = Joi.object({
         'custom validation').required()
 })
 
-export { mongooseIdVS }
+const getAddressVS = Joi.object({
+    userId: Joi.custom(isMongooseId,
+        'custom validation').required(),
+    addressId: Joi.custom(isMongooseId,
+        'custom validation').required()
+})
+
+export { mongooseIdVS, getAddressVS }

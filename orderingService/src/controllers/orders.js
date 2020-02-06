@@ -1,4 +1,4 @@
-import OrderModel from '../db/orderModel'
+import OrderModel from '../db/models/order'
 import boom from '@hapi/boom'
 import axios from 'axios'
 
