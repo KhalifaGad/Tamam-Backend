@@ -7,7 +7,7 @@ let tokensSchema = new mongoose.Schema({
         type: Date,
         default: new Date()
     } 
-})
+}, { versionKey: false })
 
 let TokensModel = mongoose.model('Tokens', tokensSchema)
 

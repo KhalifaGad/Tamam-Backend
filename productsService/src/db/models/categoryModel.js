@@ -33,7 +33,7 @@ let categorySchema = mongoose.Schema({
         ],
         index: 1
     }
-})
+}, { versionKey: false })
 
 let CategoryModel = mongoose.model('Category', categorySchema)
 

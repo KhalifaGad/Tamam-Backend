@@ -18,7 +18,7 @@ let verificationSchema = mongoose.Schema({
         required: true,
         unique: true
     }
-})
+}, { versionKey: false })
 
 let VerificationModel = mongoose.model('Verification',
     verificationSchema)

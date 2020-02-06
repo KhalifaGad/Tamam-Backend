@@ -33,7 +33,7 @@ let homeSectionSchema = mongoose.Schema({
     type: Number,
     default: 5
   }
-})
+}, { versionKey: false })
 
 let HomeSections = mongoose.model('HomeScreen', homeSectionSchema)
 

@@ -26,7 +26,7 @@ let offerSchema = mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         required: true
     }
-})
+}, { versionKey: false })
 
 let OfferModel = mongoose.model('Offer', offerSchema)
 
