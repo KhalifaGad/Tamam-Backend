@@ -80,7 +80,7 @@ productsRouter.route('/:id')
 // the full path is /api/v1/products/:id/offers
 productsRouter.route('/:id/offers')
     .get(queryIdVM, getProductOffers)
-    .post(/* uploadOfferImg.single('offerImg'), */ addOfferVM, addOffer)
+    .post(uploadOfferImg.single('offerImg'), addOfferVM, addOffer)
 
 // the full path is /api/v1/products/:id/offers/:id
 productsRouter.route('/:productId/offers/:offerId')

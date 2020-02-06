@@ -39,35 +39,38 @@ function getProductOffers(req, res, next) {
 }
 
 async function addOffer(req, res, next) {
-  let { id } = req.params, 
-  { 
-    discountRatio, 
-    expirationDate, 
-    startingDate = new Date(),
-    availableCountries
-  } = req.body
+  let { id } = req.params,
+    {
+      discountRatio,
+      expirationDate,
+      startingDate = new Date(),
+      availableCountries
+    } = req.body
 
   let product = await ProductModel.findById(id)
 
-  if (!product) next(boom.notFound('There are no product for this id'))
+  if (!req.file) return next(boom.badData('Offer image is required'))
 
-  let offer = new OfferModel({
-    productId: id,
-    discountRatio,
-    price: product.price,
-    expirationDate,
-    startingDate,
-    availableCountries
-  })
+  let offerImgURL = 'http://144.91.100.164:3001/api/v1/offer-images/'
+    + req.file.filename
 
-  offer.save().then(offer => {
-    res.status(201).send({
-      isSuccessed: true,
-      data: offer,
-      error: null
-    })
-  }).catch(err => {
-    next(boom.internal(err))
+  if (!product) return next(boom.notFound('There are no product for this id'))
+
+
+  let {
+    offer,
+    err
+  } = await offersModule.addOffer(offerImgURL, id, discountRatio,
+    product.price, expirationDate, startingDate, availableCountries)
+
+  if (err) {
+    return next(boom.internal(err))
+  }
+
+  return res.status(201).send({
+    isSuccessed: true,
+    data: offer,
+    error: null
   })
 }
 
