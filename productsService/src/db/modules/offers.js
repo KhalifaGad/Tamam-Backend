@@ -13,7 +13,6 @@ const offersModule = {
         ...queryOp
       })
         .sort('startingDate')
-        .select('-__v')
         .limit(limit)
         .skip(page)
         .populate('productId')
@@ -34,6 +33,15 @@ const offersModule = {
       error,
       offers
     }
+  },
+  async addOffer(offerImgURL,
+    productId,
+    discountRatio,
+    price,
+    expirationDate,
+    startingDate,
+    availableCountries) {
+
   }
 }
 

@@ -1,6 +1,10 @@
 import mongoose from 'mongoose'
 
 let offerSchema = mongoose.Schema({
+    offerImgURL: {
+        type: String,
+        required: true
+    },
     productId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
