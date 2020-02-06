@@ -34,7 +34,7 @@ let userAddressesSchema = mongoose.Schema({
         }],
         index: 1
     }
-})
+}, { versionKey: false })
 
 let userAddressesModel = mongoose
     .model('UserAddresses', userAddressesSchema)

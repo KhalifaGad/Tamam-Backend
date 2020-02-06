@@ -57,7 +57,7 @@ let orderSchema = mongoose.Schema({
         enum: ['COD', 'ONLINE'],
         default: 'COD'
     }
-})
+}, { versionKey: false })
 
 let orderModel = mongoose.model('OrderModel', orderSchema)
 
