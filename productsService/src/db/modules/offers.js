@@ -15,8 +15,14 @@ const offersModule = {
         .sort('startingDate')
         .limit(limit)
         .skip(page)
-        .populate('productId')
-        .populate('categoryId')
+        /* .populate('productId')
+        .populate('categoryId') */
+        .populate({
+          path: 'productId',
+          populate: {
+            path: 'categoryId'
+          }
+        })
         .lean()
 
       offers = offers.map(offer => {
