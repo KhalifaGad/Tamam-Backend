@@ -53,7 +53,7 @@ const addressesModule = {
 
                 addressId = userAddress.addresses[indexOfAddress]._id
 
-                userAddress = await this.makeItMain(userId, addressId)
+            userAddress = await this.toggleMainAddress(userId, addressId, true)
         }
 
         return {
@@ -61,8 +61,22 @@ const addressesModule = {
             err: null
         }
     },
-    async makeItMain(userId, addressId) {
-        return userAddressesModel.setMainAddress(userId, addressId)
+    async toggleMainAddress(userId, addressId, isMain) {
+        if (isMain) {
+            return userAddressesModel.setMainAddress(userId, addressId)
+        }
+
+        const filter = {
+            userId
+        }
+
+        let userAddresses = await userAddressesModel.findOne(filter),
+            mainAddressIndex = userAddresses.addresses.map(address => {
+                return address._id
+            }).indexOf(addressId)
+
+        userAddresses.addresses[mainAddressIndex].isMainAddres = false
+        return await userAddresses.save()
     }
 }
 

@@ -12,4 +12,8 @@ const addAddressVS = Joi.object({
     isMainAddres: Joi.boolean(),
 })
 
-export { addAddressVS }
+const toggleMainAddressVS = Joi.object({
+    isMain: Joi.boolean().required()
+})
+
+export { addAddressVS, toggleMainAddressVS }
