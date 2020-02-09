@@ -6,7 +6,7 @@ import axios from 'axios'
 
 // query string: active true or false
 async function getHomeSections(req, res, next) {
-  let auth = req.headers.authentication
+  let auth = req.headers.authentication || null
   let queryOp = {},
     homeSections,
     lang = req.query.lang || 'ar',
@@ -37,7 +37,7 @@ async function getHomeSections(req, res, next) {
   let promisesArr = homeSections.map(homeSection => {
     return new Promise((resolve, reject) => {
       let link = homeSection.serverEndPointURL ?
-        homeSection.serverEndPointURL + langQuery + CoIQuery + '&inc=true' : arbitraryLink
+        homeSection.serverEndPointURL + langQuery + CoIQuery : arbitraryLink
       resolve(axios.get(link, {
         headers: {
           authentication: auth
