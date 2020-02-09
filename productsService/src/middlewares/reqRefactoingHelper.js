@@ -15,7 +15,7 @@ function refactorAddProductReq(req, res, next) {
             val: req.body.quantityVal,
             measurement: req.body.quantityMeasurement
         },
-        isTurkish: req.body.isTurkish,
+        brandName: req.body.brandName,
         availableCountries: req.body.availableCountries
     }
     let images = []

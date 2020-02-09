@@ -28,8 +28,13 @@ let productSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    categoryId: mongoose.Schema.Types.ObjectId,
-    subcategoryId: mongoose.Schema.Types.ObjectId,
+    categoryId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category'
+    },
+    subcategoryId: { 
+        type: mongoose.Schema.Types.ObjectId,
+    },
     quantity: {
         val: {
             type: Number,
@@ -42,9 +47,20 @@ let productSchema = mongoose.Schema({
         }
     },
     offerId: mongoose.Schema.Types.ObjectId,
-    isTurkish: {
-        type: Boolean,
-        default: true
+    brandName: String,
+    rating: {
+        value: {
+            type: Number,
+            default: 5
+        },
+        count: {
+            type: Number,
+            default: 1
+        }
+    },
+    seller: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     },
     uploadDate: {
         type: Date,

@@ -8,9 +8,11 @@ import { ProductModel } from '../db/models/productModel';
  * @param res: response param
  * @param next: express middleware function
  */
-// this function is missing autherization and authentication but for testing purposes
+// this function is missing autherization and authentication but for testing purposes,
+// in the authorization we will get the seller data and put its id in the product,
+// put for now I will set it 5e304d348ca5dd005fc89f12 as refrence to Khalifa Gad user
 function addProduct(req, res, next) {
-    
+    req.body.seller = '5e304d348ca5dd005fc89f12'
     let product = new ProductModel({
         ...req.body
     })
@@ -60,7 +62,10 @@ async function getProducts(req, res, next) {
     let retrevingLang =
         req.query.lang === "en"
             ? 'english'
-            : 'arabic'
+            : 'arabic',
+        categoryLang = req.query.lang === "en"
+            ? 'nameEn'
+            : 'nameAr'
 
     await ProductModel.find({
         ...searchingQuery
@@ -69,12 +74,16 @@ async function getProducts(req, res, next) {
         .skip(skip)
         .select('-__v')
         .sort(dateSorting)
+        .populate('categoryId')
         .lean()
         .then(docs => {
             docs = docs.map(product => {
                 product.name = product.name[retrevingLang]
                 product.description = product.description[retrevingLang]
                 product.keyImage = product.images[0] || ""
+                product.categoryName = product.categoryId[categoryLang]
+                product.seller = "Khalifa Gad"
+                delete product.categoryId
                 return product
             })
             return res.status(200).send({
