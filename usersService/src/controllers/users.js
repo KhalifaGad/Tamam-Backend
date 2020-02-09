@@ -110,6 +110,10 @@ function updateUser(req, res, next) {
 
 }
 
+function editUserFavs(req, res, next){
+    
+}
+
 function deleteUser(req, res, next) {
 
 }
