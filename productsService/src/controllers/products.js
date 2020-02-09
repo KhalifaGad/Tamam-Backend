@@ -1,6 +1,7 @@
 import boom from '@hapi/boom'
 
 import { ProductModel } from '../db/models/productModel';
+import { requestAuth } from '../utils/authRequest';
 
 /**
  * Post "api/v1/products/product" handler function
@@ -39,6 +40,13 @@ function addProduct(req, res, next) {
 // d = date ascending 'A' or descending 'D'
 // CoI = country Id required
 async function getProducts(req, res, next) {
+    let favorites = [],
+        auth = req.headers.authentication
+
+    if (auth) {
+        let user = await requestAuth(auth)
+        return res.send('ok')
+    }
 
     let limit = parseInt(req.query.limit) || 0,
         skip = parseInt(req.query.skip) || 0,
