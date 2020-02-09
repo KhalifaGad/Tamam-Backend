@@ -54,6 +54,7 @@ const addressesModule = {
                 addressId = userAddress.addresses[indexOfAddress]._id
 
             userAddress = await this.toggleMainAddress(userId, addressId, true)
+            console.log(userAddress)
         }
 
         return {
