@@ -34,7 +34,7 @@ async function authenticate(req, res, next) {
     }
     //tokenModel
     let token = generateToken(user._id, user.role)
-
+    
     let tokensModel = new TokensModel({
         token,
         userId: user._id
@@ -43,6 +43,7 @@ async function authenticate(req, res, next) {
     tokensModel.save().catch(err => {
         console.log('saving token error, Error:' + err)
     })
+    console.log(tokensModel.token)
 
     if (user.lastActiveDevice !== device) {
         user.lastActiveDevice = device
@@ -77,7 +78,7 @@ async function authenticate(req, res, next) {
 
 // check for the old tokens too for the same user Id
 async function getUserCardinalities(req, res, next) {
-    let isUserIncluded = req.params.inc || false,
+    let isUserIncluded = req.query.inc || false,
         user = null,
         docodingRes = decodeToken(req)
 
@@ -87,7 +88,7 @@ async function getUserCardinalities(req, res, next) {
 
     let tokenModel = await TokensModel.findOne({
         userId: docodingRes.userId
-    }).sort('issueDate')
+    }).sort('-issueDate')
 
     if (tokenModel.token !== docodingRes.token) {
         return res.status(302).send({

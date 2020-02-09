@@ -6,7 +6,8 @@ async function requestAuth(auth){
         headers: {
             authentication: auth
         }
-    }).get('/auth/user/cardinalities').catch(err => {
+    }).get('/auth/user/cardinalities?inc=true').catch(err => {
+        //console.log(err)
         return {
             isInternalError: true
         }
@@ -16,8 +17,10 @@ async function requestAuth(auth){
         return null
     }
 
-    console.log(authResponse.data)
-    return authResponse.data
+    if(!authResponse.data.isSuccessed){
+        return null
+    }
+    return authResponse.data.data.user
 }
 
 export { requestAuth }
