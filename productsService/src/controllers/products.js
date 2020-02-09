@@ -82,8 +82,8 @@ async function getProducts(req, res, next) {
                 product.description = product.description[retrevingLang]
                 product.keyImage = product.images[0] || ""
                 product.categoryName = product.categoryId[categoryLang]
+                product.categoryId = product.categoryId._id
                 product.seller = "Khalifa Gad"
-                delete product.categoryId
                 return product
             })
             return res.status(200).send({

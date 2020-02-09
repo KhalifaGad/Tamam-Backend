@@ -2,6 +2,7 @@ import { OfferModel } from '../models/offerModel'
 
 const offersModule = {
   async getOffers(limit = 0, page = 0, lang = 'arabic', countryId) {
+    let categoryLang = lang === 'arabic'? 'nameAr' : 'nameEn'
     let offers = null, error = null
     try {
       let queryOp = {}
@@ -15,8 +16,6 @@ const offersModule = {
         .sort('startingDate')
         .limit(limit)
         .skip(page)
-        /* .populate('productId')
-        .populate('categoryId') */
         .populate({
           path: 'productId',
           populate: {
@@ -28,6 +27,9 @@ const offersModule = {
       offers = offers.map(offer => {
         offer.product = offer.productId
         delete offer.productId
+
+        offer.product.categoryName = offer.product.categoryId[categoryLang]
+        offer.product.categoryId = offer.product.categoryId._id
 
         offer.product.name = offer.product.name[lang]
         offer.product.description = offer.product.description[lang]
