@@ -45,7 +45,9 @@ async function getProducts(req, res, next) {
         
     if (auth) {
         let user = await requestAuth(auth)
-        favorites = user.favourites
+        if(user){
+            favorites = user.favourites
+        }
     }
 
     let limit = parseInt(req.query.limit) || 0,
