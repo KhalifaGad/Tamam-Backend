@@ -45,7 +45,7 @@ async function getProducts(req, res, next) {
         
     if (auth) {
         let user = await requestAuth(auth)
-        return res.send('ok')
+        favorites = user.favourites
     }
 
     let limit = parseInt(req.query.limit) || 0,
@@ -86,6 +86,8 @@ async function getProducts(req, res, next) {
         .lean()
         .then(docs => {
             docs = docs.map(product => {
+                product.isFav = favorites.indexOf(product._d) == -1 ?
+                    false : true
                 product.name = product.name[retrevingLang]
                 product.description = product.description[retrevingLang]
                 product.keyImage = product.images[0] || ""
