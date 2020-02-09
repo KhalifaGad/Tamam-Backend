@@ -7,9 +7,15 @@ import {
     makeOrderVM,
     mongooseIdReqParamVM,
     getAddressVM,
-    addAddressVM
+    addAddressVM,
+    toggleMainAddressVM
 } from '../../middlewares/validationHandler'
-import { getUserAddresses, addAddress, getAdress } from '../../controllers/addresses'
+import { 
+    getUserAddresses, 
+    addAddress, 
+    getAdress, 
+    toggleMainAddress 
+} from '../../controllers/addresses'
 
 const ordersRouter = Router()
 
@@ -19,6 +25,9 @@ ordersRouter.route('/user/:id')
 ordersRouter.route('/user/:id/addresses')
     .get(mongooseIdReqParamVM, getUserAddresses)
     .post(mongooseIdReqParamVM, addAddressVM, addAddress)
+
+ordersRouter.route('/user/:userId/addresses/:addressId/main')
+    .put(getAddressVM, toggleMainAddressVM, toggleMainAddress)
 
 ordersRouter.route('/user/:userId/addresses/:addressId')
     .get(getAddressVM, getAdress)

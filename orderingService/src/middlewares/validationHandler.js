@@ -3,7 +3,7 @@ import {
     mongooseIdVS,
     getAddressVS
 } from '../utils/validationSchemas/mongooseId'
-import { addAddressVS } from '../utils/validationSchemas/addresses'
+import { addAddressVS, toggleMainAddressVS } from '../utils/validationSchemas/addresses'
 
 /* 
     --------------typography-------------
@@ -51,9 +51,20 @@ function addAddressVM(req, res, next) {
     next()
 }
 
+function toggleMainAddressVM(req, res, next){
+    const { error } = toggleMainAddressVS.validate(req.body)
+
+    if (error) {
+        next(boom.badData(error.details[0].message))
+    }
+
+    next()
+}
+
 export {
     makeOrderVM,
     mongooseIdReqParamVM,
     getAddressVM,
-    addAddressVM
+    addAddressVM,
+    toggleMainAddressVM
 }

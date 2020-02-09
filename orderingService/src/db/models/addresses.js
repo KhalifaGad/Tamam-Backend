@@ -43,23 +43,39 @@ let userAddressesSchema = mongoose.Schema({
     }
 }, { versionKey: false })
 
-userAddressesSchema.statics.setMainAddress = function (userId, addressId) {
+userAddressesSchema.statics.setMainAddress = async function (userId, addressId) {
     const filter = {
         userId,
         'addresses._id': addressId
-    },
-        update = { isMainAddres: true }
-    return this.findOneAndUpdate(filter, update, { new: true })
+    }
+
+    let userAddresses = await this.findOne(filter),
+        mainAddressIndex = userAddresses.addresses.map(address => {
+            return address._id
+        }).indexOf(addressId)
+
+    userAddresses.addresses[mainAddressIndex].isMainAddres = true
+
+    return await userAddresses.save()
+
 }
 
-userAddressesSchema.pre('setMainAddress', async (next, userId) => {
+userAddressesSchema.pre('setMainAddress', async function (next, userId) {
 
     const filter = {
         userId,
         'addresses.isMainAddres': true
-    },
-        update = { isMainAddres: false }
-    await this.findOneAndUpdate(filter, update, { new: true })
+    }
+
+    let userAddresses = await this.findOne(filter)
+    if (!userAddresses) next()
+    
+    let mainAddressIndex = userAddresses.addresses.map(address => {
+            return address.isMainAddres
+        }).indexOf(true)
+
+    userAddresses.addresses[mainAddressIndex].isMainAddres = false
+    await userAddresses.save()
     next()
 })
 
