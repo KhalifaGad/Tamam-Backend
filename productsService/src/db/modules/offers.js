@@ -16,6 +16,7 @@ const offersModule = {
         .limit(limit)
         .skip(page)
         .populate('productId')
+        .populate('categoryId')
         .lean()
 
       offers = offers.map(offer => {
