@@ -46,9 +46,9 @@ usersRouter.route('/:id')
     .delete(idQueryParamVM, isIdsEquivalent, deleteUser)
 
 // api/v1/users/:id/favorites
-usersRouter.route('/:id/favorites')
+/* usersRouter.route('/:id/favorites')
     .put(idQueryParamVM, isIdsEquivalent, editUserFavs)
-    .get(idQueryParamVM, isIdsEquivalent, getUserFavs)
+    .get(idQueryParamVM, isIdsEquivalent, getUserFavs) */
 
 usersRouter.route('/verification')
     .post(verifyUserMiddleware, verifyUser)

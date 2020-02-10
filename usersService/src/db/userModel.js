@@ -33,7 +33,7 @@ let userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    favourites: [mongoose.Schema.Types.ObjectId],
+    /* favourites: [mongoose.Schema.Types.ObjectId], */
     points: {
         type: Number,
         default: 0
