@@ -18,6 +18,7 @@ async function editUserFavs(req, res, next) {
             productId,
             user
         } = req.body
+    isNew = isNew + ''
     isNew = isNew == 'false' ? false : true
     let favs = {}
 
