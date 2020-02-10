@@ -2,13 +2,14 @@ import express from 'express'
 import { notFoundFallback } from './controllers/index'
 import { errorHandling } from './middlewares/errorHandler'
 import { router }  from './routes/router'
+import bodyParser from 'body-parser'
 
 let server = express()
-// for application/json requests
-server.use(express.json())
-
 // for application/x-www-form-urlencoded requests
-server.use(express.urlencoded({ extended: true }))
+server.use(bodyParser.urlencoded({ extended: true }))
+
+// for application/json requests
+server.use(bodyParser.json())
 
 // Our api version 1 routes
 server.use('/api/v1', router)
