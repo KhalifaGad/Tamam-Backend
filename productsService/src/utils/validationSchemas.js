@@ -112,6 +112,12 @@ const addSubcategoriesVS = Joi.object({
     })).required()
 })
 
+const editFavsVS = Joi.object({
+    isNew: Joi.boolean().required(),
+    productId: Joi.custom(mongooseIdJoiHelper,
+        'custom validation').required()
+})
+
 export {
     addProductVS,
     getProductsVS,
@@ -120,5 +126,6 @@ export {
     addOfferVS,
     getOffersVS,
     addCategoryVS,
-    addSubcategoriesVS
+    addSubcategoriesVS,
+    editFavsVS
 }

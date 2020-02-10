@@ -1,0 +1,34 @@
+import { FavsModel } from "../models/favourites"
+
+const favoritesModule = {
+    async getUserFavs(userId, lang = 'ar') {
+        const retrievedLang = lang == 'ar' ? 'arabic' : 'english'
+        return await FavsModel.findOne({ userId })
+            .populate('products')
+            .then(products => {
+                products.map(product => {
+                    product.name = product.name[retrievedLang]
+                    product.description = product.description[retrievedLang]
+
+                    return product
+                })
+            })
+    },
+    async addToFav(userId, productId) {
+        return FavsModel.findOneAndUpdate({ userId },
+            { $addToSet: { products: productId } },
+            { new: true })
+    },
+    async removeFromFav(userId, productId) {
+        let favs = await FavsModel.findOne({userId})
+        if(!favs){
+            return null
+        }
+        let productIdIndex = favs.products.indexOf(productId)
+        if (productIdIndex == -1) return favs
+        favs.products.splice(productIdIndex, 1)
+        return await favs.save()
+    }
+}
+
+export { favoritesModule }

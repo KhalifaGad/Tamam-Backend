@@ -63,7 +63,7 @@ async function addUser(req, res, next) {
         data: {
             user: {
                 userName: doc.userName,
-                favourites: doc.favourites || [],
+                /* favourites: doc.favourites || [], */
                 points: doc.points,
                 isVerified: doc.isVerified,
                 _id: doc._id,
@@ -111,7 +111,7 @@ function updateUser(req, res, next) {
 
 }
 
-async function editUserFavs(req, res, next) {
+/* async function editUserFavs(req, res, next) {
     const { id } = req.params
     
     let {
@@ -146,7 +146,7 @@ async function getUserFavs(req, res, next){
         data: user.favourites,
         error: null
     })
-}
+} */
 
 function deleteUser(req, res, next) {
 
