@@ -1,10 +1,11 @@
 import boom from '@hapi/boom'
-import { 
-    addUserValidationSchema, 
-    addCountryValidationSchema, 
+import {
+    addUserValidationSchema,
+    addCountryValidationSchema,
     verifyUserSchema,
     resendVerificationSchema,
-    authenticationSchema
+    authenticationSchema,
+    idQueryParamVS
 } from '../utils/validationSchemas'
 
 function addUserValidation(req, res, next) {
@@ -18,9 +19,9 @@ function addUserValidation(req, res, next) {
 
 }
 
-function addCountryValidation(req, res, next){
+function addCountryValidation(req, res, next) {
     const { error } = addCountryValidationSchema.validate(req.body)
-    
+
     if (error) {
         next(boom.badData(error.details[0].message))
     }
@@ -28,40 +29,51 @@ function addCountryValidation(req, res, next){
     next()
 }
 
-function verifyUserMiddleware(req, res, next){
+function verifyUserMiddleware(req, res, next) {
     const { error } = verifyUserSchema.validate(req.body)
 
-    if(error) {
+    if (error) {
         next(boom.badData(error.details[0].message))
     }
 
     next()
 }
 
-function rsndVrfcMiddleware(req, res, next){
+function rsndVrfcMiddleware(req, res, next) {
     const { error } = resendVerificationSchema.validate(req.body)
 
-    if(error) {
+    if (error) {
         next(boom.badData(error.details[0].message))
     }
 
     next()
 }
 
-function loginValidation(req, res, next){
+function loginValidation(req, res, next) {
     const { error } = authenticationSchema.validate(req.body)
 
-    if(error) {
+    if (error) {
         next(next(boom.badData(error.details[0].message)))
     }
 
     next()
 }
 
-export { 
-    addUserValidation, 
+function idQueryParamVM(req, res, next) {
+    const { error } = idQueryParamVS.validate(req.params)
+
+    if (error) {
+        next(next(boom.badData(error.details[0].message)))
+    }
+
+    next()
+}
+
+export {
+    addUserValidation,
     addCountryValidation,
     verifyUserMiddleware,
     rsndVrfcMiddleware,
-    loginValidation
- }
+    loginValidation,
+    idQueryParamVM
+}

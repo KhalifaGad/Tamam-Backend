@@ -8,6 +8,7 @@ import { VerificationModel } from "../db/verificationModel"
 import { generateToken } from "../utils/JWTHelper"
 import { TokensModel } from "../db/tokensModel"
 import { getPhoneToken } from '../utils/phoneTokenHelper.js'
+import { userModule } from "../db/modules/user"
 // api/v1/users
 async function addUser(req, res, next) {
     let {
@@ -23,8 +24,8 @@ async function addUser(req, res, next) {
         imgURL = ''
 
     if (req.file) {
-        imgURL = 'http://144.91.100.164:3002/api/v1/user-image/' 
-        + req.file.filename
+        imgURL = 'http://144.91.100.164:3002/api/v1/user-image/'
+            + req.file.filename
     }
 
     if (!checkPass(password)) {
@@ -110,8 +111,40 @@ function updateUser(req, res, next) {
 
 }
 
-function editUserFavs(req, res, next){
+async function editUserFavs(req, res, next) {
+    const { id } = req.params
+    let {
+        isNew,
+        productId
+    } = req.body
+
+    isNew = isNew == 'false'? false : true
     
+    let user = await userModule.getUser(id) 
+    
+    if (isNew) {
+        user = await userModule.add2Fav(productId, user)
+    } else {
+        user = await userModule.removeFromFav(productId, user)
+    }
+
+    res.status(201).send({
+        isSuccessed: true,
+        data: user,
+        error: null
+    })
+}
+
+async function getUserFavs(req, res, next){
+    const { id } = req.params
+    let user = await userModule.getUser(id)
+    if(!user) return next(boom.notFound("User not found"))
+    
+    res.status(200).send({
+        isSuccessed: true,
+        data: user.favourites,
+        error: null
+    })
 }
 
 function deleteUser(req, res, next) {
@@ -230,5 +263,7 @@ export {
     updateUser,
     deleteUser,
     verifyUser,
-    resendVerification
+    resendVerification,
+    editUserFavs,
+    getUserFavs
 }
