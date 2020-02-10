@@ -14,6 +14,7 @@ const favoritesModule = {
                 await favs.products.map(product => {
                     product.name = product.name[retrievedLang]
                     product.description = product.description[retrievedLang]
+                    product.keyImage = product.images[0]
                     
                     return product
                 })
