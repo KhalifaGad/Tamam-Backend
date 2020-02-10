@@ -8,7 +8,7 @@ const favoritesModule = {
             .lean()
             .then(async favs => {
                 // console.log(favs)
-                if(!favs.products){
+                if(!favs){
                     return favs
                 }
                 await favs.products.map(product => {
