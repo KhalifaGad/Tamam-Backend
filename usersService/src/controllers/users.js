@@ -265,6 +265,6 @@ export {
     deleteUser,
     verifyUser,
     resendVerification,
-    editUserFavs,
-    getUserFavs
+    /* editUserFavs,
+    getUserFavs */
 }
