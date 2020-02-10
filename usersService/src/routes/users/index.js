@@ -41,13 +41,13 @@ usersRouter.route('/')
     .get(getUsers)
 
 usersRouter.route('/:id')
-    .put(idQueryParamVM, isIdsEquivalent, updateUser)
+    .post(idQueryParamVM, isIdsEquivalent, updateUser)
     .get(idQueryParamVM, getUser)
     .delete(idQueryParamVM, isIdsEquivalent, deleteUser)
 
 // api/v1/users/:id/favorites
 usersRouter.route('/:id/favorites')
-    .put(idQueryParamVM, isIdsEquivalent, editUserFavs)
+    .post(idQueryParamVM, isIdsEquivalent, editUserFavs)
     .get(idQueryParamVM, isIdsEquivalent, getUserFavs)
 
 usersRouter.route('/verification')
