@@ -6,10 +6,10 @@ async function getUserAddresses(req, res, next) {
     let userAddresses = await addressesModule.getUserAddresses(userId)
 
     if (!userAddresses) {
-        return res.status(404).send({
-            isSuccessed: false,
+        return res.status(200).send({
+            isSuccessed: true,
             data: null,
-            error: "Resource not found!"
+            error: null
         })
     }
 
