@@ -48,7 +48,7 @@ async function getProducts(req, res, next) {
         let user = await requestAuth(auth)
         if (user) {
             favorites = await favoritesModule.
-                getUserFavs(user._id, req.query.lang || 'ar', '')
+                getUserFavs(user._id, req.query.lang || 'ar', 'No')
         }
     }
 
