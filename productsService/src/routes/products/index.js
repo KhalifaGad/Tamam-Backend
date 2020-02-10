@@ -5,7 +5,8 @@ import {
     queryIdVM,
     getProductsVM,
     addOfferVM,
-    getOffersVM
+    getOffersVM,
+    editFavsVM
 } from '../../middlewares/validationsHandler'
 import {
     addProduct,
@@ -24,6 +25,8 @@ import {
     refactorAddProductReq
 } from '../../middlewares/reqRefactoingHelper'
 import { uploadHelper } from '../../middlewares/multerHelper';
+import { getUserFavs, editUserFavs } from '../../controllers/favs';
+import { getUserFromAuth } from '../../middlewares/authHelper';
 
 const productsRouter = Router()
 
@@ -31,6 +34,10 @@ const productsRouter = Router()
 // get all products
 productsRouter.route('/')
     .get(getProductsVM, getProducts)
+
+productsRouter.route('/favorites')
+    .get(getUserFromAuth, getUserFavs)
+    .put(editFavsVM, getUserFromAuth, editUserFavs)
 
 // the full path is /api/v1/products/product
 // add new product

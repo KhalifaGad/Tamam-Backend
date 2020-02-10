@@ -6,7 +6,8 @@ import {
     addOfferVS,
     getOffersVS,
     addCategoryVS,
-    addSubcategoriesVS
+    addSubcategoriesVS,
+    editFavsVS
 } from '../utils/validationSchemas'
 import boom from '@hapi/boom'
 
@@ -79,7 +80,7 @@ function addOfferVM(req, res, next) {
     next()
 }
 
-function getOffersVM(req, res, next){
+function getOffersVM(req, res, next) {
     let { error } = getOffersVS.validate(req.query)
 
     if (error) {
@@ -89,7 +90,7 @@ function getOffersVM(req, res, next){
     next()
 }
 
-function addCategoryVM(req, res, next){
+function addCategoryVM(req, res, next) {
     let { error } = addCategoryVS.validate(req.body)
 
     if (error) {
@@ -99,8 +100,18 @@ function addCategoryVM(req, res, next){
     next()
 }
 
-function addSubcategoryVM(req, res, next){
+function addSubcategoryVM(req, res, next) {
     let { error } = addSubcategoriesVS.validate(req.body)
+
+    if (error) {
+        next(boom.badData(error.details[0].message))
+    }
+
+    next()
+}
+//editFavsVS
+function editFavsVM(req, res, next) {
+    let { error } = editFavsVS.validate(req.body)
 
     if (error) {
         next(boom.badData(error.details[0].message))
@@ -117,5 +128,6 @@ export {
     addOfferVM,
     getOffersVM,
     addCategoryVM,
-    addSubcategoryVM
+    addSubcategoryVM,
+    editFavsVM
 }

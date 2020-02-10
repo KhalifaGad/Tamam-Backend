@@ -7,7 +7,12 @@ const cartModule = {
             userId
         }).populate('product').then(cart => {
             cart.prodcuts.map(productObj => {
-                productObj.product
+                productObj.product.name = 
+                    productObj.product.name[retrievedLang]
+                productObj.product.description = 
+                    productObj.product.description[retrievedLang]
+
+                return productObj
             })
         })
     }
