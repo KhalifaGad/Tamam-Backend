@@ -1,7 +1,7 @@
 import { requestAuth } from "../utils/authRequest";
 import boom from '@hapi/boom'
 
-function getUserFromAuth(req, res, next) {
+async function getUserFromAuth(req, res, next) {
     let auth = req.headers.authentication
 
     if (!auth) {
