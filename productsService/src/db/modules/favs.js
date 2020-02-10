@@ -1,15 +1,18 @@
 import { FavsModel } from "../models/favourites"
 
 const favoritesModule = {
-    async getUserFavs(userId, lang = 'ar') {
+    async getUserFavs(userId, lang = 'ar', populateProp = 'products') {
         const retrievedLang = lang == 'ar' ? 'arabic' : 'english'
         return await FavsModel.findOne({ userId })
-            .populate('products')
+            .populate(populateProp)
             .lean()
             .then(async favs => {
                 // console.log(favs)
                 if(!favs){
                     return favs
+                }
+                if(populateProp == ''){
+                    return favs.products
                 }
                 await favs.products.map(product => {
                     product.name = product.name[retrievedLang]

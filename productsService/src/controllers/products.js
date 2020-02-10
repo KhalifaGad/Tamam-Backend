@@ -2,6 +2,7 @@ import boom from '@hapi/boom'
 
 import { ProductModel } from '../db/models/productModel';
 import { requestAuth } from '../utils/authRequest';
+import { favoritesModule } from '../db/modules/favs';
 
 /**
  * Post "api/v1/products/product" handler function
@@ -45,8 +46,9 @@ async function getProducts(req, res, next) {
 
     if (auth) {
         let user = await requestAuth(auth)
-        if(user){
-            favorites = user.favourites
+        if (user) {
+            favorites = await favoritesModule.
+                getUserFavs(user._id, req.query.lang || 'ar', '')
         }
     }
 
@@ -88,7 +90,7 @@ async function getProducts(req, res, next) {
         .lean()
         .then(docs => {
             docs = docs.map(product => {
-                product.isFav = favorites.indexOf(product._d) == -1 ?
+                product.isFav = favorites.indexOf(product._id) == -1 ?
                     false : true
                 product.name = product.name[retrevingLang]
                 product.description = product.description[retrevingLang]
