@@ -7,7 +7,7 @@ const cartModule = {
             userId
         }).populate('product').then(cart => {
             cart.prodcuts.map(productObj => {
-                productObj.product = productObj.
+                productObj.product
             })
         })
     }
