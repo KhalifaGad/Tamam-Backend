@@ -3,6 +3,7 @@ import { favoritesModule } from "../db/modules/favs"
 async function getUserFavs(req, res, next) {
     const userId = req.body.user._id,
         lang = req.query.lang || 'ar'
+    
     return res.status(200).send({
         isSuccessed: true,
         data: await favoritesModule.getUserFavs(userId, lang),
