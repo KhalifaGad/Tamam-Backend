@@ -10,7 +10,7 @@ async function getUserFavs(req, res, next) {
     })
 }
 
-function editUserFavs(req, res, next) {
+async function editUserFavs(req, res, next) {
     let lang = req.query.lang || 'ar',
         {
             isNew,
