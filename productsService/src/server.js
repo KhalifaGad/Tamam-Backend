@@ -5,8 +5,7 @@ import { router }  from './routes/router'
 import compression from 'compression'
 import multer from 'multer'
 
-let server = express(),
-    upload = multer()
+let server = express()
 
 // compress all server response ;)
 server.use(compression())
@@ -14,7 +13,7 @@ server.use(compression())
 // for application/json requests
 server.use(express.json())
 
-server.use(upload.array())
+//server.use(upload.array())
 
 // for application/x-www-form-urlencoded requests
 server.use(express.urlencoded({ extended: true }))

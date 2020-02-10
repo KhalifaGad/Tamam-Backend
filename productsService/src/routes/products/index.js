@@ -27,6 +27,9 @@ import {
 import { uploadHelper } from '../../middlewares/multerHelper';
 import { getUserFavs, editUserFavs } from '../../controllers/favs';
 import { getUserFromAuth } from '../../middlewares/authHelper';
+import multer from 'multer'
+
+let upload = multer()
 
 const productsRouter = Router()
 
@@ -37,7 +40,7 @@ productsRouter.route('/')
 
 productsRouter.route('/favorites')
     .get(getUserFromAuth, getUserFavs)
-    .put(editFavsVM, getUserFromAuth, editUserFavs)
+    .put(upload.array(), editFavsVM, getUserFromAuth, editUserFavs)
 
 // the full path is /api/v1/products/product
 // add new product
