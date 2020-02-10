@@ -113,6 +113,7 @@ function updateUser(req, res, next) {
 
 async function editUserFavs(req, res, next) {
     const { id } = req.params
+    console.log(req)
     let {
         isNew,
         productId
