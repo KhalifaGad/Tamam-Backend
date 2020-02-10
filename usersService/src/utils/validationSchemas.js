@@ -51,11 +51,23 @@ const authenticationSchema = Joi.object({
     device: Joi.string().valid("ANDROID", "IOS", "WEB").required()
 })
 
+const editFavsVS = Joi.object({
+    isNew: Joi.boolean().required(),
+    productId: Joi.custom(checkMongooseId,
+        'custom validation').required()
+})
+
+const idQueryParamVS = Joi.object({
+    id: Joi.custom(checkMongooseId,
+        'custom validation').required()
+})
 
 export {
     addUserValidationSchema,
     addCountryValidationSchema,
     verifyUserSchema,
     resendVerificationSchema,
-    authenticationSchema
+    authenticationSchema,
+    editFavsVS,
+    idQueryParamVS
 }

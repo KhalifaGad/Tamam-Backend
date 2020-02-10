@@ -15,15 +15,15 @@ async function authenticate(req, res, next) {
     let user = await UserModel.findOne({ email })
 
     if (!user) {
-        next(boom.badData('wrong email or password'))
+        return next(boom.badData('wrong email or password'))
     }
 
     if (!await checkPass(password, user.password)) {
-        next(boom.badData('wrong email or password'))
+        return next(boom.badData('wrong email or password'))
     }
 
     if (!user.isVerified) {
-        res.status(302).send({
+        return res.status(302).send({
             isSuccessed: true,
             data: {
                 user,
@@ -52,7 +52,7 @@ async function authenticate(req, res, next) {
         })
     }
 
-    res.status(200).send({
+    return res.status(200).send({
         isSuccessed: true,
         data: {
             user: {

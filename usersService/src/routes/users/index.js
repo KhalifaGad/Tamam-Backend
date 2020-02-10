@@ -6,15 +6,19 @@ import {
     getUser,
     deleteUser,
     verifyUser,
-    resendVerification
+    resendVerification,
+    editUserFavs,
+    getUserFavs
 } from '../../controllers/users'
 import {
     addUserValidation,
     verifyUserMiddleware,
-    rsndVrfcMiddleware
+    rsndVrfcMiddleware,
+    idQueryParamVM
 } from '../../middlewares/validationHandler'
 import multer from 'multer'
 import path from 'path'
+import { isIdsEquivalent } from '../../middlewares/customerAuthorization'
 
 
 const usersRouter = express.Router()
@@ -37,9 +41,14 @@ usersRouter.route('/')
     .get(getUsers)
 
 usersRouter.route('/:id')
-    .put(updateUser)
-    .get(getUser)
-    .delete(deleteUser)
+    .put(idQueryParamVM, isIdsEquivalent, updateUser)
+    .get(idQueryParamVM, getUser)
+    .delete(idQueryParamVM, isIdsEquivalent, deleteUser)
+
+// api/v1/users/:id/favorites
+usersRouter.route('/:id/favorites')
+    .put(idQueryParamVM, isIdsEquivalent, editUserFavs)
+    .get(idQueryParamVM, isIdsEquivalent, getUserFavs)
 
 usersRouter.route('/verification')
     .post(verifyUserMiddleware, verifyUser)
