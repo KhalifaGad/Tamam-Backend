@@ -8,6 +8,7 @@ async function getUserFromAuth(req, res, next) {
         next(boom.unauthorized("Authentication required!"))
     }
     let user = await requestAuth(auth)
+    console.log(user)
     if (!user) {
         next(boom.unauthorized("Authentication malformed!"))
     }
