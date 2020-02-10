@@ -43,7 +43,7 @@ function addProduct(req, res, next) {
 async function getProducts(req, res, next) {
     let favorites = [],
         auth = req.headers.authentication
-        
+
     if (auth) {
         let user = await requestAuth(auth)
         if (user) {

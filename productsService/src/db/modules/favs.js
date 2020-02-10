@@ -11,7 +11,7 @@ const favoritesModule = {
                 if(!favs){
                     return favs
                 }
-                if(populateProp == ''){
+                if(populateProp != 'products'){
                     return favs.products
                 }
                 await favs.products.map(product => {
