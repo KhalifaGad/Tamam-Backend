@@ -49,6 +49,7 @@ async function getProducts(req, res, next) {
         if (user) {
             favorites = await favoritesModule.
                 getUserFavs(user._id, req.query.lang || 'ar', 'No')
+            favorites = await favorites.map(id => id.toString())
         }
     }
 
@@ -90,7 +91,7 @@ async function getProducts(req, res, next) {
         .lean()
         .then(docs => {
             docs = docs.map(product => {
-                product.isFav = favorites.indexOf(product._id) == -1 ?
+                product.isFav = favorites.indexOf(product._id.toString()) == -1 ?
                     false : true
                 product.name = product.name[retrevingLang]
                 product.description = product.description[retrevingLang]
