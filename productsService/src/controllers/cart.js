@@ -12,7 +12,7 @@ async function getUserCart(req, res, next) {
     })
 }
 
-function editUserCart(req, res, next) {
+async function editUserCart(req, res, next) {
     const userId = req.body.user._id,
         {
             productId,
