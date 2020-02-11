@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import multer from 'multer'
 
 import {
     addProdcutVM,
@@ -6,7 +7,8 @@ import {
     getProductsVM,
     addOfferVM,
     getOffersVM,
-    editFavsVM
+    editFavsVM,
+    editCartVM
 } from '../../middlewares/validationsHandler'
 import {
     addProduct,
@@ -27,7 +29,7 @@ import {
 import { uploadHelper } from '../../middlewares/multerHelper';
 import { getUserFavs, editUserFavs } from '../../controllers/favs';
 import { getUserFromAuth } from '../../middlewares/authHelper';
-import multer from 'multer'
+import { getUserCart, editUserCart } from '../../controllers/cart';
 
 let upload = multer()
 
@@ -41,6 +43,10 @@ productsRouter.route('/')
 productsRouter.route('/favorites')
     .get(getUserFromAuth, getUserFavs)
     .put(upload.array(), editFavsVM, getUserFromAuth, editUserFavs)
+
+productsRouter.route('/cart')
+    .get(getUserFromAuth, getUserCart)
+    .put(editCartVM, getUserFromAuth, editUserCart)
 
 // the full path is /api/v1/products/product
 // add new product

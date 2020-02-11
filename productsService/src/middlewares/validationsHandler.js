@@ -7,7 +7,8 @@ import {
     getOffersVS,
     addCategoryVS,
     addSubcategoriesVS,
-    editFavsVS
+    editFavsVS,
+    editCartVS
 } from '../utils/validationSchemas'
 import boom from '@hapi/boom'
 
@@ -120,6 +121,16 @@ function editFavsVM(req, res, next) {
     next()
 }
 
+function editCartVM(req, res, next) {
+    let { error } = editCartVS.validate(req.body)
+
+    if (error) {
+        next(boom.badData(error.details[0].message))
+    }
+
+    next()
+}
+
 export {
     addProdcutVM,
     queryIdVM,
@@ -129,5 +140,6 @@ export {
     getOffersVM,
     addCategoryVM,
     addSubcategoryVM,
-    editFavsVM
+    editFavsVM,
+    editCartVM
 }
