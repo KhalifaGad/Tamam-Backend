@@ -55,12 +55,17 @@ const cartModule = {
             userId,
             prodcuts
         }).save()
-            .populate('products')
-            .lean()
             .then(async userCart => {
-                return await this.adjustCartObjLang(userCart, retrievedLang)
-            })
-            .catch(err => {
+                return await CartModel.populate(userCart, { path: 'products' })
+                    .lean()
+                    .then(async userCart => {
+                        return await this.adjustCartObjLang(userCart, retrievedLang)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        return null
+                    })
+            }).catch(err => {
                 console.log(err)
                 return null
             })
@@ -77,14 +82,16 @@ const cartModule = {
     },
     async saveIt(userCart, retrievedLang) {
         return await userCart.save()
-            .populate('products')
-            .lean()
             .then(async userCart => {
-                return await this.adjustCartObjLang(userCart, retrievedLang)
-            })
-            .catch(err => {
-                console.log(err)
-                return null
+                return await CartModel.populate(userCart, { path: 'products' })
+                    .lean()
+                    .then(async userCart => {
+                        return await this.adjustCartObjLang(userCart, retrievedLang)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        return null
+                    })
             })
     }
 }
