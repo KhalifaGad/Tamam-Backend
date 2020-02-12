@@ -55,19 +55,21 @@ const cartModule = {
             products
         }).save()
             .then(async userCart => {
-                return await userCart.populate('products')
-                    .lean().then(async userCart => {
+                return await CartModel.populate(userCart, { path: 'products' })
+                    .lean()
+                    .then(async userCart => {
                         return await this.adjustCartObjLang(userCart, retrievedLang)
                     })
-            })
-            .catch(err => {
+                    .catch(err => {
+                        console.log(err)
+                        return null
+                    })
+            }).catch(err => {
                 console.log(err)
                 return null
             })
     },
     async adjustCartObjLang(userCart, retrievedLang) {
-        console.log(userCart)
-        console.log('===============================')
         return await userCart.products.map(cartObj => {
             cartObj.product.name =
                 cartObj.product.name[retrievedLang]
@@ -78,18 +80,18 @@ const cartModule = {
         })
     },
     async saveIt(userCart, retrievedLang) {
-        return await userCart.save().then(async userCart => {
-            return await userCart.populate('products')
-                .lean()
-                .then(async userCart => {
-                    return await this.adjustCartObjLang(userCart, retrievedLang)
-                })
-                .catch(err => {
-                    console.log(err)
-                    return null
-                })
-
-        })
+        return await userCart.save()
+            .then(async userCart => {
+                return await CartModel.populate(userCart, { path: 'products' })
+                    .lean()
+                    .then(async userCart => {
+                        return await this.adjustCartObjLang(userCart, retrievedLang)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        return null
+                    })
+            })
     }
 }
 
