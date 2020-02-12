@@ -14,7 +14,7 @@ const cartModule = {
                 if (cart.products == []) {
                     return cart
                 }
-                await cart.prodcuts.map(productObj => {
+                await cart.products.map(productObj => {
                     try {
                         productObj.product.name =
                             productObj.product.name[retrievedLang]
