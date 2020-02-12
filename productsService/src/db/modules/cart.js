@@ -56,8 +56,8 @@ const cartModule = {
             prodcuts
         }).save()
             .then(async userCart => {
-                return await CartModel.populate(userCart, { path: 'products' })
-                    .lean()
+                return await CartModel.populate(userCart,
+                    { path: 'products.product', options: { lean: true } })
                     .then(async userCart => {
                         return await this.adjustCartObjLang(userCart, retrievedLang)
                     })
@@ -72,10 +72,14 @@ const cartModule = {
     },
     async adjustCartObjLang(userCart, retrievedLang) {
         return await userCart.prodcuts.map(cartObj => {
-            cartObj.product.name =
-                cartObj.product.name[retrievedLang]
-            cartObj.product.description =
-                cartObj.product.description[retrievedLang]
+            try {
+                cartObj.product.name =
+                    cartObj.product.name[retrievedLang]
+                cartObj.product.description =
+                    cartObj.product.description[retrievedLang]
+            } catch (err) {
+                console.log(err)
+            }
 
             return cartObj
         })
@@ -83,8 +87,8 @@ const cartModule = {
     async saveIt(userCart, retrievedLang) {
         return await userCart.save()
             .then(async userCart => {
-                return await CartModel.populate(userCart, { path: 'products' })
-                    .lean()
+                return await CartModel.populate(userCart,
+                    { path: 'products.product', options: { lean: true } })
                     .then(async userCart => {
                         return await this.adjustCartObjLang(userCart, retrievedLang)
                     })
