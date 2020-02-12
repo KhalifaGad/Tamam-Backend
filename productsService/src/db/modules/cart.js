@@ -11,10 +11,10 @@ const cartModule = {
                 if (!cart) {
                     return cart
                 }
-                if (cart.prodcuts == []) {
+                if (cart.products == []) {
                     return cart
                 }
-                await cart.prodcuts.map(productObj => {
+                await cart.products.map(productObj => {
                     productObj.product.name =
                         productObj.product.name[retrievedLang]
                     productObj.product.description =
@@ -38,27 +38,27 @@ const cartModule = {
             return await this.addUserCart(userId,
                 [{ product: productId, quantity }], retrievedLang)
         }
-
-        let productIndex = userCart.prodcuts.map(productCartObj =>
+        let productIndex = userCart.products.map(productCartObj =>
             productCartObj.product.toString()).indexOf(productId.toString)
 
         if (productIndex < 0) {
-            userCart.prodcuts.push({ product: productId, quantity })
+            userCart.products.push({ product: productId, quantity })
             return await this.saveIt(userCart, retrievedLang)
         }
 
-        userCart.prodcuts[productIndex] = { product: productId, quantity }
+        userCart.products[productIndex] = { product: productId, quantity }
         return await this.saveIt(userCart, retrievedLang)
     },
-    async addUserCart(userId, prodcuts, retrievedLang) {
+    async addUserCart(userId, products, retrievedLang) {
         return await CartModel({
             userId,
-            prodcuts
+            products
         }).save()
-            .populate('products')
-            .lean()
             .then(async userCart => {
-                return await this.adjustCartObjLang(userCart, retrievedLang)
+                return await userCart.populate('products')
+                    .lean().then(async userCart => {
+                        return await this.adjustCartObjLang(userCart, retrievedLang)
+                    })
             })
             .catch(err => {
                 console.log(err)
@@ -66,7 +66,9 @@ const cartModule = {
             })
     },
     async adjustCartObjLang(userCart, retrievedLang) {
-        return await userCart.prodcuts.map(cartObj => {
+        console.log(userCart)
+        console.log('===============================')
+        return await userCart.products.map(cartObj => {
             cartObj.product.name =
                 cartObj.product.name[retrievedLang]
             cartObj.product.description =
@@ -76,16 +78,18 @@ const cartModule = {
         })
     },
     async saveIt(userCart, retrievedLang) {
-        return await userCart.save()
-            .populate('products')
-            .lean()
-            .then(async userCart => {
-                return await this.adjustCartObjLang(userCart, retrievedLang)
-            })
-            .catch(err => {
-                console.log(err)
-                return null
-            })
+        return await userCart.save().then(async userCart => {
+            return await userCart.populate('products')
+                .lean()
+                .then(async userCart => {
+                    return await this.adjustCartObjLang(userCart, retrievedLang)
+                })
+                .catch(err => {
+                    console.log(err)
+                    return null
+                })
+
+        })
     }
 }
 

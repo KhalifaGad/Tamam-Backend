@@ -91,15 +91,20 @@ async function getProducts(req, res, next) {
         .lean()
         .then(docs => {
             docs = docs.map(product => {
-                product.isFav = favorites.indexOf(product._id.toString()) == -1 ?
-                    0 : 1
-                product.name = product.name[retrevingLang]
-                product.description = product.description[retrevingLang]
-                product.keyImage = product.images[0] || ""
-                product.categoryName = product.categoryId[categoryLang]
-                product.categoryId = product.categoryId._id
-                product.seller = "Khalifa Gad"
-                return product
+                try{
+                    product.isFav = favorites.indexOf(product._id.toString()) == -1 ?
+                        0 : 1
+                    product.name = product.name[retrevingLang]
+                    product.description = product.description[retrevingLang]
+                    product.keyImage = product.images[0] || ""
+                    product.categoryName = product.categoryId[categoryLang]
+                    product.categoryId = product.categoryId._id
+                    product.seller = "Khalifa Gad"
+                    return product
+                } catch(err){
+                    console.log(err)
+                    return product
+                }
             })
             return res.status(200).send({
                 isSuccessed: true,
