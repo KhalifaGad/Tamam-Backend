@@ -35,13 +35,11 @@ async function authenticate(req, res, next) {
     //tokenModel
     let token = generateToken(user._id, user.role)
 
-    let tokensModel = new TokensModel({
+    await TokensModel({
         token,
         userId: user._id
-    })
-
-    tokensModel.save().catch(err => {
-        console.log('saving token error, Error:' + err)
+    }).save().catch(err => {
+        next(boom.internal(err))
     })
 
     if (user.lastActiveDevice !== device) {
