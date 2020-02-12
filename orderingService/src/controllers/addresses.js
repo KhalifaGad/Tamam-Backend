@@ -73,7 +73,7 @@ async function toggleMainAddress(req, res, next) {
 
     res.status(200).send({
         isSuccessed: true,
-        data: address,
+        data: address.addresses,
         error: null
     })
 
