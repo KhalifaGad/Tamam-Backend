@@ -52,7 +52,7 @@ async function addAddress(req, res, next) {
 
     return res.status(201).send({
         isSuccessed: true,
-        data: userAddress,
+        data: userAddress.addresses,
         error: null
     })
 }
