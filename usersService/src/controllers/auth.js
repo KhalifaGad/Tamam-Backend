@@ -41,7 +41,7 @@ async function authenticate(req, res, next) {
     }).save().catch(err => {
         next(boom.internal(err))
     })
-    console.log(tokensModel.token)
+    //console.log(tokensModel.token)
 
     if (user.lastActiveDevice !== device) {
         user.lastActiveDevice = device
