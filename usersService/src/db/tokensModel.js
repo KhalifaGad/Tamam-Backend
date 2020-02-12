@@ -3,11 +3,14 @@ import mongoose from 'mongoose'
 let tokensSchema = new mongoose.Schema({
     token: String,
     userId: mongoose.Schema.Types.ObjectId,
-    issueDate:{
+    issueDate: {
         type: Date,
         default: new Date()
-    } 
-}, { versionKey: false })
+    }
+}, {
+    timestamps: true,
+    versionKey: false
+})
 
 let TokensModel = mongoose.model('Tokens', tokensSchema)
 
