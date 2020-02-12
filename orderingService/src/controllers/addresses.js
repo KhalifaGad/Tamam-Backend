@@ -52,7 +52,7 @@ async function addAddress(req, res, next) {
 
     return res.status(201).send({
         isSuccessed: true,
-        data: userAddress,
+        data: userAddress.addresses,
         error: null
     })
 }
@@ -73,7 +73,7 @@ async function toggleMainAddress(req, res, next) {
 
     res.status(200).send({
         isSuccessed: true,
-        data: address,
+        data: address.addresses,
         error: null
     })
 
