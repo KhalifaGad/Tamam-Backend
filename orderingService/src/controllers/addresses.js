@@ -8,14 +8,14 @@ async function getUserAddresses(req, res, next) {
     if (!userAddresses) {
         return res.status(200).send({
             isSuccessed: true,
-            data: null,
+            data: [],
             error: null
         })
     }
 
     return res.status(200).send({
         isSuccessed: true,
-        data: userAddresses,
+        data: userAddresses.addresses,
         error: null
     })
 
