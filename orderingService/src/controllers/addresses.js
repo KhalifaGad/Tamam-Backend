@@ -8,14 +8,14 @@ async function getUserAddresses(req, res, next) {
     if (!userAddresses) {
         return res.status(404).send({
             isSuccessed: false,
-            data: null,
+            data: [],
             error: "Resource not found!"
         })
     }
 
     return res.status(200).send({
         isSuccessed: true,
-        data: userAddresses,
+        data: userAddresses.addresses,
         error: null
     })
 
