@@ -58,7 +58,7 @@ const cartModule = {
                 return await CartModel.populate(userCart,
                     { path: 'products.product', options: { lean: true } })
                     .then(async userCart => {
-                        return await this.adjustCartObjLang(userCart.lean(),
+                        return await this.adjustCartObjLang(userCart,
                             retrievedLang)
                     })
                     .catch(err => {
