@@ -86,7 +86,7 @@ async function getUserCardinalities(req, res, next) {
 
     let tokenModel = await TokensModel.findOne({
         userId: docodingRes.userId
-    }).sort('-issueDate')
+    }).sort('-createdAt')
 
     if (tokenModel.token !== docodingRes.token) {
         return res.status(302).send({
