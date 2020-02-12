@@ -3,6 +3,7 @@ import boom from '@hapi/boom'
 import { ProductModel } from '../db/models/productModel';
 import { requestAuth } from '../utils/authRequest';
 import { favoritesModule } from '../db/modules/favs';
+import { cartModule } from '../db/modules/cart';
 
 /**
  * Post "api/v1/products/product" handler function
@@ -42,6 +43,7 @@ function addProduct(req, res, next) {
 // CoI = country Id required
 async function getProducts(req, res, next) {
     let favorites = [],
+        cart = [],
         auth = req.headers.authentication
 
     if (auth) {
@@ -50,6 +52,7 @@ async function getProducts(req, res, next) {
             favorites = await favoritesModule.
                 getUserFavs(user._id, req.query.lang || 'ar', 'No')
             favorites = await favorites.map(id => id.toString())
+            cart = await cartModule.getUserCart(user._id, req.query.lang || 'ar', 'No')
         }
     }
 
@@ -93,6 +96,11 @@ async function getProducts(req, res, next) {
             docs = docs.map(product => {
                 product.isFav = favorites.indexOf(product._id.toString()) == -1 ?
                     0 : 1
+                let indexInCart = cart.map(elm => elm.product.toString())
+                    .indexOf(product._id.toString())
+                product.cartQuantity = indexInCart >= 0?  
+                    cart[indexInCart].quantity : 0
+                product.inCart = product.cartQuantity > 0? true : false
                 product.name = product.name[retrevingLang]
                 product.description = product.description[retrevingLang]
                 product.keyImage = product.images[0] || ""
