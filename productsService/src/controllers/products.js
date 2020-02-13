@@ -76,7 +76,7 @@ async function getProducts(req, res, next) {
         searchingQuery = {},
         dateSorting = req.query.d === 'D' ?
             '-uploadDate' : 'uploadDate',
-        searchingName = req.query.name || null
+        searchingName = req.query.n || null
 
     searchingQuery.availableCountries = countryId
 
