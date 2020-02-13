@@ -22,13 +22,13 @@ function addCountry(req, res, next) {
 function getCountries(req, res, next) {
     let id = req.query.CoI || null,
         code = req.query.q || null,
-        searchingQeruy = {}
+        searchingQuery = {}
 
     if (id) {
-        searchingQeruy._id = id
+        searchingQuery._id = id
     }
     if (code) {
-        searchingQeruy.code = code
+        searchingQuery.code = code
     }
 
     let excludingQuery = {
@@ -52,16 +52,16 @@ function getCountries(req, res, next) {
         excludingQuery.isBlocked = 1
     }
 
-    if (Object.keys(searchingQeruy).length > 0) {
-        searchingQeruy = {
-            $and: Object.keys(searchingQeruy).map(key => {
+    if (Object.keys(searchingQuery).length > 0) {
+        searchingQuery = {
+            $and: Object.keys(searchingQuery).map(key => {
                 return { [key]: searchingQuery[key] }
             })
         }
     }
 
     CountryModel.find({
-        ...searchingQeruy
+        ...searchingQuery
     }, {
         ...excludingQuery
     }).lean().then(async countries => {
