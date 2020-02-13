@@ -58,49 +58,50 @@ function getCountries(req, res, next) {
                 return { [key]: searchingQuery[key] }
             })
         }
+    }
 
-        CountryModel.find({
-            ...searchingQeruy
-        }, {
-            ...excludingQuery
-        }).lean().then(async countries => {
+    CountryModel.find({
+        ...searchingQeruy
+    }, {
+        ...excludingQuery
+    }).lean().then(async countries => {
 
-            countries.map(country => {
-                country.name = country[overridenProp]
-                delete country[overridenProp]
+        countries.map(country => {
+            country.name = country[overridenProp]
+            delete country[overridenProp]
 
-                country.cities.map(city => {
-                    city.name = city[overridenProp]
-                    delete city[overridenProp]
-                    return city
-                })
-
-                country.flagImage = country.flagImage || ""
-
-                return country
+            country.cities.map(city => {
+                city.name = city[overridenProp]
+                delete city[overridenProp]
+                return city
             })
-            res.status(200).send({
-                isSuccessed: true,
-                data: countries,
-                error: null
-            })
-        }).catch(err => {
-            next(boom.internal(err))
+
+            country.flagImage = country.flagImage || ""
+
+            return country
         })
+        res.status(200).send({
+            isSuccessed: true,
+            data: countries,
+            error: null
+        })
+    }).catch(err => {
+        next(boom.internal(err))
+    })
 
-    }
+}
 
-    function updateCountry(req, res, next) {
+function updateCountry(req, res, next) {
 
-    }
+}
 
-    function deleteCountry(req, res, next) {
+function deleteCountry(req, res, next) {
 
-    }
+}
 
-    export {
-        addCountry,
-        getCountries,
-        updateCountry,
-        deleteCountry
-    }
+export {
+    addCountry,
+    getCountries,
+    updateCountry,
+    deleteCountry
+}
