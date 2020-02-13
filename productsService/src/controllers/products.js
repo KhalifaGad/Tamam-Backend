@@ -41,6 +41,7 @@ function addProduct(req, res, next) {
 // c = categoryId, s = subcategoryId,
 // d = date ascending 'A' or descending 'D'
 // CoI = country Id required
+// n = productName
 async function getProducts(req, res, next) {
     let favorites = [],
         cart = {
@@ -74,7 +75,8 @@ async function getProducts(req, res, next) {
         subcategoryId = req.query.s || null,
         searchingQuery = {},
         dateSorting = req.query.d === 'D' ?
-            '-uploadDate' : 'uploadDate'
+            '-uploadDate' : 'uploadDate',
+        searchingName = req.query.name || null
 
     searchingQuery.availableCountries = countryId
 
@@ -94,6 +96,24 @@ async function getProducts(req, res, next) {
             ? 'nameEn'
             : 'nameAr'
 
+    if(searchingName){
+        if(req.query.lang == 'english'){
+            searchingQuery.name = {
+                english: {
+                    $regex: searchingName,
+                    $options: 'i'
+                }
+            }
+        } else {
+            searchingQuery.name = {
+                arabic: {
+                    $regex: searchingName,
+                    $options: 'i'
+                }
+            }
+        }
+    }
+    
     await ProductModel.find({
         ...searchingQuery
     })
