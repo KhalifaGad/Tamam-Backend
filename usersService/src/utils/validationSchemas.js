@@ -26,6 +26,7 @@ const addUserValidationSchema = Joi.object({
 const addCountryValidationSchema = Joi.object({
     nameAr: Joi.string().required(),
     nameEn: Joi.string().required(),
+    code: Joi.string().required(),
     keyNo: Joi.number().required(),
     cities: Joi.array().items(Joi.object({
         nameAr: Joi.string().required(),

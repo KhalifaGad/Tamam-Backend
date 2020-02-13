@@ -12,6 +12,11 @@ let countrySchema = mongoose.Schema({
         trim: true,
         lowercase: true
     },
+    code: {
+        type: String,
+        required: true,
+        trim: true,
+    },
     keyNo: {
         type: Number,
         required: true
