@@ -59,6 +59,11 @@ async function getProducts(req, res, next) {
                 favorites = []
             }
             cart = await cartModule.getUserCart(user._id, req.query.lang || 'ar', 'No')
+            if (cart == null) {
+                cart = {
+                    products: []
+                }
+            }
         }
     }
 
