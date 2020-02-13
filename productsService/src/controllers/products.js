@@ -100,17 +100,11 @@ async function getProducts(req, res, next) {
         searchingQuery.$or = [
             {
                 name: {
-                    english: {
-                        $regex: new RegExp(searchingName),
-                        $options: 'i'
-                    }
+                    english: new RegExp(searchingName, 'i')
                 }
             }, {
                 name: {
-                    arabic: {
-                        $regex: new RegExp(searchingName),
-                        $options: 'i'
-                    }
+                    arabic: new RegExp(searchingName, 'i')
                 }
             }
         ]
