@@ -117,7 +117,9 @@ async function getProducts(req, res, next) {
     }
 
     await ProductModel.find({
-        ...searchingQuery
+        $and: [
+            ...searchingQuery
+        ]
     })
         .limit(limit)
         .skip(skip)
