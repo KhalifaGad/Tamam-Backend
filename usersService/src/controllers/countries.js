@@ -20,6 +20,17 @@ function addCountry(req, res, next) {
 
 // it accepts query string lang
 function getCountries(req, res, next) {
+    let id = req.query.CoI || null,
+        code = req.query.q || null,
+        searchingQeruy = {}
+
+    if (id) {
+        searchingQeruy._id = id
+    }
+    if (code) {
+        searchingQeruy.code = code
+    }
+
     let excludingQuery = {
         'nameAr': 0,
         'cities.nameAr': 0,
@@ -37,8 +48,15 @@ function getCountries(req, res, next) {
             overridenProp = 'nameAr'
     }
 
+    if (id || code) {
+        excludingQuery.isBlocked = 1
+    }
 
-    CountryModel.find({}, {
+    CountryModel.find({
+        $and: Object.keys(searchingQeruy).map(key => {
+            return { [key]: searchingQuery[key] }
+        })
+    }, {
         ...excludingQuery
     }).lean().then(async countries => {
 
