@@ -66,7 +66,8 @@ const getProductsVS = Joi.object({
     c: Joi.custom(mongooseIdJoiHelper, 'custom validation'),
     s: Joi.custom(mongooseIdJoiHelper, 'custom validation'),
     d: Joi.string().valid('A', 'D'),
-    CoI: Joi.custom(mongooseIdJoiHelper, 'custom validation')
+    CoI: Joi.custom(mongooseIdJoiHelper, 'custom validation'),
+    n: Joi.string().required()
 })
 
 const addHomeSectionVS = Joi.object({
