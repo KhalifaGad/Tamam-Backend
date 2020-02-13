@@ -117,9 +117,9 @@ async function getProducts(req, res, next) {
     }
 
     await ProductModel.find({
-        $and: [
-            ...searchingQuery
-        ]
+        $and: Object.keys(searchingQuery).map(key => {
+            return { [key]: searchingQuery[key] }
+        })
     })
         .limit(limit)
         .skip(skip)
