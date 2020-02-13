@@ -14,8 +14,10 @@ import {
     getUserAddresses, 
     addAddress, 
     getAdress, 
-    toggleMainAddress 
+    toggleMainAddress, 
+    addAddressTest
 } from '../../controllers/addresses'
+import { checkCountry } from '../../middlewares/countryHandler'
 
 const ordersRouter = Router()
 
@@ -25,6 +27,9 @@ ordersRouter.route('/user/:id')
 ordersRouter.route('/user/:id/addresses')
     .get(mongooseIdReqParamVM, getUserAddresses)
     .post(mongooseIdReqParamVM, addAddressVM, addAddress)
+
+ordersRouter.route('/user/:id/addresses/test')
+    .post(mongooseIdReqParamVM, addAddressVM, checkCountry, addAddressTest)
 
 ordersRouter.route('/user/:userId/addresses/:addressId/main')
     .put(getAddressVM, toggleMainAddressVM, toggleMainAddress)
