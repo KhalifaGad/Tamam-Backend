@@ -52,50 +52,55 @@ function getCountries(req, res, next) {
         excludingQuery.isBlocked = 1
     }
 
-    CountryModel.find({
-        $and: Object.keys(searchingQeruy).map(key => {
-            return { [key]: searchingQuery[key] }
-        })
-    }, {
-        ...excludingQuery
-    }).lean().then(async countries => {
-
-        countries.map(country => {
-            country.name = country[overridenProp]
-            delete country[overridenProp]
-
-            country.cities.map(city => {
-                city.name = city[overridenProp]
-                delete city[overridenProp]
-                return city
+    if (searchingQeruy != {}) {
+        searchingQeruy = {
+            $and: Object.keys(searchingQeruy).map(key => {
+                return { [key]: searchingQuery[key] }
             })
+        }
 
-            country.flagImage = country.flagImage || ""
+        CountryModel.find({
+            ...searchingQeruy
+        }, {
+            ...excludingQuery
+        }).lean().then(async countries => {
 
-            return country
+            countries.map(country => {
+                country.name = country[overridenProp]
+                delete country[overridenProp]
+
+                country.cities.map(city => {
+                    city.name = city[overridenProp]
+                    delete city[overridenProp]
+                    return city
+                })
+
+                country.flagImage = country.flagImage || ""
+
+                return country
+            })
+            res.status(200).send({
+                isSuccessed: true,
+                data: countries,
+                error: null
+            })
+        }).catch(err => {
+            next(boom.internal(err))
         })
-        res.status(200).send({
-            isSuccessed: true,
-            data: countries,
-            error: null
-        })
-    }).catch(err => {
-        next(boom.internal(err))
-    })
 
-}
+    }
 
-function updateCountry(req, res, next) {
+    function updateCountry(req, res, next) {
 
-}
+    }
 
-function deleteCountry(req, res, next) {
+    function deleteCountry(req, res, next) {
 
-}
+    }
 
-export {
-    addCountry,
-    getCountries,
-    updateCountry,
-    deleteCountry
-}
+    export {
+        addCountry,
+        getCountries,
+        updateCountry,
+        deleteCountry
+    }
