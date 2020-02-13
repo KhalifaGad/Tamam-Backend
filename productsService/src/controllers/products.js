@@ -99,13 +99,10 @@ async function getProducts(req, res, next) {
     if (searchingName) {
         searchingQuery.$or = [
             {
-                name: {
-                    english: new RegExp(searchingName, 'i')
-                }
-            }, {
-                name: {
-                    arabic: new RegExp(searchingName, 'i')
-                }
+                'name.english': new RegExp(searchingName, 'i')
+            },
+            {
+                'name.arabic': new RegExp(searchingName, 'i')
             }
         ]
     }
