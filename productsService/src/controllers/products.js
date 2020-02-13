@@ -101,14 +101,14 @@ async function getProducts(req, res, next) {
             {
                 name: {
                     english: {
-                        $regex: searchingName,
+                        $regex: new RegExp(searchingName),
                         $options: 'i'
                     }
                 }
             }, {
                 name: {
                     arabic: {
-                        $regex: searchingName,
+                        $regex: new RegExp(searchingName),
                         $options: 'i'
                     }
                 }
