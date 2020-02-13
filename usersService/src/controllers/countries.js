@@ -52,7 +52,7 @@ function getCountries(req, res, next) {
         excludingQuery.isBlocked = 1
     }
 
-    if (searchingQeruy != {}) {
+    if (Object.keys(searchingQeruy).length > 0) {
         searchingQeruy = {
             $and: Object.keys(searchingQeruy).map(key => {
                 return { [key]: searchingQuery[key] }
