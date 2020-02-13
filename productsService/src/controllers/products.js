@@ -96,24 +96,26 @@ async function getProducts(req, res, next) {
             ? 'nameEn'
             : 'nameAr'
 
-    if(searchingName){
-        if(req.query.lang == 'english'){
-            searchingQuery.name = {
-                english: {
-                    $regex: searchingName,
-                    $options: 'i'
+    if (searchingName) {
+        searchingQuery.$or = [
+            {
+                name: {
+                    english: {
+                        $regex: searchingName,
+                        $options: 'i'
+                    }
+                }
+            }, {
+                name: {
+                    arabic: {
+                        $regex: searchingName,
+                        $options: 'i'
+                    }
                 }
             }
-        } else {
-            searchingQuery.name = {
-                arabic: {
-                    $regex: searchingName,
-                    $options: 'i'
-                }
-            }
-        }
+        ]
     }
-    
+
     await ProductModel.find({
         ...searchingQuery
     })
