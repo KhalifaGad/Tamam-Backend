@@ -43,7 +43,9 @@ function addProduct(req, res, next) {
 // CoI = country Id required
 async function getProducts(req, res, next) {
     let favorites = [],
-        cart = [],
+        cart = {
+            products: []
+        },
         auth = req.headers.authentication
 
     if (auth) {
@@ -51,7 +53,11 @@ async function getProducts(req, res, next) {
         if (user) {
             favorites = await favoritesModule.
                 getUserFavs(user._id, req.query.lang || 'ar', 'No')
-            favorites = await favorites.map(id => id.toString())
+            if (favorites) {
+                favorites = await favorites.map(id => id.toString())
+            } else {
+                favorites = []
+            }
             cart = await cartModule.getUserCart(user._id, req.query.lang || 'ar', 'No')
         }
     }
@@ -94,20 +100,25 @@ async function getProducts(req, res, next) {
         .lean()
         .then(docs => {
             docs = docs.map(product => {
-                product.isFav = favorites.indexOf(product._id.toString()) == -1 ?
-                    0 : 1
-                let indexInCart = cart.map(elm => elm.product.toString())
-                    .indexOf(product._id.toString())
-                product.cartQuantity = indexInCart >= 0?  
-                    cart[indexInCart].quantity : 0
-                product.inCart = product.cartQuantity > 0? true : false
-                product.name = product.name[retrevingLang]
-                product.description = product.description[retrevingLang]
-                product.keyImage = product.images[0] || ""
-                product.categoryName = product.categoryId[categoryLang]
-                product.categoryId = product.categoryId._id
-                product.seller = "Khalifa Gad"
-                return product
+                try {
+                    product.isFav = favorites.indexOf(product._id.toString()) == -1 ?
+                        0 : 1
+                    let indexInCart = cart.products.map(elm => elm.product.toString())
+                        .indexOf(product._id.toString())
+                    product.cartQuantity = indexInCart >= 0 ?
+                        cart.products[indexInCart].quantity : 0
+                    product.inCart = product.cartQuantity > 0 ? true : false
+                    product.name = product.name[retrevingLang]
+                    product.description = product.description[retrevingLang]
+                    product.keyImage = product.images[0] || ""
+                    product.categoryName = product.categoryId[categoryLang]
+                    product.categoryId = product.categoryId._id
+                    product.seller = "Khalifa Gad"
+                    return product
+                } catch (err) {
+                    console.log(err)
+                    return product
+                }
             })
             return res.status(200).send({
                 isSuccessed: true,
