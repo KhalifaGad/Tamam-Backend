@@ -58,6 +58,7 @@ function getCountries(req, res, next) {
                 return { [key]: searchingQuery[key] }
             })
         }
+    }
 
         CountryModel.find({
             ...searchingQeruy
