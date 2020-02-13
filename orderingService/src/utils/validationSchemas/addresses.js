@@ -10,6 +10,7 @@ const addAddressVS = Joi.object({
     floorNo: Joi.string().required(),
     addressName: Joi.string().required(),
     isMainAddress: Joi.boolean(),
+    countryCode: Joi.string().required()
 })
 
 const toggleMainAddressVS = Joi.object({
