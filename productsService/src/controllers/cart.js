@@ -6,7 +6,8 @@ async function getUserCart(req, res, next) {
         lang = req.query.lang || 'ar'
     let cart = await cartModule.getUserCart(userId, lang),
         products = [],
-        productsQuantity = 0
+        productsQuantity = 0,
+        totalPrice = 0
     if (cart != null) {
         products = cart.products
         productsQuantity = products
