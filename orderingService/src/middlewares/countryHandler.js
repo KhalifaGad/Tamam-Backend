@@ -8,7 +8,7 @@ async function checkCountry(req, res, next) {
         .catch(err => {
             console.log(err)
         })
-    console.log(response)
+    console.log(response.data.data)
     next()
 
 }
