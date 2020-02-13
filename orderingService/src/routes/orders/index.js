@@ -26,10 +26,7 @@ ordersRouter.route('/user/:id')
 
 ordersRouter.route('/user/:id/addresses')
     .get(mongooseIdReqParamVM, getUserAddresses)
-    .post(mongooseIdReqParamVM, addAddressVM, addAddress)
-
-ordersRouter.route('/user/:id/addresses/test')
-    .post(mongooseIdReqParamVM, addAddressVM, checkCountry, addAddressTest)
+    .post(mongooseIdReqParamVM, addAddressVM, checkCountry, addAddress)
 
 ordersRouter.route('/user/:userId/addresses/:addressId/main')
     .put(getAddressVM, toggleMainAddressVM, toggleMainAddress)
