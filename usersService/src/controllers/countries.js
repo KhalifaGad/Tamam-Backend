@@ -49,7 +49,7 @@ function getCountries(req, res, next) {
     }
 
     if (id || code) {
-        excludingQuery.isBlocked = 1
+        delete excludingQuery.isBlocked
     }
 
     if (Object.keys(searchingQuery).length > 0) {
