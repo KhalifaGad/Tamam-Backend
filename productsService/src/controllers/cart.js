@@ -5,13 +5,17 @@ async function getUserCart(req, res, next) {
     const userId = req.body.user._id,
         lang = req.query.lang || 'ar'
     let cart = await cartModule.getUserCart(userId, lang),
-        products = cart.products,
+        products = [],
+        productsQuantity = 0
+    if (cart != null) {
+        products = cart.products
         productsQuantity = products
             .map(obj => obj.quantity)
             .reduce((total, num) => total + num),
-        totalPrice = products
-            .map(obj => obj.product.price)
-            .reduce((total, num) => total + num)
+            totalPrice = products
+                .map(obj => obj.product.price)
+                .reduce((total, num) => total + num)
+    }
 
     return res.status(200).send({
         isSuccessed: true,
