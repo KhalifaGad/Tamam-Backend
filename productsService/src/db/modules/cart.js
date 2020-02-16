@@ -37,6 +37,8 @@ const cartModule = {
                             productObj.product.categoryId =
                                 productObj.product.categoryId._id
                         }
+                        productObj.product.keyImage =
+                            productObj.product.images[0] || null
                     } catch (err) {
                         // there will be error when products not populated XD
                     }
