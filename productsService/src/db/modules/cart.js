@@ -30,7 +30,6 @@ const cartModule = {
                             productObj.product.name[retrievedLang]
                         productObj.product.description =
                             productObj.product.description[retrievedLang]
-                        console.log(productObj.product.categoryId)
                         if (Object.keys(productObj.product.categoryId).length > 1) {
                             productObj.product.categoryName =
                                 productObj.product.categoryId[categoryLang]
