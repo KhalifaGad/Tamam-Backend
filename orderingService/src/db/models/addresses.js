@@ -27,6 +27,10 @@ let userAddressesSchema = mongoose.Schema({
                 type: String,
                 required: true
             },
+            country: {
+                type: String,
+                required: true
+            },
             buildingNo: String,
             floorNo: String,
             addressName: {
@@ -69,10 +73,10 @@ userAddressesSchema.pre('setMainAddress', async function (next, userId) {
 
     let userAddresses = await this.findOne(filter)
     if (!userAddresses) next()
-    
+
     let mainAddressIndex = userAddresses.addresses.map(address => {
-            return address.isMainAddres
-        }).indexOf(true)
+        return address.isMainAddres
+    }).indexOf(true)
 
     userAddresses.addresses[mainAddressIndex].isMainAddres = false
     await userAddresses.save()
