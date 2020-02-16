@@ -24,7 +24,6 @@ const addProductVS = Joi.object({
     descriptionAr: Joi.string()
         .min(30),
     descriptionEn: Joi.string()
-        .regex(/^[\w\-\s]+$/)
         .min(30),
     categoryId: Joi.custom(
         mongooseIdJoiHelper,
