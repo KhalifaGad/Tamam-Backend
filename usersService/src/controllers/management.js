@@ -1,7 +1,7 @@
 import { ContactUsModel } from "../db/contactUs"
 import boom from '@hapi/boom'
 
-async function addMessage(req, res, next){
+async function addMessage(req, res, next) {
 
     await ContactUsModel({
         ...req.body
@@ -17,4 +17,19 @@ async function addMessage(req, res, next){
 
 }
 
-export { addMessage }
+async function getMessages(req, res, next) {
+
+    await ContactUsModel.find({})
+        .then(docs => {
+            res.status(200).send({
+                isSuccessed: true,
+                data: docs,
+                error: null
+            })
+        }).catch(err => {
+            next(boom.internal(err))
+        })
+
+}
+
+export { addMessage, getMessages }
