@@ -107,7 +107,52 @@ function getUsers(req, res, next) {
 
 }
 
-function updateUser(req, res, next) {
+async function updateUser(req, res, next) {
+    const { id } = req.params
+
+    let user = await userModule.getUser(id)
+    let {
+        userName = null,
+        email = null,
+        password = null,
+        phone = null,
+        countryId = null,
+        cityId = null
+    } = req.body
+
+    if(password) {
+        password = await hashPass(password)
+    }
+
+    try {
+        user.userName = userName || user.userName
+        user.email = email || user.email
+        user.countryId = countryId || user.countryId
+        user.cityId = cityId || user.cityId
+        user.phone = phone || user.phone
+        user.password = password || user.password
+        user = await user.save().then(user => {
+            return {
+                userName: user.userName,
+                email: user.email,
+                phone: user.phone,
+                countryId: user.countryId,
+                cityId: user.cityId,
+                isVerified: user.isVerified,
+                imgURL: user.imgURL,
+                lastActiveDevice: user.lastActiveDevice,
+                role: user.role,
+                points: user.points,
+                _id: user._id
+            }
+        })
+    } catch (err) {
+        return next(boom.badRequest('Data can not be modified'))
+    }
+    return res.status(200).send({
+        isSuccessed: true,
+        data: user
+    })
 
 }
 
