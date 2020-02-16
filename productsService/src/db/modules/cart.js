@@ -2,11 +2,21 @@ import { CartModel } from "../models/cart"
 
 const cartModule = {
     async getUserCart(userId, lang = 'ar', populatedProp = 'products.product') {
-        const retrievedLang = lang == 'ar' ? 'arabic' : 'english'
+        const retrievedLang = lang == 'en' ? 'english' : 'arabic',
+            categoryLang = lang === "en"
+                ? 'nameEn'
+                : 'nameAr',
+            categoryPop = populatedProp == 'products.product' ?
+                'categoryId' : ''
         return await CartModel.findOne({
             userId
         }).lean()
-            .populate(populatedProp)
+            .populate({
+                path: populatedProp,
+                populate: {
+                    path: categoryPop
+                }
+            })
             .then(async cart => {
                 if (!cart) {
                     return cart
@@ -20,6 +30,12 @@ const cartModule = {
                             productObj.product.name[retrievedLang]
                         productObj.product.description =
                             productObj.product.description[retrievedLang]
+                        if (Object.keys(productObj.product.categoryId).length > 1) {
+                            productObj.product.categoryName =
+                                productObj.product.categoryId[categoryLang]
+                            productObj.product.categoryId =
+                                productObj.product.categoryId._id
+                        }
                     } catch (err) {
                         // there will be error when products not populated XD
                     }
