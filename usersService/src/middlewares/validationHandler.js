@@ -6,7 +6,8 @@ import {
     resendVerificationSchema,
     authenticationSchema,
     idQueryParamVS,
-    addMessageVS
+    addMessageVS,
+    editProductVS
 } from '../utils/validationSchemas'
 
 function addUserValidation(req, res, next) {
@@ -70,6 +71,16 @@ function addMessageVM(req, res, next) {
     next()
 }
 
+function editProductVM(req, res, next) {
+    const { error } = editProductVS.validate(req.body)
+
+    if (error) {
+        next(next(boom.badData(error.details[0].message)))
+    }
+
+    next()
+}
+
 function idQueryParamVM(req, res, next) {
     const { error } = idQueryParamVS.validate(req.params)
 
@@ -87,5 +98,6 @@ export {
     rsndVrfcMiddleware,
     loginValidation,
     idQueryParamVM,
-    addMessageVM
+    addMessageVM,
+    editProductVM
 }

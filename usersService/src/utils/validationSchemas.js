@@ -72,6 +72,19 @@ const addMessageVS = Joi.object({
     message: Joi.string().min(10).required(),
 })
 
+const editProductVS = Joi.object({
+    userName: Joi.string()
+        .min(3)
+        .max(30),
+    email: Joi.string().email(),
+    password: Joi.string().min(8),
+    phone: Joi.number().min(5),
+    countryId: Joi.custom(checkMongooseId,
+        'custom validation'),
+    cityId: Joi.custom(checkMongooseId,
+        'custom validation')
+})
+
 export {
     addUserValidationSchema,
     addCountryValidationSchema,
@@ -80,5 +93,6 @@ export {
     authenticationSchema,
     editFavsVS,
     idQueryParamVS,
-    addMessageVS
+    addMessageVS,
+    editProductVS
 }
