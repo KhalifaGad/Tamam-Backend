@@ -30,12 +30,15 @@ const cartModule = {
                             productObj.product.name[retrievedLang]
                         productObj.product.description =
                             productObj.product.description[retrievedLang]
+                        console.log(productObj.product.categoryId)
                         if (Object.keys(productObj.product.categoryId).length > 1) {
                             productObj.product.categoryName =
                                 productObj.product.categoryId[categoryLang]
                             productObj.product.categoryId =
                                 productObj.product.categoryId._id
                         }
+                        productObj.product.keyImage =
+                            productObj.product.images[0] || null
                     } catch (err) {
                         // there will be error when products not populated XD
                     }
