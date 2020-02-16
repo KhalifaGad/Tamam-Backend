@@ -41,7 +41,7 @@ usersRouter.route('/')
     .get(getUsers)
 
 usersRouter.route('/:id')
-    .put(idQueryParamVM, isIdsEquivalent, updateUser)
+    .put(idQueryParamVM, isIdsEquivalent, editProductVM, updateUser)
     .get(idQueryParamVM, getUser)
     .delete(idQueryParamVM, isIdsEquivalent, deleteUser)
 
