@@ -14,7 +14,8 @@ import {
     addUserValidation,
     verifyUserMiddleware,
     rsndVrfcMiddleware,
-    idQueryParamVM
+    idQueryParamVM,
+    editProductVM
 } from '../../middlewares/validationHandler'
 import multer from 'multer'
 import path from 'path'
