@@ -63,6 +63,15 @@ const idQueryParamVS = Joi.object({
         'custom validation').required()
 })
 
+const addMessageVS = Joi.object({
+    userName: Joi.string().min(3).required(),
+    email: Joi.string()
+        .email()
+        .required(),
+    phone: Joi.number().min(5).required(),
+    message: Joi.string().min(10).required(),
+})
+
 export {
     addUserValidationSchema,
     addCountryValidationSchema,
@@ -70,5 +79,6 @@ export {
     resendVerificationSchema,
     authenticationSchema,
     editFavsVS,
-    idQueryParamVS
+    idQueryParamVS,
+    addMessageVS
 }
