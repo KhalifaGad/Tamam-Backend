@@ -15,7 +15,7 @@ server.use(express.urlencoded({ extended: true }))
 // for application/json requests
 server.use(express.json())
 
-server.use(upload.array())
+//server.use(upload.array())
 
 // Our api version 1 routes
 server.use('/api/v1', router)
