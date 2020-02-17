@@ -46,7 +46,10 @@ let productSchema = mongoose.Schema({
             required: true
         }
     },
-    offerId: mongoose.Schema.Types.ObjectId,
+    offerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Offer'
+    },
     brandName: String,
     rating: {
         value: {
