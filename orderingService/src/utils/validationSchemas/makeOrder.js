@@ -9,7 +9,6 @@ import { isMongooseId } from '../validationSchemasHelper'
 const makeOrderVS = Joi.object({
     productId: Joi.custom(isMongooseId,
             'custom validation').required(),
-    offerId: Joi.custom(isMongooseId, 'custom validation'),
     userId: Joi.custom(isMongooseId,
         'custom validation').required(),
     addressId: Joi.custom(isMongooseId,
