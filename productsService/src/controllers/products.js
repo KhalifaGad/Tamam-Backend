@@ -167,8 +167,9 @@ async function getProduct(req, res, next) {
   let retrevingLang = req.query.lang === "en" ? "english" : "arabic";
 
   await ProductModel.findById(req.params.id)
-    .select("-__v")
-    .populate("offerId")
+    .populate({
+      path: "offerId"
+    })
     .lean()
     .then(product => {
       if (product) {

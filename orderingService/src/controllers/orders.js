@@ -6,7 +6,7 @@ async function makeOrder(req, res, next) {
     // check the user authentication,
     let auth = req.headers.authentication;
     if (!auth) {
-      next(boom.forbidden("Authentication required!"));
+      return next(boom.forbidden("Authentication required!"));
     }
   
     // sending auth var to user authentication api
@@ -26,9 +26,8 @@ async function makeOrder(req, res, next) {
     }
   
     //authResponse.status, authResponse.data
-    console.log(authResponse.status);
-    if (!authResponse.isAuthenticated) {
-      next(boom.forbidden("Authentication required!"));
+    if (authResponse.status > 299) {
+      return next(boom.forbidden("Authentication required!"));
     }
   
     // return res.send("ok");
