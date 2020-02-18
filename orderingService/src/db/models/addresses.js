@@ -29,11 +29,13 @@ let userAddressesSchema = mongoose.Schema({
             },
             countryName: {
                 type: String,
-                required: true
+                required: true,
+                default: 'old Data'
             },
             countryCode: {
                 type: String,
-                required: true
+                required: true,
+                default: 'old Data'
             },
             buildingNo: String,
             floorNo: String,
