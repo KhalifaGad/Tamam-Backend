@@ -11,9 +11,13 @@ const addressesModule = {
             userId,
             'addresses._id': addressId
         }).lean().then(doc => {
-            return doc.addresses.filter(address => {
-                return address._id + '' == addressId + ''
-            })
+            if(doc){
+                return doc.addresses.filter(address => {
+                    return address._id + '' == addressId + ''
+                })[0]
+            }
+            return null
+            
         })
     },
     async addAddress(
