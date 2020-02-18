@@ -8,7 +8,8 @@ let orderSchema = mongoose.Schema({
     offerId: mongoose.Schema.Types.ObjectId,
     deliveryAddress: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        ref: 'UserAddresses.addresses'
     },
     issuingDate: {
         type: Date,

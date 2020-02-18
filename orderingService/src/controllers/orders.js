@@ -32,9 +32,9 @@ async function makeOrder(req, res, next) {
   
     // return res.send("ok");
     let productId = req.body.productId,
-    product
+    productRes
     try {
-      product = await axios
+      productRes = await axios
         .create({
           baseURL: "http://products-service:3001/api/v1",
           headers: {
@@ -45,7 +45,7 @@ async function makeOrder(req, res, next) {
     } catch (err) {
       return res.status(err.response.status).send(err.response.data);
     }
-    console.log(product.data)
+    console.log(productRes.data)
     return res.send('ok')
     // fetch the product
     // check for offer and fetch it if exist
