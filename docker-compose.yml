@@ -3,6 +3,7 @@ services:
     ordering-service:
         build: orderingService/
         env_file: ./.env
+        restart: always
         volumes: 
             - ./orderingService:/orderingService
         ports: 
@@ -14,6 +15,7 @@ services:
     users-service:
         build: usersService/
         env_file: ./.env
+        restart: always
         volumes: 
             - ./usersService:/usersService 
             - ./externalVolumes/userImages:/usersService/userImages 
@@ -26,6 +28,7 @@ services:
     products-service:
         build: productsService/ 
         env_file: ./.env
+        restart: always
         volumes: 
             - ./externalVolumes/images:/productsService/productsImages 
             - ./productsService:/productsService
