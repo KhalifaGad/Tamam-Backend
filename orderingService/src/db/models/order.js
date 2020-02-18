@@ -1,65 +1,85 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-let orderSchema = mongoose.Schema({
-    productId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
+let orderSchema = mongoose.Schema(
+  {
+    productsIds: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true
+        }
+      ],
+      required: true
+    },
+    quantity: {
+      type: Number,
+      required: true
     },
     offerId: mongoose.Schema.Types.ObjectId,
     deliveryAddress: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'UserAddresses.addresses'
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "UserAddresses.addresses"
     },
     issuingDate: {
-        type: Date,
-        default: new Date()
+      type: Date,
+      default: new Date()
     },
     acceptingDate: Date,
     refusingDate: Date,
     refusingNote: {
-        type: String,
-        trim: true
+      type: String,
+      trim: true
     },
-    estimatedTime: Number,
+    estimatedTime: {
+      type: Number,
+      required: true
+    },
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      required: true
     },
     sellerId: mongoose.Schema.Types.ObjectId,
     total: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true
+    },
+    tax: {
+      type: Number,
+      default: 5
     },
     grandTotal: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true
     },
     State: {
-        type: String,
-        enum: [
-            'PENDING',
-            'ACCEPTED',
-            'MANUFACTORY',
-            'STORED',
-            'SHIPPED FROM ORIGIN COUNTRY',
-            'DELIVERED DESTINATION COUNTRY',
-            'TAMAM',
-            'REFUSED'
-        ],
-        default: 'PENDING'
+      type: String,
+      enum: [
+        "PENDING",
+        "ACCEPTED",
+        "MANUFACTORY",
+        "STORED",
+        "SHIPPED FROM ORIGIN COUNTRY",
+        "DELIVERED DESTINATION COUNTRY",
+        "SHIPPED TO USER ADDRESS",
+        "TAMAM",
+        "REFUSED"
+      ],
+      default: "PENDING"
     },
     isPaid: {
-        type: Boolean,
-        required: true
+      type: Boolean,
+      required: false
     },
     paymentType: {
-        type: String,
-        enum: ['COD', 'ONLINE'],
-        default: 'COD'
+      type: String,
+      enum: ["COD", "ONLINE"],
+      default: "COD"
     }
-}, { versionKey: false })
+  },
+  { versionKey: false }
+);
 
-let orderModel = mongoose.model('OrderModel', orderSchema)
+let orderModel = mongoose.model("OrderModel", orderSchema);
 
-export { orderModel as default }
+export { orderModel as default };
