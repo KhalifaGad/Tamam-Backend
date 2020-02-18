@@ -204,4 +204,38 @@ function deleteProduct(req, res, next) {}
  */
 function updateProduct(req, res, next) {}
 
-export { addProduct, getProducts, getProduct, deleteProduct, updateProduct };
+async function getProductsGroup(req, res, next) {
+  let productsIds = req.query.productsIds;
+
+  console.log(productsIds)
+
+  await ProductModel.find({
+    _id: {
+      $in: productsIds
+    }
+  })
+    .then(products => {
+      products = products.map(product => {
+        product.estimatedDeliveryTime = product.estimatedDeliveryTime || 2;
+        return product;
+      });
+      return res.status(200).send({
+        isSuccessed: true,
+        data: products,
+        error: null
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      return next(boom.internal(err));
+    });
+}
+
+export {
+  addProduct,
+  getProducts,
+  getProduct,
+  deleteProduct,
+  updateProduct,
+  getProductsGroup
+};
