@@ -139,6 +139,7 @@ async function getProducts(req, res, next) {
           product.categoryName = product.categoryId[categoryLang];
           product.categoryId = product.categoryId._id;
           product.seller = "Khalifa Gad";
+          product.estimatedDeliveryTime = product.estimatedDeliveryTime || 2;
           return product;
         } catch (err) {
           console.log(err);
@@ -173,6 +174,7 @@ async function getProduct(req, res, next) {
       if (product) {
         product.name = product.name[retrevingLang];
         product.description = product.description[retrevingLang];
+        product.estimatedDeliveryTime = product.estimatedDeliveryTime || 2;
         return res.status(200).send({
           isSuccessed: true,
           data: product,
