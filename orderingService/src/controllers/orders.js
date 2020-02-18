@@ -40,11 +40,10 @@ async function makeOrder(req, res, next) {
 
   let productRes,
     queryStrings = '';
-
-    for(let id in productsIds){
+    for(let id of productsIds){
       queryStrings += `productsIds[]=${id}&` 
     }
-
+    
   try {
     productRes = await axios
       .create({
