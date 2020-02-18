@@ -38,7 +38,13 @@ async function makeOrder(req, res, next) {
   if (authResponse.status > 299)
     return next(boom.forbidden("Authentication required!"));
 
-  let productRes;
+  let productRes,
+    queryStrings = '';
+
+    for(let id in productsIds){
+      queryStrings += `productsIds[]=${id}&` 
+    }
+
   try {
     productRes = await axios
       .create({
@@ -47,12 +53,13 @@ async function makeOrder(req, res, next) {
           authentication: auth
         }
       })
-      .get("/products/" + productId);
+      .get("/products/group?" + queryStrings);
   } catch (err) {
     return res.status(err.response.status).send(err.response.data);
   }
-  console.log(productRes.data);
-  let product = productRes.data.data;
+  /* console.log(productRes.data); */
+  let products = productRes.data.data;
+  console.log(products)
 
   return res.send("ok");
   // fetch the product
