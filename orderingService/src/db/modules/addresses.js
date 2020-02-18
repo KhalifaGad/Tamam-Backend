@@ -10,6 +10,10 @@ const addressesModule = {
         return userAddressesModel.findOne({
             userId,
             'addresses._id': addressId
+        }).lean().then(doc => {
+            return doc.addresses.filter(address => {
+                return address._id + '' == addressId + ''
+            })
         })
     },
     async addAddress(
