@@ -46,7 +46,8 @@ const addProductVS = Joi.object({
             mongooseIdJoiHelper,
             'custom validation').required()
         ).required(),
-    brandName: Joi.string().required()
+    brandName: Joi.string().required(),
+    estimatedDeliveryTime: Joi.number().required()
 })
 // validate is id string a valid mongodb id by creating a new ObjectId with
 // id string as value.

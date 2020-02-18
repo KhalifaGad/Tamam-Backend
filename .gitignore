@@ -5,3 +5,4 @@ usersService/userImages
 productsService/productsImages
 productsService/categoryImages
 productsService/offersImages
+productsService/.env
