@@ -27,7 +27,11 @@ let userAddressesSchema = mongoose.Schema({
                 type: String,
                 required: true
             },
-            country: {
+            countryName: {
+                type: String,
+                required: true
+            },
+            countryCode: {
                 type: String,
                 required: true
             },

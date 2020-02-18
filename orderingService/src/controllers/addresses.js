@@ -36,6 +36,7 @@ async function addAddress(req, res, next) {
         floorNo,
         addressName,
         countryName,
+        countryCode,
         isMainAddress = false
     } = req.body,
         userId = req.params.id
@@ -44,7 +45,7 @@ async function addAddress(req, res, next) {
         userAddress,
         err
     } = await addressesModule.addAddress(userId, lat, long, street,
-        area, city, countryName, buildingNo, floorNo, addressName, isMainAddress)
+        area, city, countryName, countryCode, buildingNo, floorNo, addressName, isMainAddress)
 
     if (err) {
         return next(boom.internal(err))
