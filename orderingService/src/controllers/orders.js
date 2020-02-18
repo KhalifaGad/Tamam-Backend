@@ -1,12 +1,12 @@
-import OrderModel from '../db/models/order'
-import boom from '@hapi/boom'
-import axios from 'axios'
+import OrderModel from "../db/models/order";
+import boom from "@hapi/boom";
+import axios from "axios";
 
 async function makeOrder(req, res, next) {
     // check the user authentication,
     let auth = req.headers.authentication;
     if (!auth) {
-      next(boom.forbidden("Authentication required!"));
+      return next(boom.forbidden("Authentication required!"));
     }
   
     // sending auth var to user authentication api
@@ -26,16 +26,15 @@ async function makeOrder(req, res, next) {
     }
   
     //authResponse.status, authResponse.data
-    console.log(authResponse.status);
-    if (!authResponse.isAuthenticated) {
-      next(boom.forbidden("Authentication required!"));
+    if (authResponse.status > 299) {
+      return next(boom.forbidden("Authentication required!"));
     }
   
     // return res.send("ok");
     let productId = req.body.productId,
-    product
+    productRes
     try {
-      product = await axios
+      productRes = await axios
         .create({
           baseURL: "http://products-service:3001/api/v1",
           headers: {
@@ -46,14 +45,13 @@ async function makeOrder(req, res, next) {
     } catch (err) {
       return res.status(err.response.status).send(err.response.data);
     }
-    console.log(product.data)
+    console.log(productRes.data)
     return res.send('ok')
     // fetch the product
     // check for offer and fetch it if exist
   }
 
-function getUserOrders(req, res, next) {
+function getUserOrders(req, res, next) {}
 
-}
+export { makeOrder, getUserOrders };
 
-export { makeOrder, getUserOrders }
