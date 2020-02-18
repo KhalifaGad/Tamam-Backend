@@ -19,7 +19,8 @@ const addressesModule = {
         street,
         area,
         city,
-        country,
+        countryName,
+        countryCode,
         buildingNo,
         floorNo,
         addressName,
@@ -28,7 +29,7 @@ const addressesModule = {
         let userAddress = null,
             address = {
                 lat, long, street, area, city, buildingNo,
-                floorNo, addressName, country
+                floorNo, addressName, countryName, countryCode
             },
             updateQuery = {
                 $push: { addresses: address }
