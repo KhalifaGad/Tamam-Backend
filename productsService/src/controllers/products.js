@@ -167,9 +167,7 @@ async function getProduct(req, res, next) {
   let retrevingLang = req.query.lang === "en" ? "english" : "arabic";
 
   await ProductModel.findById(req.params.id)
-    .populate({
-      path: "offerId"
-    })
+    .populate({ path: "offerId" })
     .lean()
     .then(product => {
       if (product) {
@@ -181,10 +179,10 @@ async function getProduct(req, res, next) {
           error: null
         });
       }
-      next(boom.notFound("product not found"));
+      return next(boom.notFound("product not found"));
     })
     .catch(err => {
-      next(boom.internal(err));
+      return next(boom.internal(err));
     });
 }
 
