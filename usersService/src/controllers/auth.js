@@ -88,6 +88,12 @@ async function getUserCardinalities(req, res, next) {
         userId: docodingRes.userId
     }).sort('-createdAt')
 
+    if(!tokenModel) return res.status(404).send({
+        isSuccessed: false,
+            data: null,
+            error: 'Previous processes required!'
+    })
+
     if (tokenModel.token !== docodingRes.token) {
         return res.status(302).send({
             isSuccessed: false,
