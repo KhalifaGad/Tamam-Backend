@@ -3,19 +3,24 @@ import boom from "@hapi/boom";
 import axios from "axios";
 import { checkAuth } from "../utils/authHelper";
 import { addressesModule } from "../db/modules/addresses";
+import { getCountry } from "../utils/countryHelper";
 
 async function makeOrder(req, res, next) {
-  let {
-    productId,
-    userId,
-    addressId
-  } = req.body
-  
+  let { productsIds, userId, addressId } = req.body;
+
   // check for the address
-  let address = await addressesModule.getAddress(userId, addressId)
+  let address = await addressesModule.getAddress(userId, addressId);
 
-  console.log(address)
+  if (!address) return next(boom.badData("No address for this address id"));
 
+  let country = await getCountry(address.countryCode);
+
+  if (country.isBlocked)
+    return next(
+      boom.badData(
+        `Country: ${address.countryName} has been blocked by tamam, for a while.`
+      )
+    );
 
   // check the user authentication,
   let auth = req.headers.authentication;

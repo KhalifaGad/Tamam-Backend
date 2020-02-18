@@ -1,5 +1,5 @@
-import Joi from '@hapi/joi'
-import { isMongooseId } from '../validationSchemasHelper'
+import Joi from "@hapi/joi";
+import { isMongooseId } from "../validationSchemasHelper";
 
 /* 
     --------------typography-------------
@@ -7,12 +7,12 @@ import { isMongooseId } from '../validationSchemasHelper'
 */
 
 const makeOrderVS = Joi.object({
-    productId: Joi.custom(isMongooseId,
-            'custom validation').required(),
-    userId: Joi.custom(isMongooseId,
-        'custom validation').required(),
-    addressId: Joi.custom(isMongooseId,
-        'custom validation').required()
-})
+  productsIds: Joi.array()
+    .items(Joi.custom(isMongooseId, "custom validation").required())
+    .required(),
+  userId: Joi.custom(isMongooseId, "custom validation").required(),
+  addressId: Joi.custom(isMongooseId, "custom validation").required(),
+  quantity: Joi.number().required()
+});
 
-export { makeOrderVS }
+export { makeOrderVS };
