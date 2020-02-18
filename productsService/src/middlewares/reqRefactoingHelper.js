@@ -16,7 +16,8 @@ function refactorAddProductReq(req, res, next) {
             measurement: req.body.quantityMeasurement
         },
         brandName: req.body.brandName,
-        availableCountries: req.body.availableCountries
+        availableCountries: req.body.availableCountries,
+        estimatedDeliveryTime: req.body.estimatedDeliveryTime
     }
     let images = []
     req.files.forEach((file)=> {
