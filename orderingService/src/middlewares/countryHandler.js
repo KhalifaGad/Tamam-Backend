@@ -13,7 +13,7 @@ async function checkCountry(req, res, next) {
     if (country == undefined)
         return next(boom.badData('Tamam is not in this country, yet!'))
 
-    if (!country.isBlocked)
+    if (country.isBlocked)
         return next(boom.badData('This country is blocked!'))
 
     req.body.countryName = country.name
