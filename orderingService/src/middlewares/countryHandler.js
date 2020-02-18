@@ -7,18 +7,12 @@ async function checkCountry(req, res, next) {
     let response = await axios
         .get(`http://users-service:3002/api/v1/countries?q=${code}&lang=en`)
         .catch(err => {
-            console.log('==============================')
             console.log(err)
-            console.log('==============================')
         })
     let country = response.data.data[0]
     console.log('heeeeeeeeeeey')
     if (country == undefined)
         return next(boom.badData('Tamam is not in this country, yet!'))
-    
-    console.log('==================================country')
-    console.log(country)
-    console.log('*******************************country')
     if (country.isBlocked)
         return next(boom.badData('This country is blocked!'))
 
