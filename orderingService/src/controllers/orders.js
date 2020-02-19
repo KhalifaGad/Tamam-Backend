@@ -47,13 +47,18 @@ async function makeOrder(req, res, next) {
   if (products.indexOf(undefined) > -1 || products.indexOf(null) > -1)
     return next(boom.badRequest("Some of your Ids is invalide"));
   //console.log(products);
-  let {
+  /* let {
     preparedOrderArr,
     orderTotal,
     grandTotal,
     tax,
     estimatedTime
-  } = await prepareOrder(products, productsArr);
+  } = await prepareOrder(products, productsArr); */
+  let orders = await prepareOrder(products, productsArr);
+  console.log(orders)
+
+
+  res.send('ok')
   let order = {
     productsIds: preparedOrderArr,
     orderTotal,
@@ -63,7 +68,7 @@ async function makeOrder(req, res, next) {
     userId,
     deliveryAddress: addressId
   };
-  let savedOrder = await ordersModule.saveOrder(order);
+  /* let savedOrder = await ordersModule.saveOrder(order);
   console.log(savedOrder);
 
   if (!savedOrder) return next(boom.notAcceptable("Error issuing order"));
@@ -72,7 +77,7 @@ async function makeOrder(req, res, next) {
     isSuccessed: true,
     data: savedOrder,
     error: null
-  });
+  }); */
   // fetch the product
   // check for offer and fetch it if exist
 }
