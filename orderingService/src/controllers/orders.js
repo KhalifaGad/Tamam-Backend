@@ -5,7 +5,7 @@ import { checkAuth } from "../utils/authHelper";
 import { addressesModule } from "../db/modules/addresses";
 import { getCountry } from "../utils/countryHelper";
 import { getProductsGroup } from "../utils/productsHelper";
-import { prepareOrderArr } from "../utils/orderHelper";
+import { prepareOrder } from "../utils/orderHelper";
 
 async function makeOrder(req, res, next) {
   let { productsArr, userId, addressId } = req.body,
@@ -46,7 +46,7 @@ async function makeOrder(req, res, next) {
     return next(boom.badRequest("Can not find products for those ids"));
   
   //console.log(products);
-  let preparedArr = await prepareOrderArr(products, productsArr)
+  let preparedArr = await prepareOrder(products, productsArr)
   console.log(preparedArr)
   return res.send("ok");
   // fetch the product
