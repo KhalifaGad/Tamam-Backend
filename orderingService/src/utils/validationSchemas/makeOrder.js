@@ -7,7 +7,7 @@ import { isMongooseId } from "../validationSchemasHelper";
 */
 
 const makeOrderVS = Joi.object({
-  productsIds: Joi.array()
+  productsArr: Joi.array()
     .items(Joi.object({
       productId: Joi.custom(isMongooseId, "custom validation").required(),
       quantity: Joi.number().required()

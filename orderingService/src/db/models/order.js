@@ -12,16 +12,20 @@ let orderSchema = mongoose.Schema(
           quantity: {
             type: Number,
             required: true
+          },
+          offerId: mongoose.Schema.Types.ObjectId,
+          price: {
+            type: Number,
+            required: true
+          },
+          total: {
+            type: Number,
+            required: true
           }
         }
       ],
       required: true
     },
-    quantity: {
-      type: Number,
-      required: true
-    },
-    offerId: mongoose.Schema.Types.ObjectId,
     deliveryAddress: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -46,7 +50,7 @@ let orderSchema = mongoose.Schema(
       required: true
     },
     sellerId: mongoose.Schema.Types.ObjectId,
-    total: {
+    orderTotal: {
       type: Number,
       required: true
     },
