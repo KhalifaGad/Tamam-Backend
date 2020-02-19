@@ -76,7 +76,8 @@ let productSchema = mongoose.Schema(
     },
     estimatedDeliveryTime: {
       type: Number,
-      required: true
+      required: true,
+      default: 2
     }
   },
   { versionKey: false }
