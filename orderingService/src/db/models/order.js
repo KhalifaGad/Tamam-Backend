@@ -92,4 +92,4 @@ let orderSchema = mongoose.Schema(
 
 let orderModel = mongoose.model("OrderModel", orderSchema);
 
-export { orderModel as default };
+export { orderModel };
