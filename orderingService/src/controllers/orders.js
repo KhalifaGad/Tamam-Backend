@@ -1,11 +1,10 @@
-import OrderModel from "../db/models/order";
 import boom from "@hapi/boom";
-import axios from "axios";
 import { checkAuth } from "../utils/authHelper";
 import { addressesModule } from "../db/modules/addresses";
 import { getCountry } from "../utils/countryHelper";
 import { getProductsGroup } from "../utils/productsHelper";
 import { prepareOrder } from "../utils/orderHelper";
+import { ordersModule } from "../db/modules/orders";
 
 async function makeOrder(req, res, next) {
   let { productsArr, userId, addressId } = req.body,
@@ -53,8 +52,18 @@ async function makeOrder(req, res, next) {
     tax,
     estimatedTime
   } = await prepareOrder(products, productsArr);
-  console.log(preparedOrderArr);
-  console.log(estimatedTime);
+  let order = {
+    productsIds: preparedOrderArr,
+    orderTotal,
+    grandTotal,
+    tax,
+    estimatedTime,
+    userId,
+    deliveryAddress: addressId
+  };
+  let savedOrder = await ordersModule.saveOrder(order);
+  console.log(savedOrder);
+
   return res.send("ok");
   // fetch the product
   // check for offer and fetch it if exist
