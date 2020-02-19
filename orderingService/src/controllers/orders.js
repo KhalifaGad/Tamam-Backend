@@ -46,46 +46,23 @@ async function makeOrder(req, res, next) {
 
   if (products.indexOf(undefined) > -1 || products.indexOf(null) > -1)
     return next(boom.badRequest("Some of your Ids is invalide"));
-  //console.log(products);
-  /* let {
-    preparedOrderArr,
-    orderTotal,
-    grandTotal,
-    tax,
-    estimatedTime
-  } = await prepareOrder(products, productsArr); */
+
   let orders = await prepareOrder(products, productsArr);
-  console.log(orders);
 
   let savedOrders = [];
-
   for (let i = 0; i < orders.length; i++) {
     orders[i].userId = userId;
     orders[i].deliveryAddress = addressId;
     orders[i].productsIds = orders[i].preparedOrderArr;
     delete orders[i].preparedOrderArr;
-    savedOrders.push(await ordersModule.saveOrder(order));
+    savedOrders.push(await ordersModule.saveOrder(orders[i]));
   }
-  console.log(savedOrders);
+  
   return res.status(201).send({
     isSuccessed: true,
     data: savedOrders,
     error: null
   });
-
-  /* let savedOrder = await ordersModule.saveOrder(order);
-  console.log(savedOrder);
-
-  if(!savedOrder)
-    return next(boom.notAcceptable('Error issuing order'))
-
-  return res.status(201).send({
-    isSuccessed: true,
-    data: savedOrder,
-    error: null
-  }); */
-  // fetch the product
-  // check for offer and fetch it if exist
 }
 
 function getUserOrders(req, res, next) {}
