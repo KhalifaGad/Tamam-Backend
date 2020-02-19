@@ -55,19 +55,24 @@ async function makeOrder(req, res, next) {
     estimatedTime
   } = await prepareOrder(products, productsArr); */
   let orders = await prepareOrder(products, productsArr);
-  console.log(orders)
+  console.log(orders);
 
+  let savedOrders = [];
 
-  res.send('ok')
-  let order = {
-    productsIds: preparedOrderArr,
-    orderTotal,
-    grandTotal,
-    tax,
-    estimatedTime,
-    userId,
-    deliveryAddress: addressId
-  };
+  for (let i = 0; i < orders.length; i++) {
+    orders[i].userId = userId;
+    orders[i].deliveryAddress = addressId;
+    orders[i].productsIds = orders[i].preparedOrderArr;
+    delete orders[i].preparedOrderArr;
+    savedOrders.push(await ordersModule.saveOrder(order));
+  }
+  console.log(savedOrders);
+  return res.status(201).send({
+    isSuccessed: true,
+    data: savedOrders,
+    error: null
+  });
+
   /* let savedOrder = await ordersModule.saveOrder(order);
   console.log(savedOrder);
 

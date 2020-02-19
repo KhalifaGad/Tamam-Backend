@@ -74,7 +74,7 @@ function grouptBySeller(products) {
     if (sellersProducts[products[i].seller] == undefined) {
       sellersProducts[products[i].seller] = [products[i]];
     } else {
-      sellersProducts[products[i].seller].psuh(products[i]);
+      sellersProducts[products[i].seller].push(products[i]);
     }
   }
   return sellersProducts;
