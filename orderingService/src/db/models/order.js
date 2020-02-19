@@ -79,7 +79,7 @@ let orderSchema = mongoose.Schema(
     },
     isPaid: {
       type: Boolean,
-      required: false
+      default: false
     },
     paymentType: {
       type: String,
