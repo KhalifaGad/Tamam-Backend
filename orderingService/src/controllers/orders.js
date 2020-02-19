@@ -66,8 +66,7 @@ async function makeOrder(req, res, next) {
   let savedOrder = await ordersModule.saveOrder(order);
   console.log(savedOrder);
 
-  if(!savedOrder)
-    return next(boom.notAcceptable('Error issuing order'))
+  if (!savedOrder) return next(boom.notAcceptable("Error issuing order"));
 
   return res.status(201).send({
     isSuccessed: true,
