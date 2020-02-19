@@ -5,6 +5,7 @@ import { checkAuth } from "../utils/authHelper";
 import { addressesModule } from "../db/modules/addresses";
 import { getCountry } from "../utils/countryHelper";
 import { getProductsGroup } from "../utils/productsHelper";
+import { prepareOrderArr } from "../utils/orderHelper";
 
 async function makeOrder(req, res, next) {
   let { productsArr, userId, addressId } = req.body,
@@ -44,8 +45,8 @@ async function makeOrder(req, res, next) {
   if (products == null || products == [])
     return next(boom.badRequest("Can not find products for those ids"));
   
-  console.log(products);
-
+  //console.log(products);
+  prepareOrderArr(products, productsArr)
   return res.send("ok");
   // fetch the product
   // check for offer and fetch it if exist
