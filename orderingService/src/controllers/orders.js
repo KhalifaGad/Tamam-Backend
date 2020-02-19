@@ -44,10 +44,17 @@ async function makeOrder(req, res, next) {
 
   if (products == null || products == [])
     return next(boom.badRequest("Can not find products for those ids"));
-  
+
   //console.log(products);
-  let preparedArr = await prepareOrder(products, productsArr)
-  console.log(preparedArr)
+  let {
+    preparedOrderArr,
+    orderTotal,
+    grandTotal,
+    tax,
+    estimatedTime
+  } = await prepareOrder(products, productsArr);
+  console.log(preparedOrderArr);
+  console.log(estimatedTime);
   return res.send("ok");
   // fetch the product
   // check for offer and fetch it if exist
