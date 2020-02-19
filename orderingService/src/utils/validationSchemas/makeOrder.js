@@ -7,12 +7,14 @@ import { isMongooseId } from "../validationSchemasHelper";
 */
 
 const makeOrderVS = Joi.object({
-  productsIds: Joi.array()
-    .items(Joi.custom(isMongooseId, "custom validation").required())
+  productsArr: Joi.array()
+    .items(Joi.object({
+      productId: Joi.custom(isMongooseId, "custom validation").required(),
+      quantity: Joi.number().required()
+    }))
     .required(),
   userId: Joi.custom(isMongooseId, "custom validation").required(),
-  addressId: Joi.custom(isMongooseId, "custom validation").required(),
-  quantity: Joi.number().required()
+  addressId: Joi.custom(isMongooseId, "custom validation").required()
 });
 
 export { makeOrderVS };

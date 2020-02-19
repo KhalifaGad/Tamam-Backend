@@ -4,10 +4,11 @@ import axios from "axios";
 import { checkAuth } from "../utils/authHelper";
 import { addressesModule } from "../db/modules/addresses";
 import { getCountry } from "../utils/countryHelper";
+import { getProductsGroup } from "../utils/productsHelper";
 
 async function makeOrder(req, res, next) {
-  let { productsIds, userId, addressId } = req.body;
-
+  let { productsArr, userId, addressId } = req.body,
+    productsIds = productsArr.map(product => product.productId);
   // check for the address
   let address = await addressesModule.getAddress(userId, addressId);
 
@@ -34,31 +35,16 @@ async function makeOrder(req, res, next) {
   if (!authResponse) return next(boom.badRequest("Failed in authenticating"));
 
   //authResponse.status, authResponse.data
-  console.log(authResponse.data);
   if (authResponse.status > 299)
     return next(boom.forbidden("Authentication required!"));
 
-  let productRes,
-    queryStrings = '';
-    for(let id of productsIds){
-      queryStrings += `productsIds[]=${id}&` 
-    }
-    
-  try {
-    productRes = await axios
-      .create({
-        baseURL: "http://products-service:3001/api/v1",
-        headers: {
-          authentication: auth
-        }
-      })
-      .get("/products/group?" + queryStrings);
-  } catch (err) {
-    return res.status(err.response.status).send(err.response.data);
-  }
   /* console.log(productRes.data); */
-  let products = productRes.data.data;
-  console.log(products)
+  let products = await getProductsGroup(productsIds);
+
+  if (products == null || products == [])
+    return next(boom.badRequest("Can not find products for those ids"));
+  
+  console.log(products);
 
   return res.send("ok");
   // fetch the product
