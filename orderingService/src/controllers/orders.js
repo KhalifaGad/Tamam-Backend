@@ -44,6 +44,8 @@ async function makeOrder(req, res, next) {
   if (products == null || products == [])
     return next(boom.badRequest("Can not find products for those ids"));
 
+  if (products.indexOf(undefined) > -1 || products.indexOf(null) > -1)
+    return next(boom.badRequest("Some of your Ids is invalide"));
   //console.log(products);
   let {
     preparedOrderArr,
@@ -64,7 +66,14 @@ async function makeOrder(req, res, next) {
   let savedOrder = await ordersModule.saveOrder(order);
   console.log(savedOrder);
 
-  return res.send("ok");
+  if(!savedOrder)
+    return next(boom.notAcceptable('Error issuing order'))
+
+  return res.status(201).send({
+    isSuccessed: true,
+    data: savedOrder,
+    error: null
+  });
   // fetch the product
   // check for offer and fetch it if exist
 }
