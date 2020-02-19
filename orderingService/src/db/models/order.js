@@ -5,8 +5,14 @@ let orderSchema = mongoose.Schema(
     productsIds: {
       type: [
         {
-          type: mongoose.Schema.Types.ObjectId,
-          required: true
+          productId: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true
+          },
+          quantity: {
+            type: Number,
+            required: true
+          }
         }
       ],
       required: true
