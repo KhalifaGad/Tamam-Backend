@@ -15,7 +15,6 @@ import { cartModule } from "../db/modules/cart";
 // in the authorization we will get the seller data and put its id in the product,
 // put for now I will set it 5e304d348ca5dd005fc89f12 as refrence to Khalifa Gad user
 function addProduct(req, res, next) {
-  
   let product = new ProductModel({
     ...req.body
   });
@@ -202,7 +201,57 @@ function deleteProduct(req, res, next) {}
  * @param res: response param
  * @param next: express middleware function
  */
-function updateProduct(req, res, next) {}
+async function updateProduct(req, res, next) {
+  let productId = req.params.id;
+  let product = await ProductModel.findById(productId).catch(err => {
+    console.log(err);
+    return null;
+  });
+  if (!product) return next(boom.notFound("Can not find product!"));
+  let {
+    nameAr = false,
+    nameEn = false,
+    descriptionAr = false,
+    descriptionEn = false,
+    categoryId = false,
+    subcategoryId = false,
+    price = false,
+    quantityVal = false,
+    quantityMeasurement = false,
+    availableCountries = false,
+    brandName = false,
+    estimatedDeliveryTime = false,
+    imgURL = false
+  } = req.body;
+
+  if (nameAr) product.name.arabic = nameAr;
+  if (nameEn) product.name.english = nameEn;
+  if (descriptionAr) product.description.arabic = descriptionAr;
+  if (descriptionEn) product.description.english = descriptionEn;
+  if (categoryId) product.categoryId = categoryId;
+  if (subcategoryId) product.subcategoryId = subcategoryId;
+  if (price) product.price = price;
+  if (quantityVal) product.quantity.val = quantityVal;
+  if (quantityMeasurement) product.quantity.measurement = quantityMeasurement;
+  if (availableCountries) product.availableCountries = availableCountries;
+  if (brandName) product.brandName = brandName;
+  if (estimatedDeliveryTime)
+    product.estimatedDeliveryTime = estimatedDeliveryTime;
+  if (imgURL) product.images = product.images.filter(img => img != imgURL);
+
+  product = await product.save().catch(err => {
+    console.log(err)
+    return null
+  })
+
+  if(!product) return next(boom.badRequest('Error saving data'))
+
+  return res.status(200).send({
+    isSuccessed: true,
+    data: product,
+    error: null
+  })
+}
 
 async function getProductsGroup(req, res, next) {
   let productsIds = req.query.productsIds;
