@@ -13,13 +13,13 @@ async function getUser(req, res, next) {
   if (authRes.status > 299)
     return next(boom.badRequest("Failed in authentication"));
 
-  let user = authRes.data.data;
+  let authResData = authRes.data.data;
 
-  if (user.role == "CUSTOMER")
+  if (authResData.role == "CUSTOMER")
     return next(boom.unauthorized("This endpoint is not for you!"));
 
   req.body = {};
-  req.body.seller = user;
+  req.body.sellerId = authResData.userId;
   next();
 }
 
