@@ -32,7 +32,8 @@ async function prepareOrder(products, reqArray) {
       orderTotal,
       tax,
       estimatedTime,
-      grandTotal: orderTotal * (1 + tax / 100)
+      grandTotal: orderTotal * (1 + tax / 100),
+      sellerId: seller
     });
   }
   return orders
