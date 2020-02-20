@@ -5,7 +5,12 @@ async function sellerHome(req, res, next){
 
     let orders = await ordersModule.getSellerOrders(sellerId)
 
-    console.log(orders)
+    let totalOrdersCount = orders.length,
+        paidOrdersRatio = (orders.filter(order => order.isPaid).length / totalOrdersCount) * 100
+
+    console.log(totalOrdersCount)
+    console.log(paidOrdersRatio)
+
 
     res.send('ok')
 }
