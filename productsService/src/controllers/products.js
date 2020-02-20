@@ -15,7 +15,7 @@ import { cartModule } from "../db/modules/cart";
 // in the authorization we will get the seller data and put its id in the product,
 // put for now I will set it 5e304d348ca5dd005fc89f12 as refrence to Khalifa Gad user
 function addProduct(req, res, next) {
-  req.body.seller = "5e304d348ca5dd005fc89f12";
+  
   let product = new ProductModel({
     ...req.body
   });
