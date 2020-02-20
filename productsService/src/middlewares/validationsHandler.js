@@ -128,9 +128,12 @@ async function aboveCustomerAuthorization(req, res, next) {
   let auth = req.headers.authentication;
   if (!auth) return next(boom.unauthorized("Do not play with us, okay!!"));
 
-  let user = await requestAuth(auth)
-  console.log(user)
-  return res.send('ok')
+  let user = await requestAuth(auth);
+  if (!user) return next(boom.unauthorized("Error authenticating request"));
+
+  if(user.role == 'CUSTOMER') return next(boom.unauthorized('Not Allowed for this action'))
+
+  next()
 }
 
 export {

@@ -7,7 +7,8 @@ import {
   addOfferVM,
   getOffersVM,
   editFavsVM,
-  editCartVM
+  editCartVM,
+  aboveCustomerAuthorization
 } from "../../middlewares/validationsHandler";
 import {
   addProduct,
