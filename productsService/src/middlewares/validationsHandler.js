@@ -1,16 +1,17 @@
 import {
-    addProductVS,
-    idVS,
-    getProductsVS,
-    addHomeSectionVS,
-    addOfferVS,
-    getOffersVS,
-    addCategoryVS,
-    addSubcategoriesVS,
-    editFavsVS,
-    editCartVS
-} from '../utils/validationSchemas'
-import boom from '@hapi/boom'
+  addProductVS,
+  idVS,
+  getProductsVS,
+  addHomeSectionVS,
+  addOfferVS,
+  getOffersVS,
+  addCategoryVS,
+  addSubcategoriesVS,
+  editFavsVS,
+  editCartVS
+} from "../utils/validationSchemas";
+import boom from "@hapi/boom";
+import { requestAuth } from "../utils/authRequest";
 
 /* 
     -------------typos-------------
@@ -18,128 +19,130 @@ import boom from '@hapi/boom'
 */
 
 function addProdcutVM(req, res, next) {
-    const {
-        error
-    } = addProductVS.validate(req.body)
+  const { error } = addProductVS.validate(req.body);
 
-    if (error) {
-        next(boom.badData(error.details[0].message))
-    }
+  if (error) {
+    next(boom.badData(error.details[0].message));
+  }
 
-    next()
+  next();
 }
 
 function queryIdVM(req, res, next) {
-    let isValid = idVS(req.params.id)
+  let isValid = idVS(req.params.id);
 
-    if (!isValid) {
-        next(boom.badData("Invalid Id"))
-    }
+  if (!isValid) {
+    next(boom.badData("Invalid Id"));
+  }
 
-    next()
+  next();
 }
 
 function getProductsVM(req, res, next) {
-    const {
-        error
-    } = getProductsVS.validate(req.query)
+  const { error } = getProductsVS.validate(req.query);
 
-    if (error) {
-        next(boom.badData(error.details[0].message))
-    }
+  if (error) {
+    next(boom.badData(error.details[0].message));
+  }
 
-    next()
+  next();
 }
 
 function addNewHomeSectionVM(req, res, next) {
-    const {
-        error
-    } = addHomeSectionVS.validate(req.body)
+  const { error } = addHomeSectionVS.validate(req.body);
 
-    if (error) {
-        next(boom.badData(error.details[0].message))
-    }
+  if (error) {
+    next(boom.badData(error.details[0].message));
+  }
 
-    next()
+  next();
 }
 
 function addOfferVM(req, res, next) {
-    const {
-        error
-    } = addOfferVS.validate(req.body)
+  const { error } = addOfferVS.validate(req.body);
 
-    if (error) {
-        next(boom.badData(error.details[0].message))
-    }
+  if (error) {
+    next(boom.badData(error.details[0].message));
+  }
 
-    let isValid = idVS(req.params.id)
+  let isValid = idVS(req.params.id);
 
-    if (!isValid) {
-        next(boom.badData("Invalid Id"))
-    }
+  if (!isValid) {
+    next(boom.badData("Invalid Id"));
+  }
 
-    next()
+  next();
 }
 
 function getOffersVM(req, res, next) {
-    let { error } = getOffersVS.validate(req.query)
+  let { error } = getOffersVS.validate(req.query);
 
-    if (error) {
-        next(boom.badData(error.details[0].message))
-    }
+  if (error) {
+    next(boom.badData(error.details[0].message));
+  }
 
-    next()
+  next();
 }
 
 function addCategoryVM(req, res, next) {
-    let { error } = addCategoryVS.validate(req.body)
+  let { error } = addCategoryVS.validate(req.body);
 
-    if (error) {
-        next(boom.badData(error.details[0].message))
-    }
+  if (error) {
+    next(boom.badData(error.details[0].message));
+  }
 
-    next()
+  next();
 }
 
 function addSubcategoryVM(req, res, next) {
-    let { error } = addSubcategoriesVS.validate(req.body)
+  let { error } = addSubcategoriesVS.validate(req.body);
 
-    if (error) {
-        next(boom.badData(error.details[0].message))
-    }
+  if (error) {
+    next(boom.badData(error.details[0].message));
+  }
 
-    next()
+  next();
 }
 //editFavsVS
 function editFavsVM(req, res, next) {
-    let { error } = editFavsVS.validate(req.body)
+  let { error } = editFavsVS.validate(req.body);
 
-    if (error) {
-        next(boom.badData(error.details[0].message))
-    }
+  if (error) {
+    next(boom.badData(error.details[0].message));
+  }
 
-    next()
+  next();
 }
 
 function editCartVM(req, res, next) {
-    let { error } = editCartVS.validate(req.body)
+  let { error } = editCartVS.validate(req.body);
 
-    if (error) {
-        next(boom.badData(error.details[0].message))
-    }
+  if (error) {
+    next(boom.badData(error.details[0].message));
+  }
 
-    next()
+  next();
+}
+
+async function aboveCustomerAuthorization(req, res, next) {
+  let auth = req.headers.authentication;
+  if (!auth) return next(boom.unauthorized("Do not play with us, okay!!"));
+
+  let user = await requestAuth(auth)
+  console.log(user)
+  return res.send('ok')
 }
 
 export {
-    addProdcutVM,
-    queryIdVM,
-    getProductsVM,
-    addNewHomeSectionVM,
-    addOfferVM,
-    getOffersVM,
-    addCategoryVM,
-    addSubcategoryVM,
-    editFavsVM,
-    editCartVM
-}
+  addProdcutVM,
+  queryIdVM,
+  getProductsVM,
+  addNewHomeSectionVM,
+  addOfferVM,
+  getOffersVM,
+  addCategoryVM,
+  addSubcategoryVM,
+  editFavsVM,
+  editCartVM,
+  aboveCustomerAuthorization
+};
