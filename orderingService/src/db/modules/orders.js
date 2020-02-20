@@ -10,6 +10,14 @@ const ordersModule = {
         console.log(err);
         return null;
       });
+  },
+  async getSellerOrders(sellerId){
+    return await orderModel.find({
+      sellerId
+    }).catch(err => {
+      console.log(err)
+      return []
+    })
   }
 };
 
