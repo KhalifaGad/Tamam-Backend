@@ -9,19 +9,21 @@ async function prepareOrder(products, reqArray) {
 
     orders.push({
       preparedOrderArr: reqArray.filter(obj => {
-        console.log(obj)
         try {
           let product = productsBySeller[seller].filter(
             product => product._id + "" == obj.productId + ""
           )[0];
           obj.price = product.price;
-          obj.total = product.price;
+          obj.total = product.price * obj.quantity;
           if (product.estimatedDeliveryTime > estimatedTime) {
             estimatedTime = product.estimatedDeliveryTime;
           }
           if (product.offerId) {
             obj.offerId = product.offerId._id;
-            obj.total = obj.price * (1 - product.offerId.discountRatio / 100);
+            obj.total =
+              obj.price *
+              obj.quantity *
+              (1 - product.offerId.discountRatio / 100);
           }
           orderTotal += obj.total;
           return obj;
@@ -37,7 +39,7 @@ async function prepareOrder(products, reqArray) {
       sellerId: seller
     });
   }
-  return orders
+  return orders;
 }
 
 function grouptBySeller(products) {
