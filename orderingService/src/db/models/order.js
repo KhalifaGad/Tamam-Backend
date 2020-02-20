@@ -31,10 +31,6 @@ let orderSchema = mongoose.Schema(
       required: true,
       ref: "UserAddresses.addresses"
     },
-    issuingDate: {
-      type: Date,
-      default: new Date()
-    },
     acceptingDate: Date,
     refusingDate: Date,
     refusingNote: {
@@ -87,7 +83,7 @@ let orderSchema = mongoose.Schema(
       default: "COD"
     }
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 
 let orderModel = mongoose.model("OrderModel", orderSchema);

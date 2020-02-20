@@ -12,6 +12,7 @@ async function sellerHome(req, res, next){
         pendingOrdersCount = orders.filter(order => order.State == 'PENDING').length,
         rejectedOrdersCount = orders.filter(order => order.State == 'REFUSED').length
 
+    console.log(orders)
     console.log(totalOrdersCount)
     console.log(paidOrdersRatio)
     console.log(customersCount)
