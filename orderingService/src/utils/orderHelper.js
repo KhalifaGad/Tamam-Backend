@@ -9,6 +9,7 @@ async function prepareOrder(products, reqArray) {
 
     orders.push({
       preparedOrderArr: reqArray.filter(obj => {
+        console.log(obj)
         try {
           let product = productsBySeller[seller].filter(
             product => product._id + "" == obj.productId + ""
