@@ -8,10 +8,7 @@ async function getUser(req, res, next) {
 
   let authRes = await checkAuth(auth);
 
-  if (!authRes) return next(boom.internal("Failed in authencation"));
-
-  if (authRes.status > 299)
-    return next(boom.badRequest("Failed in authentication"));
+  if (!authRes) return next(boom.badRequest("Failed in authentication, old or malformed"));
 
   let authResData = authRes.data.data;
 
