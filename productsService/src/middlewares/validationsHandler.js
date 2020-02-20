@@ -133,6 +133,8 @@ async function aboveCustomerAuthorization(req, res, next) {
 
   if(user.role == 'CUSTOMER') return next(boom.unauthorized('Not Allowed for this action'))
 
+  req.body.seller = user._id
+
   next()
 }
 
