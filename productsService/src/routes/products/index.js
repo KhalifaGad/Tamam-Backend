@@ -55,9 +55,9 @@ productsRouter
 productsRouter
   .route("/product")
   .post(
-    aboveCustomerAuthorization,
     uploadHelper("productsImages/").array("photos", 6),
     addProdcutVM,
+    aboveCustomerAuthorization,
     refactorAddProductReq,
     addProduct
   );

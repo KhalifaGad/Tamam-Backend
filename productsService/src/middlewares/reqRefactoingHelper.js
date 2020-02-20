@@ -1,4 +1,5 @@
 function refactorAddProductReq(req, res, next) {
+    console.log(req.body)
     let product = {
         name: {
             arabic: req.body.nameAr,
@@ -17,7 +18,8 @@ function refactorAddProductReq(req, res, next) {
         },
         brandName: req.body.brandName,
         availableCountries: req.body.availableCountries,
-        estimatedDeliveryTime: req.body.estimatedDeliveryTime
+        estimatedDeliveryTime: req.body.estimatedDeliveryTime,
+        seller: req.body.seller
     }
     let images = []
     req.files.forEach((file)=> {
