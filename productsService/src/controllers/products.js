@@ -207,14 +207,13 @@ function updateProduct(req, res, next) {}
 async function getProductsGroup(req, res, next) {
   let productsIds = req.query.productsIds;
 
-  console.log(productsIds);
-
   await ProductModel.find({
     _id: {
       $in: productsIds
     }
   })
     .populate({ path: "offerId" })
+    .lean()
     .then(products => {
       products = products.map(product => {
         product.estimatedDeliveryTime = product.estimatedDeliveryTime || 2;
