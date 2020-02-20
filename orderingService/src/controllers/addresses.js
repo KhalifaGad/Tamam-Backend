@@ -58,10 +58,6 @@ async function addAddress(req, res, next) {
     })
 }
 
-function addAddressTest(req, res, next){
-    res.send('OK')
-}
-
 async function toggleMainAddress(req, res, next) {
     const { userId, addressId } = req.params,
         isMain = req.body.isMain == "false"? false : true
@@ -88,6 +84,5 @@ export {
     getUserAddresses,
     getAdress,
     addAddress,
-    toggleMainAddress,
-    addAddressTest
+    toggleMainAddress
 }
