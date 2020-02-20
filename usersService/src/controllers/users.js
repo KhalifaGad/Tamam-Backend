@@ -51,7 +51,7 @@ async function addUser(req, res, next) {
     lastActiveDevice: device,
     password: await hashPass(password),
     imgURL,
-    isVerified = role == "CUSTOMER"? false : true
+    isVerified: role == "CUSTOMER"? false : true
   });
 
   let verificationCode = getPhoneToken(6);
