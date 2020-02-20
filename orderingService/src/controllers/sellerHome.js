@@ -1,5 +1,12 @@
+import { ordersModule } from "../db/modules/orders"
+
 async function sellerHome(req, res, next){
-    console.log(req.body)
+    let sellerId = req.body.sellerId
+
+    let orders = await ordersModule.getSellerOrders(sellerId)
+
+    console.log(orders)
+
     res.send('ok')
 }
 
