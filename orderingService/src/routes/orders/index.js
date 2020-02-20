@@ -15,6 +15,7 @@ import {
 } from "../../controllers/addresses";
 import { checkCountry } from "../../middlewares/countryHandler";
 import { sellerHome } from "../../controllers/sellerHome";
+import { getUser } from "../../middlewares/authenticator";
 
 const ordersRouter = Router();
 
