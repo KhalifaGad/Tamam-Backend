@@ -61,7 +61,9 @@ let orderSchema = mongoose.Schema(
     State: {
       type: String,
       enum: [
-        "PENDING",
+        "PAYMENT PENDING",
+        "CANCELED",
+        "SELLER PENDING",
         "ACCEPTED",
         "MANUFACTORY",
         "STORED",
@@ -71,17 +73,17 @@ let orderSchema = mongoose.Schema(
         "TAMAM",
         "REFUSED"
       ],
-      default: "PENDING"
+      default: "PAYMENT PENDING"
     },
     isPaid: {
       type: Boolean,
       default: false
     },
-    paymentType: {
-      type: String,
-      enum: ["COD", "ONLINE"],
-      default: "COD"
-    }
+    isConfirmed: {
+      type: Boolean,
+      default: false
+    },
+    paymentId: mongoose.Schema.Types.ObjectId,
   },
   { timestamps: true, versionKey: false }
 );

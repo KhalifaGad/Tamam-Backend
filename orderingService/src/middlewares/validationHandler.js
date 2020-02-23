@@ -4,7 +4,11 @@ import {
     getAddressVS
 } from '../utils/validationSchemas/mongooseId'
 import { addAddressVS, toggleMainAddressVS } from '../utils/validationSchemas/addresses'
+<<<<<<< HEAD
 import { makeOrderVS } from '../utils/validationSchemas/makeOrder'
+=======
+import { addPaymentTypeVS } from '../utils/validationSchemas/addPaymentType'
+>>>>>>> ordering
 
 /* 
     --------------typography-------------
@@ -62,10 +66,21 @@ function toggleMainAddressVM(req, res, next){
     next()
 }
 
+function addPaymentTypeVM(req, res, next){
+    const { error } = addPaymentTypeVS.validate(req.body)
+
+    if (error) {
+        next(boom.badData(error.details[0].message))
+    }
+
+    next()
+}
+
 export {
     makeOrderVM,
     mongooseIdReqParamVM,
     getAddressVM,
     addAddressVM,
-    toggleMainAddressVM
+    toggleMainAddressVM,
+    addPaymentTypeVM
 }

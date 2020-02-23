@@ -1,8 +1,12 @@
-import { Router } from 'express'
-import { ordersRouter } from './orders'
+import express from "express";
+import { ordersRouter } from "./orders";
+import { financeRouter } from "./finance";
 
-const router = Router()
+const router = express.Router();
 
-router.use('/orders', ordersRouter)
+router.use("/orders", ordersRouter);
+router.use("/finance", financeRouter);
 
-export { router }
+router.use("/payment-types-images", express.static("paymentTypesImages"));
+
+export { router };
