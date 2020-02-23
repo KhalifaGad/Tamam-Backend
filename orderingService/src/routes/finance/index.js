@@ -7,6 +7,7 @@ import {
 import multer from "multer";
 import path from "path";
 import { addPaymentTypeVM } from "../../middlewares/validationHandler";
+import { getUser } from "../../middlewares/authenticator";
 
 const financeRouter = Router();
 
