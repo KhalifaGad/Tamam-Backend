@@ -51,7 +51,7 @@ async function makeOrder(req, res, next) {
     products,
     productsArr,
     userId,
-    deliveryAddress
+    addressId
   );
 
   let savedOrders = await ordersModule.saveMultipleOrders(orders);
