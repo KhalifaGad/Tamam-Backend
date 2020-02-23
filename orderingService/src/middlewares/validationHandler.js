@@ -5,6 +5,7 @@ import {
 } from '../utils/validationSchemas/mongooseId'
 import { addAddressVS, toggleMainAddressVS } from '../utils/validationSchemas/addresses'
 import { addPaymentTypeVS } from '../utils/validationSchemas/addPaymentType'
+import { CODPaymentVS } from '../utils/validationSchemas/CODPayment'
 
 /* 
     --------------typography-------------
@@ -72,11 +73,22 @@ function addPaymentTypeVM(req, res, next){
     next()
 }
 
+function CODPaymentVM(req, res, next){
+    const { error } = CODPaymentVS.validate(req.body)
+
+    if (error) {
+        next(boom.badData(error.details[0].message))
+    }
+
+    next()
+}
+
 export {
     makeOrderVM,
     mongooseIdReqParamVM,
     getAddressVM,
     addAddressVM,
     toggleMainAddressVM,
-    addPaymentTypeVM
+    addPaymentTypeVM,
+    CODPaymentVM
 }

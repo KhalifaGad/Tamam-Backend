@@ -36,6 +36,6 @@ ordersRouter
 
 ordersRouter.route("/").post(makeOrderVM, makeOrder);
 
-ordersRouter.route("/details").get(getUser, sellerHome);
+ordersRouter.route("/details").get(getSeller, sellerHome);
 
 export { ordersRouter };
