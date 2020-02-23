@@ -4,11 +4,8 @@ import {
     getAddressVS
 } from '../utils/validationSchemas/mongooseId'
 import { addAddressVS, toggleMainAddressVS } from '../utils/validationSchemas/addresses'
-<<<<<<< HEAD
 import { makeOrderVS } from '../utils/validationSchemas/makeOrder'
-=======
 import { addPaymentTypeVS } from '../utils/validationSchemas/addPaymentType'
->>>>>>> ordering
 
 /* 
     --------------typography-------------
