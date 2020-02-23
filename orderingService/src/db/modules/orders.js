@@ -21,6 +21,12 @@ const ordersModule = {
         console.log(err);
         return [];
       });
+  },
+  async saveMultipleOrders(orders){
+    return await orderModel.insertMany(orders).catch(err => {
+      console.log(err)
+      return null
+    })
   }
 };
 

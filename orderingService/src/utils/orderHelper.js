@@ -1,4 +1,4 @@
-async function prepareOrder(products, reqArray) {
+async function prepareOrder(products, reqArray, userId, deliveryAddress) {
   let productsBySeller = grouptBySeller(products);
   let orders = [];
 
@@ -8,7 +8,7 @@ async function prepareOrder(products, reqArray) {
       estimatedTime = 0;
 
     orders.push({
-      preparedOrderArr: reqArray.filter(obj => {
+      products: reqArray.filter(obj => {
         try {
           let product = productsBySeller[seller].filter(
             product => product._id + "" == obj.productId + ""
@@ -36,7 +36,9 @@ async function prepareOrder(products, reqArray) {
       tax,
       estimatedTime,
       grandTotal: orderTotal * (1 + tax / 100),
-      sellerId: seller
+      sellerId: seller,
+      userId,
+      deliveryAddress
     });
   }
   return orders;
@@ -53,5 +55,7 @@ function grouptBySeller(products) {
   }
   return sellersProducts;
 }
+
+async function addInfoToProductsArr(ordersArr) {}
 
 export { prepareOrder };
