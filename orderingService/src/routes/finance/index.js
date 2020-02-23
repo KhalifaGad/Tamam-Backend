@@ -28,8 +28,8 @@ financeRouter
   .route("/payment-types")
   .get(getPaymentTypes)
   .post(
+    upload.single("paymentIcon"),
     addPaymentTypeVM,
-    upload.single("paymentIcone"),
     getUser,
     addPaymentType
   )

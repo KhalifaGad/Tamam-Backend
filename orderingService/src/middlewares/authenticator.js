@@ -8,14 +8,18 @@ async function getUser(req, res, next) {
 
   let authRes = await checkAuth(auth);
 
-  if (!authRes) return next(boom.badRequest("Failed in authentication, old or malformed"));
+  if (!authRes)
+    return next(boom.badRequest("Failed in authentication, old or malformed"));
 
   let authResData = authRes.data.data;
 
   if (authResData.role == "CUSTOMER")
     return next(boom.unauthorized("This endpoint is not for you!"));
 
-  req.body = {};
+  if (!req.body) {
+    req.body = {};
+  }
+
   req.body.sellerId = authResData.userId;
   next();
 }
