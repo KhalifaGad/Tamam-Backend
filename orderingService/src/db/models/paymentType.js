@@ -11,7 +11,7 @@ let paymentTypeSchema = mongoose.Schema(
       required: true
     },
     isActive: {
-      type: String,
+      type: Boolean,
       default: false
     },
     imgURL: {
