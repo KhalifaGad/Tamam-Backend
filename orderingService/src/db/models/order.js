@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 let orderSchema = mongoose.Schema(
   {
-    productsIds: {
+    products: {
       type: [
         {
           productId: {
