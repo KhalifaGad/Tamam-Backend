@@ -27,4 +27,23 @@ async function getProductsGroup(productsIds) {
   return productRes;
 }
 
-export { getProductsGroup }
+async function modifyProductsGroup(products) {
+  let successfullySent = true;
+  try {
+    await axios
+      .create({
+        baseURL: "http://products-service:3001/api/v1",
+        headers: {
+          authentication: auth
+        }
+      })
+      .get("/products/group", products);
+  } catch (err) {
+    console.log(err);
+    successfullySent = false;
+  }
+
+  return successfullySent;
+}
+
+export { getProductsGroup, modifyProductsGroup };
