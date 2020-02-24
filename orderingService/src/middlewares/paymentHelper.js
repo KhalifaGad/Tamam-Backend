@@ -15,12 +15,12 @@ async function checkPaymentAmount(req, res, next) {
 
 async function checkOrder(req, res, next) {
   let ordersIds = req.body.ordersIds;
-  await ordersIds.forEach(async orderId => {
+  for (let orderId of ordersIds) {
     let order = await ordersModule.getOrderById(orderId);
     if (!order) return next(boom.badRequest("No order found!"));
     if (order.isConfirmed)
       return next(boom.badRequest("Order previously paid"));
-  });
+  }
 
   next();
 }
