@@ -10,10 +10,10 @@ async function sellerHome(req, res, next) {
     paidOrdersRatio =
       (orders.filter(order => order.isPaid).length / totalOrdersCount) * 100 || 0,
     customersCount = new Set(orders.map(order => order.userId)).size,
-    completedOrdersCount = orders.filter(order => order.State == "TAMAM")
+    completedOrdersCount = orders.filter(order => order.state == "TAMAM")
       .length,
     pendingOrdersCount = newestOrders.length,
-    rejectedOrdersCount = orders.filter(order => order.State == "REFUSED")
+    rejectedOrdersCount = orders.filter(order => order.state == "REFUSED")
       .length;
 
   res.status(200).send({
