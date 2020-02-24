@@ -11,7 +11,7 @@ async function CODPayment(req, res, next){
     let payment = await paymentModule.addPayment({userId, orderId, isConfirmed: true})
     if(!payment) return next(boom.internal('Failer in adding payment'))
 
-    ordersModule.confirmOrder(orderId)
+    ordersModule.confirmOrder(orderId, payment._id)
     
     res.status(201).send({
         isSuccessed: true,

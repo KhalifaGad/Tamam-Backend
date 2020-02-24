@@ -17,13 +17,14 @@ const ordersModule = {
       return null;
     });
   },
-  async confirmOrder(id) {
+  async confirmOrder(id, paymentId) {
     let order = await orderModel.findById(id).catch(err => {
       console.log(err);
       return null;
     });
     if(!order) return null
     order.isConfirmed = true
+    order.paymentId = paymentId
     order.state = "SELLER PENDING"
     return order.save().catch(err => {
       console.log(err)
