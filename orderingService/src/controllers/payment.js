@@ -7,7 +7,7 @@ async function CODPayment(req, res, next) {
   let { userId, ordersIds } = req.body;
   let payments = [];
 
-  for (orderId of ordersIds) {
+  for (let orderId of ordersIds) {
     let payment = await paymentModule.addPayment({
       userId,
       orderId,
