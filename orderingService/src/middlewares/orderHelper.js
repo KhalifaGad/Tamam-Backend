@@ -1,7 +1,7 @@
 import { ordersModule } from "../db/modules/orders"
 import boom from "@hapi/boom";
 
-function checkOrder(req, res, next){
+async function checkOrder(req, res, next){
     let id = req.params.id,
     order = await ordersModule.getOrderById(id)
 
