@@ -17,6 +17,7 @@ async function checkOrder(req, res, next) {
   let orderId = req.body.orderId;
   let order = await ordersModule.getOrderById(orderId);
   if (!order) return next(boom.badRequest("No order found!"));
+  if(order.isConfirmed) return next(boom.badRequest("Order previously paid"));
 
   next();
 }
