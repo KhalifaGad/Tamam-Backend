@@ -8,7 +8,7 @@ async function sellerHome(req, res, next) {
   let totalOrdersCount = orders.length,
     newestOrders = orders.filter(order => order.State == "PENDING"),
     paidOrdersRatio =
-      (orders.filter(order => order.isPaid).length / totalOrdersCount) * 100,
+      (orders.filter(order => order.isPaid).length / totalOrdersCount) * 100 || 0,
     customersCount = new Set(orders.map(order => order.userId)).size,
     completedOrdersCount = orders.filter(order => order.State == "TAMAM")
       .length,
