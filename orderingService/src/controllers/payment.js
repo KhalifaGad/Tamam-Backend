@@ -2,7 +2,7 @@ import { paymentModule } from "../db/modules/payment"
 import boom from "@hapi/boom";
 import { ordersModule } from "../db/modules/orders";
 
-function CODPayment(req, res, next){
+async function CODPayment(req, res, next){
     let {
         userId,
         orderId
