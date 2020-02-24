@@ -12,9 +12,9 @@ async function getProductsGroup(productsIds) {
     productRes = await axios
       .create({
         baseURL: "http://products-service:3001/api/v1",
-        /* headers: {
+        headers: {
           authentication: auth
-        } */
+        }
       })
       .get("/products/group?" + queryStrings);
   } catch (err) {
@@ -33,9 +33,9 @@ async function modifyProductsGroup(products) {
     await axios
       .create({
         baseURL: "http://products-service:3001/api/v1",
-        headers: {
+        /* headers: {
           authentication: auth
-        }
+        } */
       })
       .put("/products/group", products);
   } catch (err) {
