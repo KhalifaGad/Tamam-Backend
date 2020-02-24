@@ -73,7 +73,8 @@ let orderSchema = mongoose.Schema(
         "TAMAM",
         "REFUSED"
       ],
-      default: "PAYMENT PENDING"
+      default: "PAYMENT PENDING",
+      required: true
     },
     isPaid: {
       type: Boolean,

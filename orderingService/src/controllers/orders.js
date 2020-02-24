@@ -58,15 +58,6 @@ async function makeOrder(req, res, next) {
 
   if (!savedOrders) return next(boom.internal("Failed inserting orders"));
 
-  /* let savedOrders = [];
-  for (let i = 0; i < orders.length; i++) {
-    orders[i].userId = userId;
-    orders[i].deliveryAddress = addressId;
-    orders[i].productsIds = orders[i].preparedOrderArr;
-    delete orders[i].preparedOrderArr;
-    savedOrders.push(await ordersModule.saveOrder(orders[i]));
-  } */
-
   return res.status(201).send({
     isSuccessed: true,
     data: savedOrders,

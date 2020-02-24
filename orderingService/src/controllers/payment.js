@@ -1,6 +1,7 @@
 import { paymentModule } from "../db/modules/payment"
 import boom from "@hapi/boom";
 import { ordersModule } from "../db/modules/orders";
+import { modifyProductsGroup } from "../utils/productsHelper";
 
 async function CODPayment(req, res, next){
     let {
@@ -11,7 +12,8 @@ async function CODPayment(req, res, next){
     let payment = await paymentModule.addPayment({userId, orderId, isConfirmed: true})
     if(!payment) return next(boom.internal('Failer in adding payment'))
 
-    ordersModule.confirmOrder(orderId, payment._id)
+    let order = await ordersModule.confirmOrder(orderId, payment._id)
+    modifyProductsGroup(order.products)
     
     res.status(201).send({
         isSuccessed: true,
