@@ -10,7 +10,13 @@ import { paymentTypesModule } from "../db/modules/paymentType";
 async function makeOrder(req, res, next) {
   let { productsArr, userId, addressId } = req.body,
     productsIds = productsArr.map(product => product.productId),
-    lang = req.query.lang == "en" ? "nameEn" : "nameAr";
+    excludedName = "nameEn",
+    selectedName = "nameAr";
+  if (req.query.lang == "en") {
+    excludedName = "nameAr";
+    selectedName = "nameEn";
+  }
+  excludedlang = req.query.lang == "en" ? "nameAr" : "nameEn";
   // check for the address
   let address = await addressesModule.getAddress(userId, addressId);
 
@@ -54,12 +60,18 @@ async function makeOrder(req, res, next) {
   let savedOrders = await ordersModule.saveMultipleOrders(orders);
 
   if (!savedOrders) return next(boom.internal("Failed inserting orders"));
-  let paymentTypes = await paymentTypesModule.getTypes(lang);
+  let paymentTypes = await paymentTypesModule.getTypes(excludedName);
   return res.status(201).send({
     isSuccessed: true,
     data: {
       orders: savedOrders,
-      paymentTypes: paymentTypes.filter(type => type.isActive)
+      paymentTypes: paymentTypes
+        .filter(type => type.isActive)
+        .map(type => {
+          type.name = type[selectedName];
+          delete type[selectedName];
+          return type;
+        })
     },
     error: null
   });
