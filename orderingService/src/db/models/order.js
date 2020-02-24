@@ -58,7 +58,7 @@ let orderSchema = mongoose.Schema(
       type: Number,
       required: true
     },
-    State: {
+    state: {
       type: String,
       enum: [
         "PAYMENT PENDING",
@@ -88,6 +88,6 @@ let orderSchema = mongoose.Schema(
   { timestamps: true, versionKey: false }
 );
 
-let orderModel = mongoose.model("OrderModel", orderSchema);
+let orderModel = mongoose.model("Order", orderSchema);
 
 export { orderModel };

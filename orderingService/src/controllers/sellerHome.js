@@ -16,14 +16,17 @@ async function sellerHome(req, res, next) {
     rejectedOrdersCount = orders.filter(order => order.State == "REFUSED")
       .length;
 
-  console.log(totalOrdersCount);
-  console.log(paidOrdersRatio);
-  console.log(customersCount);
-  console.log(completedOrdersCount);
-  console.log(pendingOrdersCount);
-  console.log(rejectedOrdersCount);
-
-  res.send("ok");
+  res.status(200).send({
+    isSuccessed: true,
+    data:{
+      totalOrdersCount,
+      paidOrdersRatio,
+      customersCount,
+      completedOrdersCount,
+      pendingOrdersCount,
+      rejectedOrdersCount
+    }
+  })
 }
 
 export { sellerHome };

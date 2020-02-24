@@ -15,7 +15,7 @@ import {
 } from "../../controllers/addresses";
 import { checkCountry } from "../../middlewares/countryHandler";
 import { sellerHome } from "../../controllers/sellerHome";
-import { getUser } from "../../middlewares/authenticator";
+import { getSeller } from "../../middlewares/authenticator";
 
 const ordersRouter = Router();
 
@@ -36,6 +36,6 @@ ordersRouter
 
 ordersRouter.route("/").post(makeOrderVM, makeOrder);
 
-ordersRouter.route("/details").get(getUser, sellerHome);
+ordersRouter.route("/details").get(getSeller, sellerHome);
 
 export { ordersRouter };
