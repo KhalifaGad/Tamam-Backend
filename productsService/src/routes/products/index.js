@@ -17,7 +17,8 @@ import {
   getProduct,
   deleteProduct,
   updateProduct,
-  getProductsGroup
+  getProductsGroup,
+  modifyProductsQuantity
 } from "../../controllers/products";
 import {
   getProductOffers,
@@ -39,7 +40,10 @@ const productsRouter = Router()
 // get all products
 productsRouter.route("/").get(getProductsVM, getProducts);
 
-productsRouter.route("/group").get(getProductsGroup);
+productsRouter
+  .route("/group")
+  .get(getProductsGroup)
+  .put(modifyProductsQuantity);
 
 productsRouter.route('/favorites')
     .get(getUserFromAuth, getUserFavs)

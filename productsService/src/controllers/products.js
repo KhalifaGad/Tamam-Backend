@@ -117,7 +117,7 @@ async function getProducts(req, res, next) {
   })
     .limit(limit)
     .skip(skip)
-    .select("-__v")
+    .select("-__v -quantityWarning")
     .sort(dateSorting)
     .populate("categoryId")
     .lean()
@@ -169,6 +169,7 @@ async function getProduct(req, res, next) {
   await ProductModel.findById(req.params.id)
     .populate({ path: "offerId" })
     .lean()
+    .select('-quantityWarning')
     .then(product => {
       if (product) {
         product.name = product.name[retrevingLang];
@@ -239,18 +240,20 @@ async function updateProduct(req, res, next) {
     product.estimatedDeliveryTime = estimatedDeliveryTime;
   if (imgURL) product.images = product.images.filter(img => img != imgURL);
 
-  product = await product.save().catch(err => {
-    console.log(err)
-    return null
-  })
+  product = await product.save().lean().catch(err => {
+    console.log(err);
+    return null;
+  });
 
-  if(!product) return next(boom.badRequest('Error saving data'))
+  if (!product) return next(boom.badRequest("Error saving data"));
+
+  delete product.quantityWarning
 
   return res.status(200).send({
     isSuccessed: true,
     data: product,
     error: null
-  })
+  });
 }
 
 async function getProductsGroup(req, res, next) {
@@ -280,11 +283,30 @@ async function getProductsGroup(req, res, next) {
     });
 }
 
+async function modifyProductsQuantity(req, res, next) {
+  let productsQuantities = req.body.products;
+  productsQuantities.map(async obj => {
+    let product = await ProductModel.findById(obj.productId).catch(err => {
+      console.log(err);
+      return null;
+    });
+    if (!product) return;
+    if (product.quantity.val < obj.quantity) {
+      product.quantity.val -= 0;
+    } else {
+      product.quantity.val -= obj.quantity;
+    }
+    await product.save();
+  });
+  res.send("ok");
+}
+
 export {
   addProduct,
   getProducts,
   getProduct,
   deleteProduct,
   updateProduct,
-  getProductsGroup
+  getProductsGroup,
+  modifyProductsQuantity
 };
