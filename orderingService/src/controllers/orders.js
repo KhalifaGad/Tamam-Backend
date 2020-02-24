@@ -5,10 +5,12 @@ import { getCountry } from "../utils/countryHelper";
 import { getProductsGroup } from "../utils/productsHelper";
 import { prepareOrder } from "../utils/orderHelper";
 import { ordersModule } from "../db/modules/orders";
+import { paymentTypesModule } from "../db/modules/paymentType";
 
 async function makeOrder(req, res, next) {
   let { productsArr, userId, addressId } = req.body,
-    productsIds = productsArr.map(product => product.productId);
+    productsIds = productsArr.map(product => product.productId),
+    lang = req.query.lang == "en" ? "nameEn" : "nameAr";
   // check for the address
   let address = await addressesModule.getAddress(userId, addressId);
 
@@ -47,20 +49,18 @@ async function makeOrder(req, res, next) {
   if (products.indexOf(undefined) > -1 || products.indexOf(null) > -1)
     return next(boom.badRequest("Some of your Ids is invalide"));
 
-  let orders = await prepareOrder(
-    products,
-    productsArr,
-    userId,
-    addressId
-  );
+  let orders = await prepareOrder(products, productsArr, userId, addressId);
 
   let savedOrders = await ordersModule.saveMultipleOrders(orders);
 
   if (!savedOrders) return next(boom.internal("Failed inserting orders"));
-
+  let paymentTypes = await paymentTypesModule.getTypes(lang);
   return res.status(201).send({
     isSuccessed: true,
-    data: savedOrders,
+    data: {
+      orders: savedOrders,
+      paymentTypes: paymentTypes.filter(type => type.isActive)
+    },
     error: null
   });
 }

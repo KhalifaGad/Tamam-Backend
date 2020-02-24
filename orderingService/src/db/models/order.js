@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import shortid from 'shortid'
 
 let orderSchema = mongoose.Schema(
   {
@@ -85,6 +86,10 @@ let orderSchema = mongoose.Schema(
       default: false
     },
     paymentId: mongoose.Schema.Types.ObjectId,
+    code: {
+      type: String,
+      default: shortid.generate()
+    }
   },
   { timestamps: true, versionKey: false }
 );

@@ -8,7 +8,7 @@ const paymentTypesModule = {
     });
   },
   async editType(type) {},
-  async getTypes(excludedName) {
+  async getTypes(excludedName = 'nameEn') {
     return await paymentTypeModel.find({}).select('-'+excludedName).lean();
   }
 };
