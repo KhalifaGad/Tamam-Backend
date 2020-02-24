@@ -5,6 +5,7 @@ import { modifyProductsGroup } from "../utils/productsHelper";
 
 async function CODPayment(req, res, next) {
   let { userId, ordersIds } = req.body;
+  let payments = [];
 
   await ordersIds.forEach(async orderId => {
     let payment = await paymentModule.addPayment({
@@ -15,11 +16,12 @@ async function CODPayment(req, res, next) {
     if (!payment) return next(boom.internal("Failer in adding payment"));
     let order = await ordersModule.confirmOrder(orderId, payment._id);
     modifyProductsGroup(order.products);
+    payments.push(payment);
   });
 
   res.status(201).send({
     isSuccessed: true,
-    data: payment,
+    data: payments,
     error: null
   });
 }
