@@ -78,4 +78,30 @@ async function makeOrder(req, res, next) {
 
 function getUserOrders(req, res, next) {}
 
-export { makeOrder, getUserOrders };
+async function editOrder(req, res, next) {
+  let orderId = req.params.id,
+  { state, refusingNote, estimatedTime } = req.body,
+  order = null
+  if(state != undefined){
+    if (state == "ACCEPTED") {
+      order = await ordersModule.acceptOrder(orderId)
+    } else if (state == "REFUSED") {
+      order = await ordersModule.refuseOrder(orderId, refusingNote)
+    } else {
+      order = await ordersModule.changeOrderState(orderId, state)
+    }
+  } else {
+    order = await ordersModule.changeEstimatedTime(orderId, estimatedTime)
+  }
+
+  if(!order) return next(boom.badRequest('Process failed'))
+
+  res.status(201).send({
+    isSuccessed: true,
+    data: order,
+    error: null
+  })
+
+}
+
+export { makeOrder, getUserOrders, editOrder };

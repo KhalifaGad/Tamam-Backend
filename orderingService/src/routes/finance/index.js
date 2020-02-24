@@ -9,7 +9,7 @@ import path from "path";
 import { addPaymentTypeVM, CODPaymentVM } from "../../middlewares/validationHandler";
 import { getSeller, getCustomer } from "../../middlewares/authenticator";
 import { CODPayment, sadadPayment, onlinePayment, bankTransfer } from "../../controllers/payment";
-import { checkPaymentAmount, checkOrder } from "../../middlewares/paymentHelper";
+import { checkPaymentAmount, checkOrders } from "../../middlewares/paymentHelper";
 
 const financeRouter = Router();
 
@@ -32,7 +32,7 @@ financeRouter
   .post(upload.single("paymentIcon"), addPaymentTypeVM, getSeller, addPaymentType)
   .put(editPaymentType);
 
-financeRouter.route("/payment/COD").post(CODPaymentVM, getCustomer, checkOrder, CODPayment);
+financeRouter.route("/payment/COD").post(CODPaymentVM, getCustomer, checkOrders, CODPayment);
 financeRouter.route("/payment/sadad").post(getCustomer, sadadPayment);
 financeRouter.route("/payment/online").post(checkPaymentAmount, getCustomer, onlinePayment);
 financeRouter.route("/payment/bank-transfer").post(getCustomer, bankTransfer);

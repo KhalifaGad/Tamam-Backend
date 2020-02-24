@@ -13,7 +13,7 @@ async function checkPaymentAmount(req, res, next) {
   next();
 }
 
-async function checkOrder(req, res, next) {
+async function checkOrders(req, res, next) {
   let ordersIds = req.body.ordersIds;
   for (let orderId of ordersIds) {
     let order = await ordersModule.getOrderById(orderId);
@@ -25,4 +25,4 @@ async function checkOrder(req, res, next) {
   next();
 }
 
-export { checkPaymentAmount, checkOrder };
+export { checkPaymentAmount, checkOrders };
