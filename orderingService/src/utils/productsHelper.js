@@ -37,7 +37,7 @@ async function modifyProductsGroup(products) {
           authentication: auth
         }
       })
-      .get("/products/group", products);
+      .put("/products/group", products);
   } catch (err) {
     console.log(err);
     successfullySent = false;
