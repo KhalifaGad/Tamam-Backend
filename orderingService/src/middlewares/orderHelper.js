@@ -7,6 +7,8 @@ function checkOrder(req, res, next){
 
     if(!order) return next(boom.notFound('Order not found!'))
 
+    if(order.sellerId + '' !== req.body.sellerId) return next(boom.unauthorized('Sellers not are the same'))
+
     next()
 }
 

@@ -37,7 +37,7 @@ ordersRouter
   .get(getAddressVM, getAdress);
 
 ordersRouter.route("/").post(makeOrderVM, makeOrder);
-ordersRouter.route("/:id").put(updateOrderVM, checkOrder, editOrder);
+ordersRouter.route("/:id").put(updateOrderVM, getSeller, checkOrder, editOrder);
 
 ordersRouter.route("/details").get(getSeller, sellerHome);
 
