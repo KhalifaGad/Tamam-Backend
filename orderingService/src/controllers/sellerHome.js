@@ -25,7 +25,8 @@ async function sellerHome(req, res, next) {
       completedOrdersCount,
       pendingOrdersCount,
       rejectedOrdersCount
-    }
+    },
+    error: null
   })
 }
 
