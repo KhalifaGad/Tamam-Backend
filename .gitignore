@@ -4,4 +4,5 @@ externalVolumes
 productsService/productsImages
 productsService/categoryImages
 productsService/offersImages
+orderingService/paymentTypesImages
 productsService/.env
