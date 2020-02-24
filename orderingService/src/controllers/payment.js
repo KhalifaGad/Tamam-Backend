@@ -7,7 +7,7 @@ async function CODPayment(req, res, next) {
   let { userId, ordersIds } = req.body;
   let payments = [];
 
-  await ordersIds.forEach(async orderId => {
+  for (orderId of ordersIds) {
     let payment = await paymentModule.addPayment({
       userId,
       orderId,
@@ -17,7 +17,7 @@ async function CODPayment(req, res, next) {
     let order = await ordersModule.confirmOrder(orderId, payment._id);
     modifyProductsGroup(order.products);
     payments.push(payment);
-  });
+  }
 
   res.status(201).send({
     isSuccessed: true,
