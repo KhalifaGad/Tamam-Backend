@@ -16,7 +16,6 @@ async function makeOrder(req, res, next) {
     excludedName = "nameAr";
     selectedName = "nameEn";
   }
-  excludedlang = req.query.lang == "en" ? "nameAr" : "nameEn";
   // check for the address
   let address = await addressesModule.getAddress(userId, addressId);
 
