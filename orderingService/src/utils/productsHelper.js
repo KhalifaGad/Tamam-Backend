@@ -32,12 +32,12 @@ async function modifyProductsGroup(products) {
   try {
     await axios
       .create({
-        baseURL: "http://products-service:3001/api/v1",
+        baseURL: "http://products-service:3001/api/v1"
         /* headers: {
           authentication: auth
         } */
       })
-      .put("/products/group", products);
+      .put("/products/group", { products });
   } catch (err) {
     console.log(err);
     successfullySent = false;
