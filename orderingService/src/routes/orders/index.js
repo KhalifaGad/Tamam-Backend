@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { makeOrder, getUserOrders } from "../../controllers/orders";
+import { makeOrder, getUserOrders, editOrder } from "../../controllers/orders";
 import {
   makeOrderVM,
   mongooseIdReqParamVM,
   getAddressVM,
   addAddressVM,
-  toggleMainAddressVM
+  toggleMainAddressVM,
+  updateOrderVM
 } from "../../middlewares/validationHandler";
 import {
   getUserAddresses,
@@ -16,6 +17,7 @@ import {
 import { checkCountry } from "../../middlewares/countryHandler";
 import { sellerHome } from "../../controllers/sellerHome";
 import { getSeller } from "../../middlewares/authenticator";
+import { checkOrder } from "../../middlewares/orderHelper";
 
 const ordersRouter = Router();
 
@@ -35,6 +37,7 @@ ordersRouter
   .get(getAddressVM, getAdress);
 
 ordersRouter.route("/").post(makeOrderVM, makeOrder);
+ordersRouter.route("/:id").put(updateOrderVM, checkOrder, editOrder);
 
 ordersRouter.route("/details").get(getSeller, sellerHome);
 
