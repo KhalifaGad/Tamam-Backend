@@ -1,12 +1,19 @@
 import { Router } from "express";
-import { makeOrder, getUserOrders, editOrder } from "../../controllers/orders";
+import {
+  makeOrder,
+  getUserOrders,
+  editOrder,
+  getSellerOrders
+} from "../../controllers/orders";
 import {
   makeOrderVM,
   mongooseIdReqParamVM,
   getAddressVM,
   addAddressVM,
   toggleMainAddressVM,
-  updateOrderVM
+  updateOrderVM,
+  idAndAuthCheck,
+  getSellerOrderVM
 } from "../../middlewares/validationHandler";
 import {
   getUserAddresses,
@@ -22,6 +29,10 @@ import { checkOrder } from "../../middlewares/orderHelper";
 const ordersRouter = Router();
 
 ordersRouter.route("/user/:id").get(mongooseIdReqParamVM, getUserOrders);
+
+ordersRouter
+  .route("/seller/:id")
+  .get(getSeller, idAndAuthCheck, getSellerOrderVM, getSellerOrders);
 
 ordersRouter
   .route("/user/:id/addresses")
