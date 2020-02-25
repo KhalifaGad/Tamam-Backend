@@ -10,14 +10,14 @@ async function getProductsGroup(productsIds, auth = "") {
     if (queryStrings.length >= 1900) {
       // to make sure that get query length do not exceed 2024 length
       products = await requestProducts(queryStrings, auth);
-      if (products) productRes.push(products);
+      if (products) productRes.push(...products);
       queryStrings = "";
     }
   }
 
   if (queryStrings != "") {
     products = await requestProducts(queryStrings, auth);
-    if (products) productRes.push(products);
+    if (products) productRes.push(...products);
   }
 
   return productRes.length > 0 ? productRes : null;
