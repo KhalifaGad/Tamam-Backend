@@ -40,7 +40,7 @@ function mongooseIdReqParamVM(req, res, next) {
 
 function idAndAuthCheck(req, res, next) {
   let id = req.params.id;
-  const { error } = mongooseIdVS.validate(id);
+  const { error } = mongooseIdVS.validate({id});
 
   if (error) {
     next(boom.badData(error.details[0].message));
