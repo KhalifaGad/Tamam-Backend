@@ -1,14 +1,15 @@
 import axios from "axios";
 
-async function getProductsGroup(productsIds, auth = '') {
+async function getProductsGroup(productsIds, auth = "") {
   let productRes = [],
+    products = null,
     queryStrings = "";
 
   for (let id of productsIds) {
     queryStrings += `productsIds[]=${id}&`;
     if (queryStrings.length >= 1900) {
       // to make sure that get query length do not exceed 2024 length
-      products = await requestProducts(queryStrings, auth );
+      products = await requestProducts(queryStrings, auth);
       if (products) productRes.push(products);
       queryStrings = "";
     }
@@ -19,7 +20,7 @@ async function getProductsGroup(productsIds, auth = '') {
     if (products) productRes.push(products);
   }
 
-  return productRes.length > 0? productRes : null;
+  return productRes.length > 0 ? productRes : null;
 }
 
 async function requestProducts(queryStrings, auth) {
