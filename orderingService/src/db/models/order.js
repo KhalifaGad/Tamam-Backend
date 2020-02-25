@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import shortid from 'shortid'
+import shortid from "shortid";
 
 let orderSchema = mongoose.Schema(
   {
@@ -9,6 +9,20 @@ let orderSchema = mongoose.Schema(
           productId: {
             type: mongoose.Schema.Types.ObjectId,
             required: true
+          },
+          name: {
+            arabic: {
+              type: String,
+              required: true,
+              default: 'old order',
+              trim: true
+            },
+            english: {
+              type: String,
+              required: true,
+              default: 'old order',
+              trim: true
+            }
           },
           quantity: {
             type: Number,

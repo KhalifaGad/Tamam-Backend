@@ -14,6 +14,7 @@ async function prepareOrder(products, reqArray, userId, deliveryAddress) {
             product => product._id + "" == obj.productId + ""
           )[0];
           obj.price = product.price;
+          obj.name = product.name;
           obj.total = product.price * obj.quantity;
           if (product.estimatedDeliveryTime > estimatedTime) {
             estimatedTime = product.estimatedDeliveryTime;

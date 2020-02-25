@@ -104,4 +104,16 @@ async function editOrder(req, res, next) {
 
 }
 
+async function getSellerOrders(req, res, next){
+  let {
+    state = '',
+    lang = 'ar'
+  } = req.query
+  let sellerId = req.body.sellerId
+
+  let sellerOrders = await ordersModule.getSellerOrders(sellerId, state)
+  let sellerUsers = sellerOrders.map(order => order.userId)
+
+}
+
 export { makeOrder, getUserOrders, editOrder };
