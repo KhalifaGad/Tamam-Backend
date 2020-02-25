@@ -109,6 +109,19 @@ function getUser(req, res, next) {}
 
 function getUsers(req, res, next) {}
 
+async function getUsersGroup(req, res, next) {
+  let usersIds = req.query.usersIds
+
+  let users = await userModule.getUsersGroup(usersIds)
+
+  return res.status(200).send({
+    isSuccessed: true,
+    data: users,
+    err: null
+  })
+
+}
+
 async function updateUser(req, res, next) {
   const { id } = req.params;
 
@@ -271,7 +284,6 @@ export {
   updateUser,
   deleteUser,
   verifyUser,
-  resendVerification
-  /* editUserFavs,
-    getUserFavs */
+  resendVerification,
+  getUsersGroup
 };
