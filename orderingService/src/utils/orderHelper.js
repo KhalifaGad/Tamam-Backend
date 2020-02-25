@@ -3,6 +3,7 @@ async function prepareOrder(products, reqArray, userId, deliveryAddress, userNam
   let orders = [];
 
   for (let seller in productsBySeller) {
+    console.log(seller)
     let orderTotal = 0,
       tax = 5, // supposed to be retrieved from DB
       estimatedTime = 0;
