@@ -26,8 +26,12 @@ async function paymentProcess(req, res, next) {
       });
       if (!payment) return next(boom.internal("Failer in adding payment"));
       let order = await ordersModule.confirmOrder(orderId, payment._id);
+      let leanedPayment = { ... payment }
+      delete leanedPayment._id
+      delete leanedPayment.updatedAt
+      leanedPayment.code = order.code
       modifyProductsGroup(order.products);
-      payments.push(payment);
+      payments.push(leanedPayment);
     }
     data.COD = payments
   }
