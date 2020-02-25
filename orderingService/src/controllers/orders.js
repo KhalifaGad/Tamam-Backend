@@ -39,7 +39,13 @@ async function makeOrder(req, res, next) {
   if (products.indexOf(undefined) > -1 || products.indexOf(null) > -1)
     return next(boom.badRequest("Some of your Ids is invalide"));
 
-  let orders = await prepareOrder(products, productsArr, userId, addressId, user.userName);
+  let orders = await prepareOrder(
+    products,
+    productsArr,
+    userId,
+    addressId,
+    user.userName
+  );
 
   let savedOrders = await ordersModule.saveMultipleOrders(orders);
 
@@ -65,40 +71,53 @@ function getUserOrders(req, res, next) {}
 
 async function editOrder(req, res, next) {
   let orderId = req.params.id,
-  { state, refusingNote, estimatedTime } = req.body,
-  order = null
-  if(state != undefined){
+    { state, refusingNote, estimatedTime } = req.body,
+    order = null;
+  if (state != undefined) {
     if (state == "ACCEPTED") {
-      order = await ordersModule.acceptOrder(orderId)
+      order = await ordersModule.acceptOrder(orderId);
     } else if (state == "REFUSED") {
-      order = await ordersModule.refuseOrder(orderId, refusingNote)
+      order = await ordersModule.refuseOrder(orderId, refusingNote);
     } else {
-      order = await ordersModule.changeOrderState(orderId, state)
+      order = await ordersModule.changeOrderState(orderId, state);
     }
   } else {
-    order = await ordersModule.changeEstimatedTime(orderId, estimatedTime)
+    order = await ordersModule.changeEstimatedTime(orderId, estimatedTime);
   }
 
-  if(!order) return next(boom.badRequest('Process failed'))
+  if (!order) return next(boom.badRequest("Process failed"));
 
   res.status(201).send({
     isSuccessed: true,
     data: order,
     error: null
+  });
+}
+
+async function getSellerOrders(req, res, next) {
+  let { state = "", lang = "ar" } = req.query,
+    sellerId = req.body.sellerId,
+    nameLang = lang == "en" ? "english" : "arabic";
+
+  let sellerOrders = await ordersModule.getSellerOrders(sellerId, state);
+  let refactoredOrders = [];
+  sellerOrders.forEach(order => {
+    order.products.forEach(product => {
+      refactoredOrders.push({
+        productName: product.name[nameLang],
+        userName: order.userName,
+        orderCode: order.code,
+        total: product.total,
+        issueDate: order.createdAt,
+        state: order.state
+      });
+    });
+  });
+  res.status(200).send({
+    isSuccessed: true,
+    data: refactoredOrders,
+    error: null
   })
-
 }
 
-async function getSellerOrders(req, res, next){
-  let {
-    state = '',
-    lang = 'ar'
-  } = req.query
-  let sellerId = req.body.sellerId
-
-  let sellerOrders = await ordersModule.getSellerOrders(sellerId, state)
-  
-
-}
-
-export { makeOrder, getUserOrders, editOrder };
+export { makeOrder, getUserOrders, editOrder, getSellerOrders };
