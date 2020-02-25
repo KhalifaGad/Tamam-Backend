@@ -1,4 +1,4 @@
-async function prepareOrder(products, reqArray, userId, deliveryAddress) {
+async function prepareOrder(products, reqArray, userId, deliveryAddress, userName) {
   let productsBySeller = grouptBySeller(products);
   let orders = [];
 
@@ -14,6 +14,7 @@ async function prepareOrder(products, reqArray, userId, deliveryAddress) {
             product => product._id + "" == obj.productId + ""
           )[0];
           obj.price = product.price;
+          obj.name = product.name;
           obj.total = product.price * obj.quantity;
           if (product.estimatedDeliveryTime > estimatedTime) {
             estimatedTime = product.estimatedDeliveryTime;
@@ -37,6 +38,7 @@ async function prepareOrder(products, reqArray, userId, deliveryAddress) {
       estimatedTime,
       grandTotal: orderTotal * (1 + tax / 100),
       sellerId: seller,
+      userName,
       userId,
       deliveryAddress
     });

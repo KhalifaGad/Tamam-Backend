@@ -8,6 +8,7 @@ import { makeOrderVS } from '../utils/validationSchemas/makeOrder'
 import { addPaymentTypeVS } from '../utils/validationSchemas/addPaymentType'
 import { CODPaymentVS } from '../utils/validationSchemas/CODPayment'
 import { updateOrderVS } from '../utils/validationSchemas/updateOrder'
+import { makeOrderVS } from '../utils/validationSchemas/makeOrder'
 
 /* 
     --------------typography-------------

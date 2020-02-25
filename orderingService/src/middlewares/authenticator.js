@@ -32,7 +32,7 @@ async function getCustomer(req, res, next) {
   let authRes = await checkAuth(auth);
 
   if (!authRes)
-    return next(boom.badRequest("Failed in authentication, old or malformed"));
+    return next(boom.unauthorized("Token expired or malformed "));
 
   let authResData = authRes.data.data;
 
@@ -40,6 +40,7 @@ async function getCustomer(req, res, next) {
     return next(boom.unauthorized("This endpoint is not for you!"));
 
   req.body.userId = authResData.userId;
+  req.body.user = authResData.user;
   next();
 }
 

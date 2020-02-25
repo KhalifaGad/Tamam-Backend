@@ -28,11 +28,17 @@ const ordersModule = {
       return null;
     });
   },
-  async getSellerOrders(sellerId) {
+  async getSellerOrders(sellerId, state = '') {
+    let query = {
+      sellerId,
+      isConfirmed: true
+    }
+    if(state){
+      query.state = state
+    }
     return await orderModel
       .find({
-        sellerId,
-        isConfirmed: true
+        ...query
       })
       .sort("-createdAt")
       .catch(err => {

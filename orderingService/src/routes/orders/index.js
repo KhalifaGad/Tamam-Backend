@@ -16,7 +16,7 @@ import {
 } from "../../controllers/addresses";
 import { checkCountry } from "../../middlewares/countryHandler";
 import { sellerHome } from "../../controllers/sellerHome";
-import { getSeller } from "../../middlewares/authenticator";
+import { getSeller, getCustomer } from "../../middlewares/authenticator";
 import { checkOrder } from "../../middlewares/orderHelper";
 
 const ordersRouter = Router();
@@ -36,7 +36,7 @@ ordersRouter
   .route("/user/:userId/addresses/:addressId")
   .get(getAddressVM, getAdress);
 
-ordersRouter.route("/").post(makeOrderVM, makeOrder);
+ordersRouter.route("/").post(makeOrderVM, getCustomer, makeOrder);
 ordersRouter.route("/:id").put(updateOrderVM, getSeller, checkOrder, editOrder);
 
 ordersRouter.route("/details").get(getSeller, sellerHome);
