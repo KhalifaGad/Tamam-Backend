@@ -8,7 +8,8 @@ import {
   verifyUser,
   resendVerification,
   editUserFavs,
-  getUserFavs
+  getUserFavs,
+  getUsersGroup
 } from "../../controllers/users";
 import {
   addUserValidation,
@@ -42,16 +43,13 @@ usersRouter
   .post(upload.single("userPic"), addUserValidation, roleValidation, addUser)
   .get(getUsers);
 
+usersRouter.route("/group").get(getUsersGroup);
+
 usersRouter
   .route("/:id")
   .put(idQueryParamVM, isIdsEquivalent, editProductVM, updateUser)
   .get(idQueryParamVM, getUser)
   .delete(idQueryParamVM, isIdsEquivalent, deleteUser);
-
-// api/v1/users/:id/favorites
-/* usersRouter.route('/:id/favorites')
-    .put(idQueryParamVM, isIdsEquivalent, editUserFavs)
-    .get(idQueryParamVM, isIdsEquivalent, getUserFavs) */
 
 usersRouter.route("/verification").post(verifyUserMiddleware, verifyUser);
 
