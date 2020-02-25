@@ -13,7 +13,6 @@ const makeOrderVS = Joi.object({
       quantity: Joi.number().required()
     }))
     .required(),
-  userId: Joi.custom(isMongooseId, "custom validation").required(),
   addressId: Joi.custom(isMongooseId, "custom validation").required()
 });
 

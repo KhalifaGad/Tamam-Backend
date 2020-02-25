@@ -1,12 +1,29 @@
 import axios from "axios";
 
 async function getProductsGroup(productsIds) {
-  let productRes = null,
+  let productRes = [],
     queryStrings = "";
 
   for (let id of productsIds) {
     queryStrings += `productsIds[]=${id}&`;
+    if (queryStrings.length >= 1900) {
+      // to make sure that get query length do not exceed 2024 length
+      products = await requestProducts(queryStrings);
+      if (products) productRes.push(products);
+      queryStrings = "";
+    }
   }
+
+  if (queryStrings != "") {
+    products = await requestProducts(queryStrings);
+    if (products) productRes.push(products);
+  }
+
+  return productRes.length > 0? productRes : null;
+}
+
+async function requestProducts(queryStrings) {
+  let productRes = null;
 
   try {
     productRes = await axios
@@ -21,9 +38,7 @@ async function getProductsGroup(productsIds) {
     console.log(err);
     return null;
   }
-
   if (productRes) return productRes.data.data;
-
   return productRes;
 }
 

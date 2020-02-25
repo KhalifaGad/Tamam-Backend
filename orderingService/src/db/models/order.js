@@ -14,13 +14,13 @@ let orderSchema = mongoose.Schema(
             arabic: {
               type: String,
               required: true,
-              default: 'old order',
+              default: "old order",
               trim: true
             },
             english: {
               type: String,
               required: true,
-              default: 'old order',
+              default: "old order",
               trim: true
             }
           },
@@ -59,6 +59,11 @@ let orderSchema = mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true
+    },
+    userName: {
+      type: String,
+      required: true,
+      default: "old order"
     },
     sellerId: mongoose.Schema.Types.ObjectId,
     orderTotal: {

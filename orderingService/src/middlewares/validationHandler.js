@@ -7,6 +7,7 @@ import { addAddressVS, toggleMainAddressVS } from '../utils/validationSchemas/ad
 import { addPaymentTypeVS } from '../utils/validationSchemas/addPaymentType'
 import { CODPaymentVS } from '../utils/validationSchemas/CODPayment'
 import { updateOrderVS } from '../utils/validationSchemas/updateOrder'
+import { makeOrderVS } from '../utils/validationSchemas/makeOrder'
 
 /* 
     --------------typography-------------
@@ -15,7 +16,7 @@ import { updateOrderVS } from '../utils/validationSchemas/updateOrder'
 
 function makeOrderVM(req, res, next) {
 
-    const { error } = addUserValidationSchema.validate(req.body)
+    const { error } = makeOrderVS.validate(req.body)
 
     if (error) {
         next(boom.badData(error.details[0].message))

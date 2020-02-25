@@ -1,4 +1,4 @@
-async function prepareOrder(products, reqArray, userId, deliveryAddress) {
+async function prepareOrder(products, reqArray, userId, deliveryAddress, userName) {
   let productsBySeller = grouptBySeller(products);
   let orders = [];
 
@@ -38,6 +38,7 @@ async function prepareOrder(products, reqArray, userId, deliveryAddress) {
       estimatedTime,
       grandTotal: orderTotal * (1 + tax / 100),
       sellerId: seller,
+      userName,
       userId,
       deliveryAddress
     });

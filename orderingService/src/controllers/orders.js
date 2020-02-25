@@ -8,7 +8,7 @@ import { ordersModule } from "../db/modules/orders";
 import { paymentTypesModule } from "../db/modules/paymentType";
 
 async function makeOrder(req, res, next) {
-  let { productsArr, userId, addressId } = req.body,
+  let { productsArr, userId, user, addressId } = req.body,
     productsIds = productsArr.map(product => product.productId),
     excludedName = "nameEn",
     selectedName = "nameAr";
@@ -30,21 +30,6 @@ async function makeOrder(req, res, next) {
       )
     );
 
-  // check the user authentication,
-  let auth = req.headers.authentication;
-  if (!auth) {
-    return next(boom.forbidden("Authentication required!"));
-  }
-
-  // sending auth var to user authentication api
-  let authResponse = await checkAuth(auth);
-
-  if (!authResponse) return next(boom.badRequest("Failed in authenticating"));
-
-  //authResponse.status, authResponse.data
-  if (authResponse.status > 299)
-    return next(boom.forbidden("Authentication required!"));
-
   /* console.log(productRes.data); */
   let products = await getProductsGroup(productsIds);
 
@@ -54,7 +39,7 @@ async function makeOrder(req, res, next) {
   if (products.indexOf(undefined) > -1 || products.indexOf(null) > -1)
     return next(boom.badRequest("Some of your Ids is invalide"));
 
-  let orders = await prepareOrder(products, productsArr, userId, addressId);
+  let orders = await prepareOrder(products, productsArr, userId, addressId, user.userName);
 
   let savedOrders = await ordersModule.saveMultipleOrders(orders);
 
@@ -112,7 +97,7 @@ async function getSellerOrders(req, res, next){
   let sellerId = req.body.sellerId
 
   let sellerOrders = await ordersModule.getSellerOrders(sellerId, state)
-  let sellerUsers = sellerOrders.map(order => order.userId)
+  
 
 }
 
