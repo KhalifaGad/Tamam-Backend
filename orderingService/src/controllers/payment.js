@@ -29,6 +29,7 @@ async function paymentProcess(req, res, next) {
       let leanedPayment = { ... payment._doc }
       delete leanedPayment._id
       delete leanedPayment.updatedAt
+      delete leanedPayment.userId
       leanedPayment.code = order.code
       modifyProductsGroup(order.products);
       payments.push(leanedPayment);
