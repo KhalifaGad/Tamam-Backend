@@ -137,7 +137,7 @@ async function getProducts(req, res, next) {
           product.keyImage = product.images[0] || "";
           product.categoryName = product.categoryId[categoryLang];
           product.categoryId = product.categoryId._id;
-          product.seller = "Khalifa Gad";
+          product.seller = "Tamam Platform";
           product.estimatedDeliveryTime = product.estimatedDeliveryTime || 2;
           return product;
         } catch (err) {
@@ -175,6 +175,7 @@ async function getProduct(req, res, next) {
         product.name = product.name[retrevingLang];
         product.description = product.description[retrevingLang];
         product.estimatedDeliveryTime = product.estimatedDeliveryTime || 2;
+        product.seller = "Tamam Platform";
         return res.status(200).send({
           isSuccessed: true,
           data: product,
