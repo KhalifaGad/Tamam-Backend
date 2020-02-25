@@ -164,10 +164,11 @@ async function getProducts(req, res, next) {
  */
 // it accepts query strings: lang
 async function getProduct(req, res, next) {
-  let retrevingLang = req.query.lang === "en" ? "english" : "arabic";
+  let retrevingLang = req.query.lang === "en" ? "english" : "arabic",
+    categoryLang = req.query.lang === "en" ? "nameEn" : "nameAr";
 
   await ProductModel.findById(req.params.id)
-    .populate({ path: "offerId" })
+    .populate("offerId categoryId")
     .lean()
     .select("-quantityWarning")
     .then(product => {
@@ -175,6 +176,10 @@ async function getProduct(req, res, next) {
         product.name = product.name[retrevingLang];
         product.description = product.description[retrevingLang];
         product.estimatedDeliveryTime = product.estimatedDeliveryTime || 2;
+        if(Object.keys(product.categoryId).length > 1){
+          product.categoryName = product.categoryId[categoryLang];
+          product.categoryId = product.categoryId._id;
+        }
         product.seller = "Tamam Platform";
         return res.status(200).send({
           isSuccessed: true,
@@ -310,8 +315,7 @@ async function modifyProductsQuantity(req, res, next) {
 }
 
 async function getWarningsProducts(req, res, next) {
-  
-  let products = ProductModel.find()
+  let products = ProductModel.find();
 }
 
 export {
