@@ -87,14 +87,6 @@ let productSchema = mongoose.Schema(
   { versionKey: false }
 );
 
-productSchema.post("save", async function(doc, next) {
-  if (doc.quantity.val < 5 && !doc.quantityWarning) {
-    doc.quantityWarning = true;
-    doc.save()
-  }
-  next()
-});
-
 let ProductModel = mongoose.model("Product", productSchema);
 
 export { ProductModel };

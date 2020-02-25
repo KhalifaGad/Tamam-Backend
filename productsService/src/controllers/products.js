@@ -164,17 +164,22 @@ async function getProducts(req, res, next) {
  */
 // it accepts query strings: lang
 async function getProduct(req, res, next) {
-  let retrevingLang = req.query.lang === "en" ? "english" : "arabic";
+  let retrevingLang = req.query.lang === "en" ? "english" : "arabic",
+    categoryLang = req.query.lang === "en" ? "nameEn" : "nameAr";
 
   await ProductModel.findById(req.params.id)
-    .populate({ path: "offerId" })
+    .populate("offerId categoryId")
     .lean()
-    .select('-quantityWarning')
+    .select("-quantityWarning")
     .then(product => {
       if (product) {
         product.name = product.name[retrevingLang];
         product.description = product.description[retrevingLang];
         product.estimatedDeliveryTime = product.estimatedDeliveryTime || 2;
+        if(Object.keys(product.categoryId).length > 1){
+          product.categoryName = product.categoryId[categoryLang];
+          product.categoryId = product.categoryId._id;
+        }
         product.seller = "Tamam Platform";
         return res.status(200).send({
           isSuccessed: true,
@@ -241,14 +246,17 @@ async function updateProduct(req, res, next) {
     product.estimatedDeliveryTime = estimatedDeliveryTime;
   if (imgURL) product.images = product.images.filter(img => img != imgURL);
 
-  product = await product.save().lean().catch(err => {
-    console.log(err);
-    return null;
-  });
+  product = await product
+    .save()
+    .lean()
+    .catch(err => {
+      console.log(err);
+      return null;
+    });
 
   if (!product) return next(boom.badRequest("Error saving data"));
 
-  delete product.quantityWarning
+  delete product.quantityWarning;
 
   return res.status(200).send({
     isSuccessed: true,
@@ -294,12 +302,20 @@ async function modifyProductsQuantity(req, res, next) {
     if (!product) return;
     if (product.quantity.val < obj.quantity) {
       product.quantity.val -= 0;
+      product.quantityWarning = true;
     } else {
       product.quantity.val -= obj.quantity;
+      if (product.quantity.val < 6) {
+        product.quantityWarning = true;
+      }
     }
     await product.save();
   });
   res.send("ok");
+}
+
+async function getWarningsProducts(req, res, next) {
+  let products = ProductModel.find();
 }
 
 export {
