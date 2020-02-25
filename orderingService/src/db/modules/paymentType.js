@@ -8,8 +8,17 @@ const paymentTypesModule = {
     });
   },
   async editType(type) {},
-  async getTypes(excludedName = 'nameEn') {
-    return await paymentTypeModel.find({}).select('-'+excludedName).lean();
+  async getTypes(excludedName = "nameEn") {
+    return await paymentTypeModel
+      .find({})
+      .select("-" + excludedName)
+      .lean();
+  },
+  async getType(id) {
+    return await paymentTypeModel.findById(id).catch(err => {
+      console.log(err);
+      return null;
+    });
   }
 };
 

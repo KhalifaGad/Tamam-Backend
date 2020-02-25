@@ -8,7 +8,7 @@ import {
   toggleMainAddressVS
 } from "../utils/validationSchemas/addresses";
 import { addPaymentTypeVS } from "../utils/validationSchemas/addPaymentType";
-import { CODPaymentVS } from "../utils/validationSchemas/CODPayment";
+import { paymentVS } from "../utils/validationSchemas/payment";
 import { updateOrderVS } from "../utils/validationSchemas/updateOrder";
 import { makeOrderVS } from "../utils/validationSchemas/makeOrder";
 import { getSellerOrderVS } from "../utils/validationSchemas/sellerOrders";
@@ -92,8 +92,8 @@ function addPaymentTypeVM(req, res, next) {
   next();
 }
 
-function CODPaymentVM(req, res, next) {
-  const { error } = CODPaymentVS.validate(req.body);
+function paymentVM(req, res, next) {
+  const { error } = paymentVS.validate(req.body);
 
   if (error) {
     next(boom.badData(error.details[0].message));
@@ -129,7 +129,7 @@ export {
   addAddressVM,
   toggleMainAddressVM,
   addPaymentTypeVM,
-  CODPaymentVM,
+  paymentVM,
   updateOrderVM,
   idAndAuthCheck,
   getSellerOrderVM
