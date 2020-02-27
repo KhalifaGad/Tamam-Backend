@@ -326,7 +326,7 @@ async function getWarningsProducts(req, res, next) {
     .lean()
     .populate("categoryId")
     .then(products => {
-      products = products.map(product => {
+      return products.map(product => {
         product.state =
           product.quantity.val > 0 ? productExistState : productNotExistState;
         product.name = product.name[retrevingLang];
@@ -337,7 +337,7 @@ async function getWarningsProducts(req, res, next) {
         return product;
       });
     });
-    console.log(products)
+    
     return res.status(200).send({
       isSuccessed: true,
       data: products,
