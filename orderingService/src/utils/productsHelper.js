@@ -62,4 +62,26 @@ async function modifyProductsGroup(products) {
   return successfullySent;
 }
 
-export { getProductsGroup, modifyProductsGroup };
+async function getLowQuantityProducts(auth, sellerId, lang = "ar") {
+  let products = [];
+  try {
+    products = await axios
+      .create({
+        baseURL: "http://products-service:3001/api/v1",
+        headers: {
+          authentication: auth
+        }
+      })
+      .get(`/products/warnings/seller/${sellerId}?lang=${lang}`)
+      .then(res => {
+        products = res.data.data;
+      });
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+
+  return products;
+}
+
+export { getProductsGroup, modifyProductsGroup, getLowQuantityProducts };
