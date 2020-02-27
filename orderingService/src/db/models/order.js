@@ -85,10 +85,6 @@ let orderSchema = mongoose.Schema(
         "CANCELED",
         "SELLER PENDING",
         "ACCEPTED",
-        "MANUFACTORY",
-        "STORED",
-        "SHIPPED FROM ORIGIN COUNTRY",
-        "DELIVERED DESTINATION COUNTRY",
         "SHIPPED TO USER ADDRESS",
         "TAMAM",
         "REFUSED"
