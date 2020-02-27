@@ -11,8 +11,8 @@ async function getUserFromAuth(req, res, next) {
     if (!user) {
         next(boom.unauthorized("Authentication required!"))
     }
-    let body = {}
-    if (!req.body) req.body = body
+    
+    if (!req.body) req.body = {}
     req.body.user = user
     next()
 }

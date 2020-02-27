@@ -315,7 +315,10 @@ async function modifyProductsQuantity(req, res, next) {
 }
 
 async function getWarningsProducts(req, res, next) {
-  let products = ProductModel.find();
+  let products = ProductModel.find({
+    seller: req.body.user._id,
+    quantityWarning: true
+  });
 }
 
 export {
