@@ -8,7 +8,8 @@ import {
   getOffersVM,
   editFavsVM,
   editCartVM,
-  aboveCustomerAuthorization
+  aboveCustomerAuthorization,
+  matchUserandIdParams
 } from "../../middlewares/validationsHandler";
 import {
   addProduct,
@@ -17,7 +18,8 @@ import {
   deleteProduct,
   updateProduct,
   getProductsGroup,
-  modifyProductsQuantity
+  modifyProductsQuantity,
+  getWarningsProducts
 } from "../../controllers/products";
 import {
   getProductOffers,
@@ -36,6 +38,10 @@ const productsRouter = Router();
 // the full path is /api/v1/products
 // get all products
 productsRouter.route("/").get(getProductsVM, getProducts);
+
+productsRouter
+  .route("/warnings/seller/:id")
+  .get(getUserFromAuth, matchUserandIdParams, getWarningsProducts);
 
 productsRouter
   .route("/group")

@@ -131,11 +131,21 @@ async function aboveCustomerAuthorization(req, res, next) {
   let user = await requestAuth(auth);
   if (!user) return next(boom.unauthorized("Error authenticating request"));
 
-  if(user.role == 'CUSTOMER') return next(boom.unauthorized('Not Allowed for this action'))
+  if (user.role == "CUSTOMER")
+    return next(boom.unauthorized("Not Allowed for this action"));
 
-  req.body.seller = user._id
+  req.body.seller = user._id;
 
-  next()
+  next();
+}
+
+// this function supposed to be called after get user from auth middleware
+async function matchUserandIdParams(req, res, next) {
+  let id = req.params.id;
+  let userId = req.body.user._id;
+  if (userId + "" == id + "")
+    return next(boom.unauthorized("Param id not matched with auth"));
+  next();
 }
 
 export {
@@ -149,5 +159,6 @@ export {
   addSubcategoryVM,
   editFavsVM,
   editCartVM,
-  aboveCustomerAuthorization
+  aboveCustomerAuthorization,
+  matchUserandIdParams
 };
