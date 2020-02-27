@@ -5,11 +5,8 @@ async function checkCountry(req, res, next) {
   let code = req.body.countryCode,
     country = await getCountry(code);
 
-  if (country == null)
-    return next(boom.badRequest("Failed retrieving country"));
-
-  if (country == undefined)
-    return next(boom.badData("Tamam is not in this country, yet!"));
+  if (country == null || country == undefined)
+    return next(boom.badRequest("Tamam is not in this country, yet!"));
 
   if (country.isBlocked) return next(boom.badData("This country is blocked!"));
 
