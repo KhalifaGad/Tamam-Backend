@@ -143,7 +143,7 @@ async function aboveCustomerAuthorization(req, res, next) {
 async function matchUserandIdParams(req, res, next) {
   let id = req.params.id;
   let userId = req.body.user._id;
-  if (userId + "" == id + "")
+  if (userId + "" != id + "")
     return next(boom.unauthorized("Param id not matched with auth"));
   next();
 }
