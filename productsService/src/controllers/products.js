@@ -337,7 +337,7 @@ async function getWarningsProducts(req, res, next) {
         return product;
       });
     });
-
+    console.log(products)
     return res.status(200).send({
       isSuccessed: true,
       data: products,
