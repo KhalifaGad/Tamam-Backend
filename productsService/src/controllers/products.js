@@ -176,7 +176,7 @@ async function getProduct(req, res, next) {
         product.name = product.name[retrevingLang];
         product.description = product.description[retrevingLang];
         product.estimatedDeliveryTime = product.estimatedDeliveryTime || 2;
-        if(Object.keys(product.categoryId).length > 1){
+        if (Object.keys(product.categoryId).length > 1) {
           product.categoryName = product.categoryId[categoryLang];
           product.categoryId = product.categoryId._id;
         }
@@ -315,7 +315,34 @@ async function modifyProductsQuantity(req, res, next) {
 }
 
 async function getWarningsProducts(req, res, next) {
-  let products = ProductModel.find();
+  let productExistState = req.query.lang == "en" ? "Exist" : "متوفر",
+    productNotExistState = req.query.lang == "en" ? "Not Exist" : "غير متوفر",
+    retrevingLang = req.query.lang === "en" ? "english" : "arabic",
+    categoryLang = req.query.lang === "en" ? "nameEn" : "nameAr";
+  let products = await ProductModel.find({
+    seller: req.body.user._id,
+    quantityWarning: true
+  })
+    .lean()
+    .populate("categoryId")
+    .then(products => {
+      products = products.map(product => {
+        product.state =
+          product.quantity.val > 0 ? productExistState : productNotExistState;
+        product.name = product.name[retrevingLang];
+        product.description = product.description[retrevingLang];
+        product.categoryName = product.categoryId[categoryLang];
+        product.categoryId = product.categoryId._id;
+        product.keyImage = product.images[0] || "";
+        return product;
+      });
+    });
+
+    return res.status(200).send({
+      isSuccessed: true,
+      data: products,
+      error: null
+    })
 }
 
 export {
@@ -325,5 +352,6 @@ export {
   deleteProduct,
   updateProduct,
   getProductsGroup,
-  modifyProductsQuantity
+  modifyProductsQuantity,
+  getWarningsProducts
 };
