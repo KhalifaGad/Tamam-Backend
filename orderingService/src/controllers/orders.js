@@ -112,6 +112,7 @@ async function getSellerOrders(req, res, next) {
   sellerOrders.forEach(order => {
     order.products.forEach(product => {
       refactoredOrders.push({
+        orderId: order._id,
         productName: product.name[nameLang],
         userName: order.userName,
         orderCode: order.code,
