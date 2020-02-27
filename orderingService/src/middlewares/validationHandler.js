@@ -37,8 +37,8 @@ function mongooseIdReqParamVM(req, res, next) {
 
   next();
 }
-
-function idAndAuthCheck(req, res, next) {
+// this function supposed to be called after getSeller
+function idAndAuthCheck4Seller(req, res, next) {
   let id = req.params.id;
   const { error } = mongooseIdVS.validate({id});
 
@@ -47,6 +47,21 @@ function idAndAuthCheck(req, res, next) {
   }
 
   if (req.body.sellerId + "" != id + "")
+    next(boom.unauthorized("Token and Id not match"));
+
+  next()
+}
+
+// this function supposed to be called after getCustomer
+function idAndAuthCheck4Customer(req, res, next) {
+  let id = req.params.id;
+  const { error } = mongooseIdVS.validate({id});
+
+  if (error) {
+    next(boom.badData(error.details[0].message));
+  }
+
+  if (req.body.userId + "" != id + "")
     next(boom.unauthorized("Token and Id not match"));
 
   next()
@@ -131,6 +146,7 @@ export {
   addPaymentTypeVM,
   paymentVM,
   updateOrderVM,
-  idAndAuthCheck,
+  idAndAuthCheck4Seller as idAndAuthCheck,
+  idAndAuthCheck4Customer,
   getSellerOrderVM
 };
