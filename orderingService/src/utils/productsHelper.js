@@ -74,7 +74,7 @@ async function getLowQuantityProducts(auth, sellerId, lang = "ar") {
       })
       .get(`/products/warnings/seller/${sellerId}?lang=${lang}`)
       .then(res => {
-        products = res.data.data;
+        return res.data.data;
       });
   } catch (err) {
     console.log(err);

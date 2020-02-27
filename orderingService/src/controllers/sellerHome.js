@@ -21,9 +21,8 @@ async function sellerHome(req, res, next) {
       .length,
     pendingOrdersCount = newestOrders.length,
     rejectedOrdersCount = orders.filter(order => order.state == "REFUSED")
-      .length;
-
-  console.log(lowQuantityProducts)
+      .length,
+    lowQuantityProductsCount = lowQuantityProducts.length;
 
   res.status(200).send({
     isSuccessed: true,
@@ -34,7 +33,8 @@ async function sellerHome(req, res, next) {
       completedOrdersCount,
       pendingOrdersCount,
       rejectedOrdersCount,
-      newestOrders
+      newestOrders,
+      lowQuantityProductsCount
     },
     error: null
   });
