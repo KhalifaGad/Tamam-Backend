@@ -319,6 +319,7 @@ async function getWarningsProducts(req, res, next) {
     productNotExistState = req.query.lang == "en" ? "Not Exist" : "غير متوفر",
     retrevingLang = req.query.lang === "en" ? "english" : "arabic",
     categoryLang = req.query.lang === "en" ? "nameEn" : "nameAr";
+  
   let products = await ProductModel.find({
     seller: req.body.user._id,
     quantityWarning: true
@@ -326,23 +327,25 @@ async function getWarningsProducts(req, res, next) {
     .lean()
     .populate("categoryId")
     .then(products => {
-      products = products.map(product => {
+      return products.map(product => {
         product.state =
           product.quantity.val > 0 ? productExistState : productNotExistState;
         product.name = product.name[retrevingLang];
         product.description = product.description[retrevingLang];
-        product.categoryName = product.categoryId[categoryLang];
-        product.categoryId = product.categoryId._id;
+        if (product.categoryId) {
+          product.categoryName = product.categoryId[categoryLang];
+          product.categoryId = product.categoryId._id;
+        }
         product.keyImage = product.images[0] || "";
         return product;
       });
     });
-    console.log(products)
-    return res.status(200).send({
-      isSuccessed: true,
-      data: products,
-      error: null
-    })
+
+  return res.status(200).send({
+    isSuccessed: true,
+    data: products,
+    error: null
+  });
 }
 
 export {
