@@ -13,7 +13,8 @@ import {
   toggleMainAddressVM,
   updateOrderVM,
   idAndAuthCheck,
-  getSellerOrderVM
+  getSellerOrderVM,
+  idAndAuthCheck4Customer
 } from "../../middlewares/validationHandler";
 import {
   getUserAddresses,
@@ -28,7 +29,13 @@ import { checkOrder } from "../../middlewares/orderHelper";
 
 const ordersRouter = Router();
 
-ordersRouter.route("/user/:id").get(mongooseIdReqParamVM, getUserOrders);
+ordersRouter
+  .route("/user/:id")
+  .get(
+    getCustomer,
+    idAndAuthCheck4Customer,
+    getUserOrders
+  );
 
 ordersRouter
   .route("/seller/:id")

@@ -17,6 +17,16 @@ const ordersModule = {
       return null;
     });
   },
+  async getUserOrders(id) {
+    return await orderModel
+      .find({
+        userId: id
+      })
+      .catch(err => {
+        console.log(err);
+        return [];
+      });
+  },
   async confirmOrder(id, paymentId) {
     let order = await this.getOrderById(id);
     if (!order) return null;
@@ -28,13 +38,13 @@ const ordersModule = {
       return null;
     });
   },
-  async getSellerOrders(sellerId, state = '') {
+  async getSellerOrders(sellerId, state = "") {
     let query = {
       sellerId,
       isConfirmed: true
-    }
-    if(state){
-      query.state = state
+    };
+    if (state) {
+      query.state = state;
     }
     return await orderModel
       .find({

@@ -67,7 +67,15 @@ async function makeOrder(req, res, next) {
   });
 }
 
-function getUserOrders(req, res, next) {}
+async function getUserOrders(req, res, next) {
+  let userId = req.params.id
+  let orders = await ordersModule.getUserOrders(userId)
+  return res.status(200).send({
+    isSuccessed: true,
+    data: orders,
+    error: null
+  })
+}
 
 async function editOrder(req, res, next) {
   let orderId = req.params.id,
